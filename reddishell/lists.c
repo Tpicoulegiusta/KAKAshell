@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:21:03 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/11 19:19:10 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:39:27 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	addnode(t_list *list, char *tok)
 	t_tok	*new;
 
 	new = malloc(sizeof(t_tok));
-	new->tok = joinfree(new->tok, tok, 0);
+	new->tok = NULL;
+	new->tok = joinfree(new->tok, tok);
 	new->type = 0;
 	if (list->last == NULL)
 	{
@@ -54,7 +55,8 @@ t_list	*create_list(char **tab, t_list *list)
 	list = list_init(list);
 	i = 0;
 	while (tab[i])
+	{
 		addnode(list, tab[i++]);
+	}
 	return (list);
 }
-

@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:05:12 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/11 18:10:05 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/12 10:34:49 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*getpath(char **envp, char *cmd)
 	i = 0;
 	while (pathtab[i])
 	{
-		path = joinfree(pathtab[i], cmd, 0);
+		path = joinfree(pathtab[i], cmd);
 		if (access(path, F_OK) == 0)
 		{
 			freetab(pathtab, i);

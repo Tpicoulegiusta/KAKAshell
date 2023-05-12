@@ -6,7 +6,7 @@
 #    By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/10 09:39:45 by rbulanad          #+#    #+#              #
-#    Updated: 2023/05/11 19:26:20 by rbulanad         ###   ########.fr        #
+#    Updated: 2023/05/12 12:32:39 by rbulanad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,9 @@ SOURCES		= minishell.c \
 			  printf/ft_printf.c \
 			  printf/ft_printf_func.c \
 			  lists.c \
-			  lexer.c
+			  lexer.c \
+			  instant_err.c \
+			  freee.c
 OBJECTS		= ${SOURCES:.c=.o}
 RM		= rm -f
 CC		= gcc

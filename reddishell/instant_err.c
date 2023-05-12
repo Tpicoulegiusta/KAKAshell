@@ -1,51 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   instant_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/10 14:13:57 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/12 12:38:34 by rbulanad         ###   ########.fr       */
+/*   Created: 2023/05/12 11:56:35 by rbulanad          #+#    #+#             */
+/*   Updated: 2023/05/12 12:17:07 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**lexer(char *line)
+int	enter_check(char *line)
 {
-	char	**tab;
-	char	*copy;
-	char	*pipe;
-	int		i;
-
-	i = 0;
-	copy = NULL;
-	pipe = NULL;
-	pipe = joinfree(pipe, " | ");
-	while (line[i])
-	{
-		if (line[i] == '|')
-			copy = joinfree(copy, pipe);
-		else
-			copy = joinfree2(copy, line[i]);
-		i++;
-	}
-	tab = ft_split(copy, ' ');
-	return (tab);
+	if (len(line) == 0)
+		return (1);
+	return (0);
 }
 
-void	tokenizer(t_data *data, t_list *lst)
+int	quote_check(char *line)
 {
-	t_tok	*tmp;
+	int	i;
+	int	single;
+	int	dobble;
 
-	if (lst->first)
-		freelst(lst);
-	lst = create_list(data->lextab, lst);
-	tmp = lst->first;
-	while (tmp)
+	i = 0;
+	single = 0;
+	dobble = 0;
+	while (line[i])
 	{
-		printf("tok = %s\n", tmp->tok);
-		tmp = tmp->next;
+		if (line[i] == '\'')
+			single++;
+		if (line[i] == '\"')
+			dobble++;
+		i++;
 	}
+	if (single % 2 != 0 || dobble % 2 != 0)
+		return (1);
+	return (0);
+}
+
+int	dobble_pipe(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] && line[i + 1])
+	{
+		if (line[i] == '|' && line[i + 1] == '|')
+			return (1);
+		i++;
+	}
+	return (0);
 }
