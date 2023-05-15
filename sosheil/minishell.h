@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/12 15:19:31 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/15 12:46:13 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ typedef struct s_data
 
 char	*getpath(char **envp, char *cmd);
 char	**ft_minisplit(char *s, char c);
+char	**ft_split(const char *s, char c); ////////////////////////////
 char	*joinfree(char *s1, char *s2);
 char	*joinfree2(char *s1, char c);
 void	freetab(char **tab, int i);
 void	free_execve(t_data *data);
+char	*substr2(char *s, int start, int end);
 
 //////// LIST ///////////////////////////
 t_lst	*create_list(char **tab, t_lst *list);

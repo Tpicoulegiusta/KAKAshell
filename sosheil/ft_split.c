@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_minisplit.c                                     :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/12 15:17:29 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/15 14:04:26 by rbulanad         ###   ########.fr       */
+/*   Created: 2023/02/20 14:48:08 by rbulanad          #+#    #+#             */
+/*   Updated: 2023/05/10 10:07:28 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,7 @@ char	*substr2(char *s, int start, int end)
 	return (ret);
 }
 
-void	ft_ifquoted(char **tab, char *str, int *i, int *j)
-{
-	int	start;
-
-	if (str[*i] == '\"' || str[*i] == '\'')
-	{
-		(*i)++;
-		start = *i;
-		while (str[*i] != '\"' && str[*i] != '\'')
-			(*i)++;
-		printf("i = %d, start = %d\n", *i, start);
-		tab[*j] = substr2(str, start, (*i));
-		printf("tabj = %s\n", tab[*j]);
-		(*j)++;
-		(*i)++;
-	}
-	return ;
-}
-
-char	**ft_minisplit(char *s, char c)
+char	**ft_split(char *s, char c)
 {
 	int		i;
 	int		j;
@@ -75,35 +56,37 @@ char	**ft_minisplit(char *s, char c)
 	tab = malloc((countwrd(s, c) + 1) * sizeof(char *));
 	if (!tab)
 		return (NULL);
-	i = -1;
+	i = 0;
 	j = 0;
 	index = -1;
-	while (++i <= ft_strlen(s))
+	while (i <= len(s))
 	{
-		ft_ifquoted(tab, s, &i, &j);
 		if (s[i] != c && index < 0)
 			index = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
+		else if ((s[i] == c || i == len(s)) && index >= 0)
 		{
 			tab[j++] = substr2(s, index, i);
 			index = -1;
 		}
+		i++;
 	}
 	tab[j] = NULL;
 	return (tab);
 }
+/*
+#include <stdio.h>
+int	main()
+{
+	char *str;
+	char **tab;
 
-// int	main()
-// {
-// 	int		i = 0;
-// 	char	*str;
-// 	char	**tab;
-
-// 	str = "   \"ls wc\"   \'          renaud ta soeur\'  \"cou cou     \"      ";
-// 	tab = ft_minisplit(str, ' ');
-// 	while (tab[i])
-// 	{
-// 		printf("tab[%d] = %s\n", i, tab[i++]);
-// 	}
-// 	printf("%s\n", tab[i]);
-// }
+	str = "            ";
+	tab = ft_split(str, ' ');
+	int i = 0;
+	while (tab[i])
+	{
+		printf("%s\n", tab[i++]);
+		write(1, ".\n", 2);
+	}
+	printf("%s\n", tab[i]);
+}*/
