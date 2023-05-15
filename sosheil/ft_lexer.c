@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:33:02 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/15 14:04:29 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:45:50 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,19 @@
 	*i = end;
 	return (substr2(line, start, end + 1));
 }*/
+
+char	*substr2(char *s, int start, int end)
+{
+	char	*ret;
+	int		i;
+
+	i = 0;
+	ret = malloc(((end - start + 1) * sizeof(char)));
+	while (start < end)
+		ret[i++] = s[start++];
+	ret[i] = '\0';
+	return (ret);
+}
 
 char	*is_quote(char *line, int *i)
 {

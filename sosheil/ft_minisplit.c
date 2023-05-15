@@ -3,47 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minisplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:17:29 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/15 14:04:26 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:33:57 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	countwrd(char *s, char c)
-{	
+static char	*ft_strsplitdup(char *src, int min, int max)
+{
+	char	*str;
 	int		i;
-	int		trigger;
 
+	i = max - min;
+	str = malloc(sizeof(char) * (i + 1));
 	i = 0;
-	trigger = 0;
-	while (*s)
-	{
-		if (*s != c && trigger == 0)
-		{
-			trigger = 1;
-			i++;
-		}
-		else if (*s == c)
-			trigger = 0;
-		s++;
-	}
-	return (i);
+	if (str == NULL)
+		return (NULL);
+	while (min < max)
+		str[i++] = src[min++];
+	str[i] = '\0';
+	return (str);
 }
 
-char	*substr2(char *s, int start, int end)
+static int	ischarset(char c, char charset)
 {
-	char	*ret;
+	if (charset != '\0')
+	{
+		if (c == charset)
+			return (1);
+	}
+	return (0);
+}
+
+static int	kuantanamo(char *str, char charset)
+{
 	int		i;
+	int		mot;
 
 	i = 0;
-	ret = malloc(((end - start + 1) * sizeof(char)));
-	while (start < end)
-		ret[i++] = s[start++];
-	ret[i] = '\0';
-	return (ret);
+	mot = 0;
+	while (str[i])
+	{
+		while (ischarset(str[i], charset) && str[i])
+			i++;
+		if (str[i])
+			mot++;
+		while (!ischarset(str[i], charset) && str[i])
+			i++;
+	}
+	return (mot);
 }
 
 void	ft_ifquoted(char **tab, char *str, int *i, int *j)
@@ -56,8 +67,8 @@ void	ft_ifquoted(char **tab, char *str, int *i, int *j)
 		start = *i;
 		while (str[*i] != '\"' && str[*i] != '\'')
 			(*i)++;
-		printf("i = %d, start = %d\n", *i, start);
-		tab[*j] = substr2(str, start, (*i));
+		tab[*j] = ft_strsplitdup(str, start, (*i));
+		printf("start = %d, i = %d\n", start, *i);
 		printf("tabj = %s\n", tab[*j]);
 		(*j)++;
 		(*i)++;
@@ -69,25 +80,24 @@ char	**ft_minisplit(char *s, char c)
 {
 	int		i;
 	int		j;
+	int		start;
 	char	**tab;
-	int		index;
 
-	tab = malloc((countwrd(s, c) + 1) * sizeof(char *));
-	if (!tab)
+	tab = malloc(sizeof(char *) * (kuantanamo((char *)s, c) + 1));
+	if (tab == NULL)
 		return (NULL);
-	i = -1;
+	i = 0;
 	j = 0;
-	index = -1;
-	while (++i <= ft_strlen(s))
+	while (s[i])
 	{
 		ft_ifquoted(tab, s, &i, &j);
-		if (s[i] != c && index < 0)
-			index = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
-		{
-			tab[j++] = substr2(s, index, i);
-			index = -1;
-		}
+		while (ischarset(s[i], c) && s[i])
+			i++;
+		start = i;
+		while (!ischarset(s[i], c) && s[i])
+			i++;
+		if (start != i)
+			tab[j++] = ft_strsplitdup((char *)s, start, i);
 	}
 	tab[j] = NULL;
 	return (tab);
