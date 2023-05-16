@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minisplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:17:29 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/15 15:33:57 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/05/16 11:18:24 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char	**ft_minisplit(char *s, char c)
 // 	char	*str;
 // 	char	**tab;
 
-// 	str = "   \"ls wc\"   \'          renaud ta soeur\'  \"cou cou     \"      ";
+// 	str = "   \"ls wc\" \'renaud ta soeur\' \"cou cou  \"   ";
 // 	tab = ft_minisplit(str, ' ');
 // 	while (tab[i])
 // 	{
