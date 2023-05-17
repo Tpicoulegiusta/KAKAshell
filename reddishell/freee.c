@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 12:23:43 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/12 12:31:11 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/16 19:26:15 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	free_execve(t_data *data)
 
 void	freelst(t_list *lst)
 {
-	t_tok	*current;
-	t_tok	*next;
+	t_node	*current;
+	t_node	*next;
 
 	current = lst->first;
 	while (current)

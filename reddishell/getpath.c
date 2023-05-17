@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:05:12 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/12 10:34:49 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:05:32 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*getpath(char **envp, char *cmd)
 	char *path;
 
 	envline = find_envline(envp);
-	pathtab = ft_split(envline, ':');
+	pathtab = ft_quote_split(envline, ':');
 	i = 0;
 	while (pathtab[i])
 	{

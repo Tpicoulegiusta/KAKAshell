@@ -6,35 +6,100 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:13:57 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/12 12:38:34 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/17 17:19:53 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**lexer(char *line)
+int	check_32(t_list *lst, char c, char **copy)
 {
-	char	**tab;
+	if (c == 32)
+	{
+		if (*copy != NULL)
+		{
+			addnode(lst, *copy);
+			free(*copy);
+			*copy = NULL;
+		}
+		return (1);
+	}
+	return (0);
+}
+
+int	check_spe(t_list *lst, char c, char **copy)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	if (c == '|' || c == '>' || c == '<')
+	{
+		if (*copy != NULL)
+		{
+			addnode(lst, *copy);
+			free(*copy);
+			*copy = NULL;
+		}
+		addnode(lst, joinfree2(tmp, c));
+		return (1);
+	}
+	return (0);
+}
+
+int	quoted(char *line, char **copy, int *i)
+{
+	if (line[*i] == '\"')
+	{
+		(*i)++;
+		while (line[*i] != '\"')
+		{
+			*copy = joinfree2(*copy, line[*i]);
+			(*i)++;
+		}
+		return (1);
+	}
+	if (line[*i] == '\'')
+	{
+		(*i)++;
+		while (line[*i] != '\'')
+		{
+			*copy = joinfree2(*copy, line[*i]);
+			(*i)++;
+		}
+		return (1);
+	}
+
+	return (0);
+}
+
+void	lexer(t_list *lst, char *line)
+{
 	char	*copy;
-	char	*pipe;
+	int		quote;
 	int		i;
 
 	i = 0;
+	quote = 0;
 	copy = NULL;
-	pipe = NULL;
-	pipe = joinfree(pipe, " | ");
 	while (line[i])
 	{
-		if (line[i] == '|')
-			copy = joinfree(copy, pipe);
+		if (quoted(line, &copy, &i) == 1)
+			i++;
+		else if (check_32(lst, line[i], &copy) == 1)
+			i++;
+		else if (check_spe(lst, line[i], &copy) == 1)
+			i++;
 		else
-			copy = joinfree2(copy, line[i]);
-		i++;
+			copy = joinfree2(copy, line[i++]);
 	}
-	tab = ft_split(copy, ' ');
-	return (tab);
+	if (copy)
+	{
+		addnode(lst, copy);
+		free(copy);
+		copy = NULL;
+	}
 }
-
+/*
 void	tokenizer(t_data *data, t_list *lst)
 {
 	t_tok	*tmp;
@@ -48,4 +113,4 @@ void	tokenizer(t_data *data, t_list *lst)
 		printf("tok = %s\n", tmp->tok);
 		tmp = tmp->next;
 	}
-}
+}*/

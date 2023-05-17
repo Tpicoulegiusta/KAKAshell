@@ -6,31 +6,30 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:21:03 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/12 12:39:27 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/17 13:27:11 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*list_init(t_list *list)
+void	list_init(t_list *list)
 {
-	list = malloc(sizeof(t_list));
+	/*list = malloc(sizeof(t_list));
 	if (!list)
-		return (NULL);
+		return ;*/ //ca PUE samer
 	list->len = 0;
 	list->first = NULL;
 	list->last = NULL;
-	return (list);
 }
 
-void	addnode(t_list *list, char *tok)
+void	addnode(t_list *list, char *str)
 {
-	t_tok	*new;
+	t_node	*new;
 
-	new = malloc(sizeof(t_tok));
-	new->tok = NULL;
-	new->tok = joinfree(new->tok, tok);
-	new->type = 0;
+	new = malloc(sizeof(t_node));
+	new->str = NULL;
+	new->str = joinfree(new->str, str);
+	new->tok = 0;
 	if (list->last == NULL)
 	{
 		new->next = NULL;
@@ -48,6 +47,22 @@ void	addnode(t_list *list, char *tok)
 	list->len++;
 }
 
+void	freelist(t_list *lst)
+{
+	t_node	*tmp;
+	t_node	*next;
+
+	tmp = lst->first;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
+	}
+	lst->len = 0;
+}
+
+/*
 t_list	*create_list(char **tab, t_list *list)
 {
 	int	i;
@@ -59,4 +74,4 @@ t_list	*create_list(char **tab, t_list *list)
 		addnode(list, tab[i++]);
 	}
 	return (list);
-}
+}*/

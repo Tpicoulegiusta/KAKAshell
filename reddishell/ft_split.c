@@ -1,37 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split2222.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 14:48:08 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/10 10:07:28 by rbulanad         ###   ########.fr       */
+/*   Created: 2023/05/15 18:02:04 by rbulanad          #+#    #+#             */
+/*   Updated: 2023/05/15 18:26:02 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	countwrd(char *s, char c)
-{	
-	int		i;
-	int		trigger;
-
-	i = 0;
-	trigger = 0;
-	while (*s)
-	{
-		if (*s != c && trigger == 0)
-		{
-			trigger = 1;
-			i++;
-		}
-		else if (*s == c)
-			trigger = 0;
-		s++;
-	}
-	return (i);
-}
+static size_t    ft_count_words(char *s, char c);
+static char        **ft_cut_words(char **tabtab, char *s, char c);
 
 char	*substr2(char *s, int start, int end)
 {
@@ -46,47 +28,96 @@ char	*substr2(char *s, int start, int end)
 	return (ret);
 }
 
-char	**ft_split(char *s, char c)
+size_t    *is_separator(char c, size_t count_quotes[2])
 {
-	int		i;
-	int		j;
-	char	**tab;
-	int		index;
-
-	tab = malloc((countwrd(s, c) + 1) * sizeof(char *));
-	if (!tab)
-		return (NULL);
-	i = 0;
-	j = 0;
-	index = -1;
-	while (i <= len(s))
-	{
-		if (s[i] != c && index < 0)
-			index = i;
-		else if ((s[i] == c || i == len(s)) && index >= 0)
-		{
-			tab[j++] = substr2(s, index, i);
-			index = -1;
-		}
-		i++;
-	}
-	tab[j] = NULL;
-	return (tab);
+    if (c == '\"')
+        count_quotes[0]++;
+    if (c == '\'')
+        count_quotes[1]++;
+    return (count_quotes);
 }
-/*
-#include <stdio.h>
-int	main()
-{
-	char *str;
-	char **tab;
 
-	str = "            ";
-	tab = ft_split(str, ' ');
-	int i = 0;
-	while (tab[i])
-	{
-		printf("%s\n", tab[i++]);
-		write(1, ".\n", 2);
-	}
-	printf("%s\n", tab[i]);
-}*/
+ char    **ft_quote_split(char *str, char separator)
+{
+    char    **arr_arr;
+
+    if (!str)
+    {
+        arr_arr = malloc(sizeof(char) * 1);
+        if (!arr_arr)
+            return (0);
+        arr_arr[0] = 0;
+        return (arr_arr);
+    }
+    arr_arr = malloc(sizeof(char *) * (ft_count_words(str, separator) + 1));
+    if (!arr_arr)
+        return (0);
+    arr_arr = ft_cut_words(arr_arr, str, separator);
+    return (arr_arr);
+}
+
+//***
+// * count_quotes[0]    =    singlequotes
+// * count_quotes[1]    =    doublequotes
+//***
+static size_t    ft_count_words(char *str, char separator)
+{
+    size_t    i;
+    size_t    k;
+    size_t    count_quotes[2];
+
+    k = 0;
+    i = 0;
+    count_quotes[0] = 0;
+    count_quotes[1] = 0;
+    if (str[i] == separator)
+        i++;
+    if (str[0] != separator || str[i + 1] == '\0')
+        k++;
+    while (str[i])
+    {
+        is_separator(str[i], count_quotes);
+        if (str[i] == separator && str[i + 1] != separator && str[i + 1] != '\0'
+            && (count_quotes[1] % 2) == 0 && (count_quotes[0] % 2) == 0)
+            k++;
+        i++;
+    }
+    if (str[0] == separator && k > 0)
+        k++;
+    return (k);
+}
+
+static char    **ft_cut_words(char **tabtab, char *str, char separator)
+{
+    size_t    i;
+    size_t    j;
+    size_t    x;
+    size_t    count_quotes[2];
+
+    i = 0;
+    j = 0;
+    x = 0;
+    count_quotes[0] = 0;
+    count_quotes[1] = 0;
+    while (str[i])
+    {
+        while (str[i] == separator)
+        {
+            is_separator(str[i], count_quotes);
+            i++;
+        }
+        j = i;
+        if (str[i])
+        {
+            while ((str[i] != separator && str[i])
+                || (count_quotes[0] % 2) != 0 || (count_quotes[1] % 2) != 0)
+            {
+                is_separator(str[i], count_quotes);
+                i++;
+            }
+            tabtab[x] = substr2(str, j, i - j);
+            x++;
+        }
+    }
+    return (tabtab [x] = NULL, tabtab);
+}
