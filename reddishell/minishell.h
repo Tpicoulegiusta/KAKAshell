@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/18 15:32:30 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/18 18:36:42 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		ft_printf(const char *str, ...);
 void	freetab(char **tab, int i);
 void	free_execve(t_data *data);
 char	*substr2(char *s, int start, int end);
-char 	**ft_split(char *s, char c);
+char	**ft_split(char *s, char c);
 
 //////// LIST ///////////////////////////
 
@@ -76,5 +76,10 @@ void	exec(t_data *data, char **envp);
 int		quote_check(char *line);
 int		dobble_pipe(char *line);
 int		enter_check(char *line);
+int		l_redir_check(char *line);
+int		r_redir_check(char *line);
+int		opp_redir_check(char *line);
+int		opp_redir_check2(char *line);
+int		redir_check(char *line);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:21:03 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/18 16:37:13 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/18 18:35:44 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	delnode(t_list *list, t_node *node)
 		node->next->prev = node->prev;
 		free(node);
 	}
-}
-*/
+}*/
+
 void	freelist(t_list *lst)
 {
 	t_node	*tmp;

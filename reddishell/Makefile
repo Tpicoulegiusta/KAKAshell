@@ -6,7 +6,7 @@
 #    By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/10 09:39:45 by rbulanad          #+#    #+#              #
-#    Updated: 2023/05/18 15:28:27 by rbulanad         ###   ########.fr        #
+#    Updated: 2023/05/18 18:27:52 by rbulanad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SOURCES		= minishell.c \
 			  lexer.c \
 			  instant_err.c \
 			  freee.c \
-			  ft_split.c
+			  ft_split.c \
+			  redir_checks.c
 OBJECTS		= ${SOURCES:.c=.o}
 RM		= rm -f
 CC		= gcc

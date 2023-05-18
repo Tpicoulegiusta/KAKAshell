@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/18 16:44:03 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/18 18:22:05 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	print_list(t_list *lst)
 
 int	checker(char *line)
 {
-	if (enter_check(line) != 0 || quote_check(line) != 0
-		|| dobble_pipe(line) != 0)
+	if (quote_check(line) != 0
+		|| dobble_pipe(line) != 0 || redir_check(line) != 0)
 		return (1);
 	return (0);
 }
@@ -48,10 +48,10 @@ int	main(int argc, char **argv, char **envp)
 		list_init(&lst);
 		line = readline(NAME);
 		add_history(line);
+		if (enter_check(line) != 0)
+			continue ;
 		if (checker(line) == 1) //a modifie, retour d'erreur avec g_error
-		{
-			return (freelist(&lst), 1);
-		}
+			return (freelist(&lst), printf("SYNTAX ERR"), system("leaks minishell"), 1);
 		lexer(&lst, line);
 		freelist(&lst);
 		free(line);
