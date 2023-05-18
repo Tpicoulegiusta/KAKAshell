@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/17 13:19:00 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/18 15:32:30 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 # include <unistd.h>
 # define NAME "turboshell% "
 
-//RR = right redir, LR = left redir, RRS = double rr, DLR = double lr
-enum token_type{STR, PIPE, RR, LR, DRR, DLRR};
+//RR = right redir, LR = left redir
+enum	e_tok{str, piperino, rr, lr};
 
 typedef struct s_node
 {
-	int				tok;
+	enum e_tok		type;
 	char			*str;
 	struct s_node	*next;
 	struct s_node	*prev;
@@ -51,6 +51,7 @@ int		ft_printf(const char *str, ...);
 void	freetab(char **tab, int i);
 void	free_execve(t_data *data);
 char	*substr2(char *s, int start, int end);
+char 	**ft_split(char *s, char c);
 
 //////// LIST ///////////////////////////
 
@@ -62,7 +63,7 @@ void	freelist(t_list *lst);
 //////// LEXER //////////////////////////
 
 void	lexer(t_list *lst, char *line);
-void	tokenizer(t_data *data, t_list *lst);
+void	tokenizer(t_list *lst);
 
 //////// PARSER ////////////////////////
 

@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:13:57 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/17 17:19:53 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/18 16:40:45 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ int	check_spe(t_list *lst, char c, char **copy)
 			free(*copy);
 			*copy = NULL;
 		}
-		addnode(lst, joinfree2(tmp, c));
+		tmp = joinfree2(tmp, c);
+		addnode(lst, tmp);
+		free(tmp);
 		return (1);
 	}
 	return (0);
@@ -68,18 +70,35 @@ int	quoted(char *line, char **copy, int *i)
 		}
 		return (1);
 	}
-
 	return (0);
+}
+
+void	tokenizer(t_list *lst)
+{
+	t_node	*tmp;
+
+	if (!lst->first)
+		return ;
+	tmp = lst->first;
+	while (tmp)
+	{
+		if (tmp->str[0] == '|')
+			tmp->type = piperino;
+		else if (tmp->str[0] == '>')
+			tmp->type = rr;
+		else if (tmp->str[0] == '<')
+			tmp->type = lr;
+		printf("NODE = %s, TYPE = %u\n", tmp->str, tmp->type);
+		tmp = tmp->next;
+	}
 }
 
 void	lexer(t_list *lst, char *line)
 {
 	char	*copy;
-	int		quote;
 	int		i;
 
 	i = 0;
-	quote = 0;
 	copy = NULL;
 	while (line[i])
 	{
@@ -98,19 +117,5 @@ void	lexer(t_list *lst, char *line)
 		free(copy);
 		copy = NULL;
 	}
+	tokenizer(lst);
 }
-/*
-void	tokenizer(t_data *data, t_list *lst)
-{
-	t_tok	*tmp;
-
-	if (lst->first)
-		freelst(lst);
-	lst = create_list(data->lextab, lst);
-	tmp = lst->first;
-	while (tmp)
-	{
-		printf("tok = %s\n", tmp->tok);
-		tmp = tmp->next;
-	}
-}*/

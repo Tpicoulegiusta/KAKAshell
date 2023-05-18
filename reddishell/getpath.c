@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:05:12 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/15 18:05:32 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/18 15:28:49 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int	strfind(char *str, char *find)
 	return (0);
 }
 
-
-char *find_envline(char **envp)
+char	*find_envline(char **envp)
 {
 	int	i;
 
@@ -53,13 +52,13 @@ char *find_envline(char **envp)
 
 char	*getpath(char **envp, char *cmd)
 {
-	int	i;
-	char *envline;
-	char **pathtab;
-	char *path;
+	int		i;
+	char	*envline;
+	char	**pathtab;
+	char	*path;
 
 	envline = find_envline(envp);
-	pathtab = ft_quote_split(envline, ':');
+	pathtab = ft_split(envline, ':');
 	i = 0;
 	while (pathtab[i])
 	{
