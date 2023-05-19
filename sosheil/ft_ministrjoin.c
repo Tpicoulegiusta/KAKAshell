@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:12:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/12 14:31:26 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/19 11:49:06 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*joinfree(char *s1, char *s2)
 		s1 = malloc(sizeof(char) * 1);
 		s1[0] = '\0';
 	}
-	ret = ft_strjoin(s1, s2);
+	ret = ft_ministrjoin(s1, s2);
 	free(s1);
 	return (ret);
 }

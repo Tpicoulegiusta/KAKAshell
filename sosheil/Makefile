@@ -15,6 +15,7 @@ GCCFLG = gcc -Wall -Wextra -Werror -I minishell.h
 SRCS = minishell.c ft_ministrjoin.c ft_lists.c \
 		ft_lexer.c ft_get_path.c ft_freee.c \
 		ft_instant_error.c ft_minisplit.c \
+		ft_redir_checks.c
 
 OBJS = $(SRCS:.c=.o)
 

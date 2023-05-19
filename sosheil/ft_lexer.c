@@ -3,107 +3,119 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:33:02 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/15 14:45:50 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/05/19 12:10:54 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*char	*is_quote(char *line, int *i)
+int	check_32(t_lst *lst, char c, char **copy)
 {
-	int	start;
-	int	end;
-
-	if (line[*i] == 34)
+	if (c == 32)
 	{
-		start = (*i);
-		end = *i;
-		while (line[*i])
+		if (*copy != NULL)
 		{
-			if (line[*i] == 34)
-				end = *i;
-			(*i)++;
+			addnode(lst, *copy);
+			free(*copy);
+			*copy = NULL;
 		}
+		return (1);
 	}
-	*i = end;
-	return (substr2(line, start, end + 1));
-}*/
-
-char	*substr2(char *s, int start, int end)
-{
-	char	*ret;
-	int		i;
-
-	i = 0;
-	ret = malloc(((end - start + 1) * sizeof(char)));
-	while (start < end)
-		ret[i++] = s[start++];
-	ret[i] = '\0';
-	return (ret);
+	return (0);
 }
 
-char	*is_quote(char *line, int *i)
+int	check_spe(t_lst *lst, char c, char **copy)
 {
-	int	start;
-	int	end;
+	char	*tmp;
 
-	if (line[*i] == 34)
+	tmp = NULL;
+	if (c == '|' || c == '>' || c == '<')
+	{
+		if (*copy != NULL)
+		{
+			addnode(lst, *copy);
+			free(*copy);
+			*copy = NULL;
+		}
+		tmp = joinfree2(tmp, c);
+		addnode(lst, tmp);
+		free(tmp);
+		return (1);
+	}
+	return (0);
+}
+
+int	quoted(char *line, char **copy, int *i)
+{
+	if (line[*i] == '\"')
 	{
 		(*i)++;
-		start = (*i);
-		end = *i;
-		while (line[end] != 34)
-			end++;
+		while (line[*i] != '\"')
+		{
+			*copy = joinfree2(*copy, line[*i]);
+			(*i)++;
+		}
+		return (1);
 	}
-	*i = end;
-	return (substr2(line, start - 1, end + 1));
+	if (line[*i] == '\'')
+	{
+		(*i)++;
+		while (line[*i] != '\'')
+		{
+			*copy = joinfree2(*copy, line[*i]);
+			(*i)++;
+		}
+		return (1);
+	}
+	return (0);
 }
 
-char	**lexer(char *line)
+void	tokenizer(t_lst *lst)
 {
-	char	**tab;
+	t_node	*tmp;
+
+	if (!lst->first)
+		return ;
+	tmp = lst->first;
+	while (tmp)
+	{
+		if (tmp->str[0] == '|')
+			tmp->type = piperino;
+		else if (tmp->str[0] == '>')
+			tmp->type = rr;
+		else if (tmp->str[0] == '<')
+			tmp->type = lr;
+		printf("NODE = %s, TYPE = %u\n", tmp->str, tmp->type);
+		tmp = tmp->next;
+	}
+}
+
+void	lexer(t_lst *lst, char *line)
+{
 	char	*copy;
-	char	*pipe;
 	int		i;
 
 	i = 0;
 	copy = NULL;
-	pipe = NULL;
-	pipe = joinfree(pipe, " | ");
 	while (line[i])
 	{
-		if (line[i] == 34)
-		{
-			copy = joinfree(copy, is_quote(line, &i));
-		}
+		if (quoted(line, &copy, &i) == 1)
+			i++;
+		else if (check_32(lst, line[i], &copy) == 1)
+			i++;
+		else if (check_spe(lst, line[i], &copy) == 1)
+			i++;
 		else
-		{
-			if (line[i] == '|')
-				copy = joinfree(copy, pipe);
-			else
-				copy = joinfree2(copy, line[i]);
-		}
-		i++;
+			copy = joinfree2(copy, line[i++]);
 	}
-	printf("%s\n", copy);
-	tab = ft_minisplit(copy, ' ');
-	return (tab);
-}
-
-void	tokenizer(t_data *data, t_lst *lst)
-{
-	t_tok	*tmp;
-
-	if (lst->first)
-		freelst(lst);
-	lst = create_list(data->lextab, lst);
-	tmp = lst->first;
-	while (tmp)
+	if (copy)
 	{
-		printf("tok = %s\n", tmp->tok);
-		tmp = tmp->next;
+		addnode(lst, copy);
+		free(copy);
+		copy = NULL;
 	}
+	tokenizer(lst);
 }

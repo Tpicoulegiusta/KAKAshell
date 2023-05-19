@@ -6,30 +6,26 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:45:45 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/12 14:32:59 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/19 12:07:13 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lst	*list_init(t_lst *list)
+void	list_init(t_lst *list)
 {
-	list = malloc(sizeof(t_lst));
-	if (!list)
-		return (NULL);
 	list->len = 0;
 	list->first = NULL;
 	list->last = NULL;
-	return (list);
 }
 
-void	addnode(t_lst *list, char *tok)
+void	addnode(t_lst *list, char *str)
 {
-	t_tok	*new;
+	t_node	*new;
 
-	new = malloc(sizeof(t_tok));
-	new->tok = NULL;
-	new->tok = joinfree(new->tok, tok);
+	new = malloc(sizeof(t_node));
+	new->str = NULL;
+	new->str = joinfree(new->str, str);
 	new->type = 0;
 	if (list->last == NULL)
 	{
@@ -47,8 +43,54 @@ void	addnode(t_lst *list, char *tok)
 	}
 	list->len++;
 }
+/*
+void	delnode(t_lst *list, t_node *node)
+{
+	if (!node->next && !node->prev)
+	{
+		list->first = NULL;
+		list->last = NULL;
+		free(node);
+	}
+	else if (!node->next)
+	{
+		list->last = list->last->prev;
+		list->last->next = NULL;
+		free(node);
+	}
+	else if (!node->prev)
+	{
+		list->first = list->first->next;
+		list->first->prev = NULL;
+		free(node);
+	}
+	else
+	{
+		node->prev->next = node->next;
+		node->next->prev = node->prev;
+		free(node);
+	}
+}*/
 
-t_lst	*create_list(char **tab, t_lst *list)
+void	freelist(t_lst *lst)
+{
+	t_node	*tmp;
+	t_node	*next;
+
+	tmp = lst->first;
+	next = NULL;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->str);
+		free(tmp);
+		tmp = next;
+	}
+	lst->len = 0;
+}
+
+/*
+t_list	*create_list(char **tab, t_list *list)
 {
 	int	i;
 
@@ -59,4 +101,4 @@ t_lst	*create_list(char **tab, t_lst *list)
 		addnode(list, tab[i++]);
 	}
 	return (list);
-}
+}*/

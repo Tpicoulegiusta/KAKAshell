@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/12 14:35:36 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/19 11:42:20 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,29 @@
 
 int	g_error;
 
+void	print_list(t_lst *lst)
+{
+	t_node	*tmp;
+
+	tmp = lst->first;
+	while (tmp)
+	{
+		printf("node = %s\n", tmp->str);
+		tmp = tmp->next;
+	}
+	printf("len = %d\n", lst->len);
+}
+
 int	checker(char *line)
 {
-	if (enter_check(line) != 0 || quote_check(line) != 0
-		|| dobble_pipe(line) != 0)
+	if (quote_check(line) != 0
+		|| dobble_pipe(line) != 0 || redir_check(line) != 0)
 		return (1);
 	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_data	data;
 	t_lst	lst;
 	char	*line;
 
@@ -33,13 +45,16 @@ int	main(int argc, char **argv, char **envp)
 	(void)envp;
 	while (1)
 	{
+		list_init(&lst);
 		line = readline(NAME);
 		add_history(line);
-		//a modifie, retour d'erreur avec g_error
-		if (checker(line) == 1)
-			return (1);
-		data.lextab = lexer(line);
-		tokenizer(&data, &lst);
+		if (enter_check(line) != 0)
+			continue ;
+		if (checker(line) == 1) //a modifie, retour d'erreur avec g_error
+			return (freelst(&lst), printf("SYNTAX ERR"), system("leaks minishell"), 1);
+		lexer(&lst, line);
+		freelst(&lst);
+		free(line);
 	}
 	free(line);
 	return (0);

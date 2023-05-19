@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:26:06 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/12 14:35:24 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/19 11:27:56 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,18 @@ int	dobble_pipe(char *line)
 			return (1);
 		i++;
 	}
+	return (0);
+}
+
+int	redir_check(char *line)
+{
+	if (l_redir_check(line) != 0)
+		return (1);
+	if (r_redir_check(line) != 0)
+		return (1);
+	if (opp_redir_check(line) != 0)
+		return (1);
+	if (opp_redir_check2(line) != 0)
+		return (1);
 	return (0);
 }

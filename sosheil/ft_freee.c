@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:22:29 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/12 14:22:59 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/19 11:40:36 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	free_execve(t_data *data)
 
 void	freelst(t_lst *lst)
 {
-	t_tok	*current;
-	t_tok	*next;
+	t_node	*current;
+	t_node	*next;
 
 	current = lst->first;
 	while (current)
