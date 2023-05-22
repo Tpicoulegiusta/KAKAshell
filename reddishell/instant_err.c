@@ -39,8 +39,8 @@ int	quote_check(char *line)
 {
 	int	i;
 
-	i = 0;
-	while (line[i])
+	i = -1;
+	while (line[++i])
 	{
 		if (line[i] == '\'')
 		{
@@ -54,7 +54,6 @@ int	quote_check(char *line)
 			if (line[i] == '\0')
 				return (1);
 		}
-		i++;
 	}
 	return (0);
 }
