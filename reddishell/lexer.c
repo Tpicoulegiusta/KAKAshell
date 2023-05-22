@@ -82,11 +82,11 @@ void	tokenizer(t_list *lst)
 	tmp = lst->first;
 	while (tmp)
 	{
-		if (tmp->str[0] == '|')
+		if (tmp->str[0] == '|' && !tmp->str[1])
 			tmp->type = piperino;
-		else if (tmp->str[0] == '>')
+		else if (tmp->str[0] == '>' && !tmp->str[1])
 			tmp->type = rr;
-		else if (tmp->str[0] == '<')
+		else if (tmp->str[0] == '<' && !tmp->str[1])
 			tmp->type = lr;
 		printf("NODE = %s, TYPE = %u\n", tmp->str, tmp->type);
 		tmp = tmp->next;

@@ -29,8 +29,9 @@ void	print_list(t_list *lst)
 
 int	checker(char *line)
 {
-	if (quote_check(line) != 0
-		|| dobble_pipe(line) != 0 || redir_check(line) != 0)
+	if (quote_check(line) != 0)
+		return (1);
+	if (dobble_pipe(line) != 0 || redir_check(line) != 0)
 		return (1);
 	return (0);
 }
@@ -51,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 		if (enter_check(line) != 0)
 			continue ;
 		if (checker(line) == 1) //a modifie, retour d'erreur avec g_error
-			return (freelist(&lst), printf("SYNTAX ERR"), system("leaks minishell"), 1);
+			return (freelist(&lst), printf("SYNTAX ERR\n"), 1);
 		lexer(&lst, line);
 		freelist(&lst);
 		free(line);

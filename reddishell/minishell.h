@@ -73,6 +73,7 @@ void	exec(t_data *data, char **envp);
 
 //////// CHECKER ////////////////////////
 
+void	inside_quotes(char *line, int *i);
 int		quote_check(char *line);
 int		dobble_pipe(char *line);
 int		enter_check(char *line);

@@ -19,6 +19,7 @@ int	l_redir_check(char *line)
 	i = 0;
 	while (line[i] && line[i + 1])
 	{
+		inside_quotes(line, &i);
 		if (line[i] == '>' && line [i + 1] == '<')
 			return (1);
 		i++;
@@ -26,6 +27,7 @@ int	l_redir_check(char *line)
 	i = 0;
 	while (line[i] && line[i + 1])
 	{
+		inside_quotes(line, &i);
 		if (line[i] == '<' && line[i + 1] == 32)
 		{
 			i++;
@@ -46,6 +48,7 @@ int	r_redir_check(char *line)
 	i = 0;
 	while (line[i] && line[i + 1])
 	{
+		inside_quotes(line, &i);
 		if (line[i] == '>' && line[i + 1] == 32)
 		{
 			i++;
@@ -66,6 +69,7 @@ int	opp_redir_check(char *line)
 	i = 0;
 	while (line[i] && line[i + 1])
 	{
+		inside_quotes(line, &i);
 		if (line[i] == '<' && line[i + 1] == 32)
 		{
 			i++;
@@ -86,6 +90,7 @@ int	opp_redir_check2(char *line)
 	i = 0;
 	while (line[i] && line[i + 1])
 	{
+		inside_quotes(line, &i);
 		if (line[i] == '>' && line[i + 1] == 32)
 		{
 			i++;

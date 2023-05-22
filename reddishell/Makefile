@@ -32,7 +32,7 @@ CFLAGS	= -Wall -Wextra -Werror
 	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 ${NAME}: ${OBJECTS} 
-	${CC} -lreadline ${CFLAGS} ${OBJECTS} -o ${NAME}
+	${CC} ${CFLAGS} ${OBJECTS} -o ${NAME} -lreadline
 
 all: ${NAME}
 

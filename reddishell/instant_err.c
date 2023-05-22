@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+void	inside_quotes(char *line, int *i)
+{
+	if (line[*i] == '\"')
+	{
+		(*i)++;
+		while (line[*i] != '\"' && line[*i])
+			(*i)++;
+	}
+	else if (line[*i] == '\'')
+	{
+		(*i)++;
+		while (line[*i] != '\'' && line[*i])
+			(*i)++;
+	}
+}
+
 int	enter_check(char *line)
 {
 	if (len(line) == 0)
@@ -22,22 +38,24 @@ int	enter_check(char *line)
 int	quote_check(char *line)
 {
 	int	i;
-	int	single;
-	int	dobble;
 
 	i = 0;
-	single = 0;
-	dobble = 0;
 	while (line[i])
 	{
 		if (line[i] == '\'')
-			single++;
-		if (line[i] == '\"')
-			dobble++;
+		{
+			inside_quotes(line, &i);
+			if (line[i] == '\0')
+				return (1);
+		}
+		else if (line[i] == '\"')
+		{
+			inside_quotes(line, &i);
+			if (line[i] == '\0')
+				return (1);
+		}
 		i++;
 	}
-	if (single % 2 != 0 || dobble % 2 != 0)
-		return (1);
 	return (0);
 }
 
@@ -48,6 +66,7 @@ int	dobble_pipe(char *line)
 	i = 0;
 	while (line[i] && line[i + 1])
 	{
+		inside_quotes(line, &i);
 		if (line[i] == '|')
 		{
 			i++;
