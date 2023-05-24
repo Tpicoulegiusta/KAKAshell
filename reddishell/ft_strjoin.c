@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:22:24 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/12 10:31:18 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/24 14:52:57 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,34 @@ char	*ft_strjoin2(char *s1, char c)
 	}
 	ret[i] = c;
 	ret[i + 1] = '\0';
+	return (ret);
+}
+
+char	*ft_pathjoin(char *s1, char *s2)
+{
+	char	*ret;
+	int		i;
+	int		j;
+
+	if (!s1)
+	{
+		s1 = malloc(sizeof(char) * 1);
+		s1[0] = '\0';
+	}
+	if (!s2)
+		return (NULL);
+	ret = malloc ((len(s1) + len(s2) + 1) * sizeof(char));
+	if (!ret)
+		return (NULL);
+	i = -1;
+	j = -1;
+	while (s1[++i])
+		ret[i] = s1[i];
+	ret[i++] = '/';
+	while (s2[++j])
+		ret[i + j] = s2[j];
+	ret[i + j] = '\0';
+	free(s1);
 	return (ret);
 }
 

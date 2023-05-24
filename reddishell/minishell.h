@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/18 18:36:42 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:35:21 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@
 # define NAME "turboshell% "
 
 //RR = right redir, LR = left redir
-enum	e_tok{str, piperino, rr, lr};
+enum	e_tok{str, piperino, rr, lr, cmd, venv};
 
 typedef struct s_node
 {
 	enum e_tok		type;
 	char			*str;
+	char			*path;
+	char			*venv;
 	struct s_node	*next;
 	struct s_node	*prev;
 }				t_node;
@@ -61,10 +63,18 @@ void	freelist(t_list *lst);
 
 //////// LEXER //////////////////////////
 
+int		check_32(t_list *lst, char c, char **copy);
+int		check_spe(t_list *lst, char c, char **copy);
+int		dollar_check(t_list *lst, char *line, char **copy, int *i);
+int		quoted(char *line, char **copy, int *i);
 void	lexer(t_list *lst, char *line);
 void	tokenizer(t_list *lst);
 
 //////// PARSER ////////////////////////
+
+void	parser(t_list *lst, char **envp);
+char	*ft_pathjoin(char *s1, char *s2);
+char	*find_envline(char **envp, char *search);
 
 //////// EXEC //////////////////////////
 
@@ -81,5 +91,7 @@ int		r_redir_check(char *line);
 int		opp_redir_check(char *line);
 int		opp_redir_check2(char *line);
 int		redir_check(char *line);
+int		semi(char *line);
+int		backslash(char *line);
 
 #endif

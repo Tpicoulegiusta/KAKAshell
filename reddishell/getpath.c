@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:05:12 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/18 15:28:49 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:22:48 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ int	strfind(char *str, char *find)
 	int	j;
 
 	i = 0;
+	(void) find;
 	while (str[i])
 	{
 		j = 0;
-		while (str[i + j] == find[j])
+		while (str[i + j] && find[j] && str[i + j] == find[j])
 			j++;
 		if (find[j] == '\0')
 			return (1);
@@ -40,14 +41,21 @@ int	strfind(char *str, char *find)
 	return (0);
 }
 
-char	*find_envline(char **envp)
+char	*find_envline(char **envp, char *search)
 {
-	int	i;
+	int		i;
+	int		j;
+	char	*ret;
 
 	i = 0;
-	while (strfind(envp[i], "PATH") == 0)
+	j = 0;
+	ret = NULL;
+	while (strfind(envp[i], search) == 0) // <-- CACA SIGSEV
 		i++;
-	return (envp[i] + 5);
+	while (envp[i][j] != '=')
+		j++;
+	ret = substr2(envp[i], j + 1, len(envp[i]));
+	return (ret);
 }
 
 char	*getpath(char **envp, char *cmd)
@@ -57,12 +65,12 @@ char	*getpath(char **envp, char *cmd)
 	char	**pathtab;
 	char	*path;
 
-	envline = find_envline(envp);
+	envline = find_envline(envp, "PATH");
 	pathtab = ft_split(envline, ':');
 	i = 0;
 	while (pathtab[i])
 	{
-		path = joinfree(pathtab[i], cmd);
+		path = ft_pathjoin(pathtab[i], cmd);
 		if (access(path, F_OK) == 0)
 		{
 			freetab(pathtab, i);
