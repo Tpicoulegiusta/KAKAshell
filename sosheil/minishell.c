@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/25 11:18:59 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/25 11:36:39 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 		if (enter_check(line) != 0)
 			continue ;
 		if (checker(line) == 1)
-			return (freelist(&lst), printf("SYNTAX ERR\n"), 1);
+			return (freelst(&lst), printf("SYNTAX ERR\n"), 1);
 		lexer(&lst, line);
 		parser(&lst, envp);
 		freelst(&lst);
