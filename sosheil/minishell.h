@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/19 11:52:44 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/25 10:34:04 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@
 # define NAME "PROMPETEUH% "
 
 //RR = right redir, LR = left redir
-enum	e_tok{str, piperino, rr, lr};
+enum	e_tok{str, piperino, rr, lr, cmd, venv};
 
 typedef struct s_node
 {
 	enum e_tok		type;
 	char			*str;
+	char			*path;
+	char			*venv;
 	struct s_node	*next;
 	struct s_node	*prev;
 }				t_node;
@@ -57,15 +59,23 @@ t_lst	*create_list(char **tab, t_lst *list);
 void	freelst(t_lst *lst);
 
 //////// LEXER //////////////////////////
+int		check_32(t_lst *lst, char c, char **copy);
+int		check_spe(t_lst *lst, char c, char **copy);
+int		dollar_check(t_lst *lst, char *line, char **copy, int *i);
+int		quoted(char *line, char **copy, int *i);
 void	lexer(t_lst *lst, char *line);
 void	tokenizer(t_lst *lst);
 
 //////// PARSER ////////////////////////
+void	parser(t_lst *lst, char **envp);
+char	*ft_pathjoin(char *s1, char *s2);
+char	*find_envline(char **envp, char *search);
 
 //////// EXEC //////////////////////////
 void	exec(t_data *data, char **envp);
 
 //////// CHECKER ////////////////////////
+void	inside_quotes(char *line, int *i);
 int		quote_check(char *line);
 int		dobble_pipe(char *line);
 int		enter_check(char *line);
@@ -74,5 +84,7 @@ int		r_redir_check(char *line);
 int		opp_redir_check(char *line);
 int		opp_redir_check2(char *line);
 int		redir_check(char *line);
+int		semi(char *line);
+int		backslash(char *line);
 
 #endif

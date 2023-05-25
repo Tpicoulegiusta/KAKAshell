@@ -6,11 +6,27 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:26:06 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/19 11:27:56 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/25 10:17:34 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	inside_quotes(char *line, int *i)
+{
+	if (line[*i] == '\"')
+	{
+		(*i)++;
+		while (line[*i] != '\"' && line[*i])
+			(*i)++;
+	}
+	else if (line[*i] == '\'')
+	{
+		(*i)++;
+		while (line[*i] != '\'' && line[*i])
+			(*i)++;
+	}
+}
 
 int	enter_check(char *line)
 {

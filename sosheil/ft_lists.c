@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:45:45 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/19 12:07:13 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/25 10:22:19 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	addnode(t_lst *list, char *str)
 
 	new = malloc(sizeof(t_node));
 	new->str = NULL;
+	new->path = NULL;
+	new->venv = NULL;
 	new->str = joinfree(new->str, str);
 	new->type = 0;
 	if (list->last == NULL)
