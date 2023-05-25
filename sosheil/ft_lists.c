@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:45:45 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/25 10:22:19 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:08:56 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,24 +73,6 @@ void	delnode(t_lst *list, t_node *node)
 		free(node);
 	}
 }*/
-
-void	freelist(t_lst *lst)
-{
-	t_node	*tmp;
-	t_node	*next;
-
-	tmp = lst->first;
-	next = NULL;
-	while (tmp)
-	{
-		next = tmp->next;
-		free(tmp->str);
-		free(tmp);
-		tmp = next;
-	}
-	lst->len = 0;
-}
-
 /*
 t_list	*create_list(char **tab, t_list *list)
 {

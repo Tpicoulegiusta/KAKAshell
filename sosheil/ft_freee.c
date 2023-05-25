@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:22:29 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/23 10:04:30 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:09:12 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,5 @@ void	freelst(t_lst *lst)
 		free(current);
 		current = next;
 	}
+	lst->len = 0;
 }

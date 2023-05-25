@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:31:08 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/25 11:19:16 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:02:51 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	strfind(char *str, char *find)
 		j = 0;
 		while (str[i + j] && find[j] && str[i + j] == find[j])
 			j++;
+		printf("str[%d] > %c\n", i, str[i]);
 		if (find[j] == '\0')
 			return (1);
 		i++;
@@ -40,11 +41,18 @@ char	*find_envline(char **envp, char *search)
 	i = 0;
 	j = 0;
 	ret = NULL;
-	while (strfind(envp[i], search) == 0) // <-- CACA SIGSEV
+	while (envp[i])
+	{
+		if (envp[i] != NULL && strfind(envp[i], search) == 1)
+			break ;
 		i++;
-	while (envp[i][j] != '=')
-		j++;
-	ret = substr2(envp[i], j + 1, ft_strlen(envp[i]));
+	}
+	if (envp[i] != NULL)
+	{
+		while (envp[i][j] != '=')
+			j++;
+		ret = substr2(envp[i], j + 1, ft_strlen(envp[i]));
+	}
 	return (ret);
 }
 
