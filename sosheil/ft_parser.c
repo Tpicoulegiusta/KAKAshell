@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:33:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/25 15:52:22 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/26 11:48:07 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	parser(t_lst *lst, char **envp)
 		//printf("apres touuuut\n");
 		if (tmp->path != NULL)
 			tmp->type = cmd;
-		printf("path = %s &&& venv = %s &&& type = %d\n", tmp->path, tmp->venv, tmp->type);
+		printf("path = %s &&& venv = %s &&& type = %d\n\n", tmp->path, tmp->venv, tmp->type);
 		tmp = tmp->next;
 	}
 }

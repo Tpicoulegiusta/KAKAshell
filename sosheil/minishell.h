@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/25 10:34:04 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/26 12:00:07 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
-# define NAME "PROMPETEUH% "
+# define NAME "\e[0;94mPROMPETEUH% \e[0;97m"
 
 //RR = right redir, LR = left redir
 enum	e_tok{str, piperino, rr, lr, cmd, venv};

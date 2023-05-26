@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:31:08 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/25 16:02:51 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/26 11:54:59 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	strfind(char *str, char *find)
 		j = 0;
 		while (str[i + j] && find[j] && str[i + j] == find[j])
 			j++;
-		printf("str[%d] > %c\n", i, str[i]);
+		//printf("str[%d] > %c\n", i, str[i]);
 		if (find[j] == '\0')
 			return (1);
 		i++;
@@ -64,10 +64,12 @@ char	*getpath(char **envp, char *cmd)
 	char	*path;
 
 	envline = find_envline(envp, "PATH");
+	printf("DANS GETPATH ENVLINE = %s\n", envline);
 	pathtab = ft_split(envline, ':');
 	i = 0;
 	while (pathtab[i])
 	{
+		printf("DANS GETPATH\n");
 		path = ft_pathjoin(pathtab[i], cmd);
 		if (access(path, F_OK) == 0)
 		{
