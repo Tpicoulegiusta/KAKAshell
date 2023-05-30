@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/26 12:00:07 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/30 11:54:36 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_node
 	enum e_tok		type;
 	char			*str;
 	char			*path;
+	int				quote;
 	char			*venv;
 	struct s_node	*next;
 	struct s_node	*prev;
@@ -36,6 +37,7 @@ typedef struct s_lst
 	int				len;
 	t_node			*first;
 	t_node			*last;
+	struct s_node	node;
 }				t_lst;
 
 typedef struct s_data
