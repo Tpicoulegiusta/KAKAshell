@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/24 17:35:21 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:18:38 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_node
 	enum e_tok		type;
 	char			*str;
 	char			*path;
-	char			*venv;
+	int				quote;
 	struct s_node	*next;
 	struct s_node	*prev;
 }				t_node;
@@ -37,6 +37,7 @@ typedef struct s_list
 	int				len;
 	t_node			*first;
 	t_node			*last;
+	struct s_node	node;
 }				t_list;
 
 typedef struct s_data
@@ -60,6 +61,7 @@ void	list_init(t_list *list);
 void	addnode(t_list *list, char *str);
 t_list	*create_list(char **tab, t_list *list);
 void	freelist(t_list *lst);
+void	print_lst(t_list *lst);
 
 //////// LEXER //////////////////////////
 

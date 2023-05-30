@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:13:57 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/24 14:59:16 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:18:06 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ void	tokenizer(t_list *lst)
 int	lexer_checks(t_list *lst, char *line, char **copy, int *i)
 {
 	if (quoted(line, copy, i) == 1)
+	{
+		lst->node.quote = 1;
 		return (1);
+	}
 	if (dollar_check(lst, line, copy, i) == 1)
 		return (1);
 	if (check_32(lst, line[*i], copy) == 1)
@@ -42,6 +45,18 @@ int	lexer_checks(t_list *lst, char *line, char **copy, int *i)
 	if (check_spe(lst, line[*i], copy) == 1)
 		return (1);
 	return (0);
+}
+
+void	print_lst(t_list *lst)
+{
+	t_node *tmp;
+
+	tmp = lst->first;
+	while (tmp)
+	{
+		printf("STR = %s ()() TYPE = %d\n", tmp->str, tmp->type);
+		tmp = tmp->next;
+	}
 }
 
 void	lexer(t_list *lst, char *line)

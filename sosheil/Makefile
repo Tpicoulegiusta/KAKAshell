@@ -29,9 +29,6 @@ $(NAME): ${OBJS} $(LIB_F)/$(LIB)
 $(LIB_F)/$(LIB):
 	@make -C $(LIB_F)
 
-# compil :
-# 	$(GCCFLG) $(SRCS) -c $< -o ${<:.c=.o}
-
 clean:
 	@rm -rf $(OBJS)
 	@echo "${RED}Making Clean 🗑️${DEFAULT}"

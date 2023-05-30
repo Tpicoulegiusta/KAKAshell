@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/24 16:32:05 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/26 18:10:50 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	t_list	lst;
 	char	*line;
 
+	(void)envp;
 	(void)argc;
 	(void)argv;
 	while (1)

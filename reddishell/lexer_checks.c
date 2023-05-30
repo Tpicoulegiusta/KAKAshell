@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:15:28 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/23 17:56:45 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/26 18:01:02 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	dollar_check(t_list *lst, char *line, char **copy, int *i)
 			*copy = NULL;
 		}
 		while (line[*i] && line[*i] != 32)
-			tmp = joinfree2(tmp, line[(*i)++]);
+				tmp = joinfree2(tmp, line[(*i)++]);
 		addnode(lst, tmp);
 		free(tmp);
 		return (1);

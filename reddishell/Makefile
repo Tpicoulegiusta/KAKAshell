@@ -6,7 +6,7 @@
 #    By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/10 09:39:45 by rbulanad          #+#    #+#              #
-#    Updated: 2023/05/24 18:17:13 by rbulanad         ###   ########.fr        #
+#    Updated: 2023/05/26 14:04:08 by rbulanad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SOURCES		= minishell.c \
 OBJECTS		= ${SOURCES:.c=.o}
 RM		= rm -f
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror
 .c.o:
 	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 

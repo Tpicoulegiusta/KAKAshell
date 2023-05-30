@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:31:08 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/26 11:54:59 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/26 16:09:39 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,11 @@ char	*getpath(char **envp, char *cmd)
 	char	*path;
 
 	envline = find_envline(envp, "PATH");
-	printf("DANS GETPATH ENVLINE = %s\n", envline);
 	pathtab = ft_split(envline, ':');
 	i = 0;
 	while (pathtab[i])
 	{
-		printf("DANS GETPATH\n");
+		//printf("pathtab[%d] = %s\n", i, pathtab[i]);
 		path = ft_pathjoin(pathtab[i], cmd);
 		if (access(path, F_OK) == 0)
 		{
@@ -79,5 +78,6 @@ char	*getpath(char **envp, char *cmd)
 		free(path);
 		i++;
 	}
+	printf("ON SORT DE GETPATH\n");
 	return (free(pathtab), pathtab = NULL, NULL);
 }

@@ -6,12 +6,11 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:33:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/26 11:48:07 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/29 10:03:50 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	env_var(t_node *tmp, char *var, char **envp)
 {
@@ -22,11 +21,11 @@ void	env_var(t_node *tmp, char *var, char **envp)
 	(void)envp;
 	search = NULL;
 	i = 0;
+	printf("DANS ENVVAR \n");
 	if (var[0] == '$')
 	{
 		search = substr2(var, 1, ft_strlen(var));
 		tmp->venv = find_envline(envp, search);
-		printf("apres find envline\n");
 		tmp->type = venv;
 	}
 }
@@ -36,15 +35,14 @@ void	parser(t_lst *lst, char **envp)
 	t_node	*tmp;
 
 	tmp = lst->first;
-	while(tmp)
+	while (tmp != NULL)
 	{
 		env_var(tmp, tmp->str, envp);
-		//printf("avant getpath\n");
 		tmp->path = getpath(envp, tmp->str);
-		//printf("apres touuuut\n");
 		if (tmp->path != NULL)
 			tmp->type = cmd;
-		printf("path = %s &&& venv = %s &&& type = %d\n\n", tmp->path, tmp->venv, tmp->type);
+		printf("path = %s &&& venv = %s &&& type = %d\n", tmp->path, tmp->venv, tmp->type);
 		tmp = tmp->next;
+		printf("FIN DE NODE\n");
 	}
 }

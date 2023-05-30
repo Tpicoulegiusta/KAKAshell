@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/25 11:36:39 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/05/29 10:10:18 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,23 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	while (1)
 	{
-		list_init(&lst);
 		line = readline(NAME);
+		printf("Debut de boucle\n");
 		add_history(line);
 		if (enter_check(line) != 0)
 			continue ;
+		list_init(&lst);
 		if (checker(line) == 1)
 			return (freelst(&lst), printf("SYNTAX ERR\n"), 1);
 		lexer(&lst, line);
 		parser(&lst, envp);
 		freelst(&lst);
 		free(line);
+		printf("Tour de boucle\n");
 	}
+	printf("avant bug\n");
 	free(line);
+	printf("apres bug\n");
 	return (0);
 }
 
