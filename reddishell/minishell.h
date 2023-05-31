@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/26 19:18:38 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:37:01 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	print_lst(t_list *lst);
 int		check_32(t_list *lst, char c, char **copy);
 int		check_spe(t_list *lst, char c, char **copy);
 int		dollar_check(t_list *lst, char *line, char **copy, int *i);
-int		quoted(char *line, char **copy, int *i);
+int		quoted(t_list *lst, char *line, char **copy, int *i);
 void	lexer(t_list *lst, char *line);
 void	tokenizer(t_list *lst);
 
