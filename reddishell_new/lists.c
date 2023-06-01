@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:21:03 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/26 19:09:15 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:12:11 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	addnode(t_list *list, char *str)
 	new->path = NULL;
 	new->str = joinfree(new->str, str);
 	new->type = 0;
-	new->quote = 0;
 	if (list->last == NULL)
 	{
 		new->next = NULL;
@@ -45,7 +44,7 @@ void	addnode(t_list *list, char *str)
 	}
 	list->len++;
 }
-/*
+
 void	delnode(t_list *list, t_node *node)
 {
 	if (!node->next && !node->prev)
@@ -72,7 +71,7 @@ void	delnode(t_list *list, t_node *node)
 		node->next->prev = node->prev;
 		free(node);
 	}
-}*/
+}
 
 void	freelist(t_list *lst)
 {
