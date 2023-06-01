@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/30 11:54:36 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/01 11:53:25 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,22 @@ typedef struct s_node
 	char			*str;
 	char			*path;
 	int				quote;
-	char			*venv;
 	struct s_node	*next;
 	struct s_node	*prev;
 }				t_node;
 
-typedef struct s_lst
+typedef struct s_list
 {
 	int				len;
 	t_node			*first;
 	t_node			*last;
 	struct s_node	node;
-}				t_lst;
+}				t_list;
 
 typedef struct s_data
 {
 	char	**lextab;
 }				t_data;
-
 
 char	*getpath(char **envp, char *cmd);
 char	**ft_minisplit(char *s, char c);
@@ -55,28 +53,32 @@ void	free_execve(t_data *data);
 char	*substr2(char *s, int start, int end);
 
 //////// LIST ///////////////////////////
-void	list_init(t_lst *list);
-void	addnode(t_lst *lst, char *str);
-t_lst	*create_list(char **tab, t_lst *list);
-void	freelst(t_lst *lst);
+
+void	list_init(t_list *list);
+void	addnode(t_list *lst, char *str);
+t_list	*create_list(char **tab, t_list *list);
+void	freelst(t_list *lst);
 
 //////// LEXER //////////////////////////
-int		check_32(t_lst *lst, char c, char **copy);
-int		check_spe(t_lst *lst, char c, char **copy);
-int		dollar_check(t_lst *lst, char *line, char **copy, int *i);
-int		quoted(char *line, char **copy, int *i);
-void	lexer(t_lst *lst, char *line);
-void	tokenizer(t_lst *lst);
+
+int		check_32(t_list *lst, char c, char **copy);
+int		check_spe(t_list *lst, char c, char **copy);
+int		quoted(t_list *lst, char *line, char **copy, int *i);
+void	lexer(t_list *lst, char *line);
+void	tokenizer(t_list *lst);
 
 //////// PARSER ////////////////////////
-void	parser(t_lst *lst, char **envp);
+
+void	parser(t_list *lst, char **envp);
 char	*ft_pathjoin(char *s1, char *s2);
 char	*find_envline(char **envp, char *search);
 
 //////// EXEC //////////////////////////
+
 void	exec(t_data *data, char **envp);
 
 //////// CHECKER ////////////////////////
+
 void	inside_quotes(char *line, int *i);
 int		quote_check(char *line);
 int		dobble_pipe(char *line);

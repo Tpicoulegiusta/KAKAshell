@@ -6,40 +6,40 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:18:37 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/25 10:21:38 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/01 10:24:07 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_32(t_lst *lst, char c, char **copy)
+void	check_copy(t_list *lst, char **copy)
+{
+	if (*copy != NULL)
+	{
+		addnode(lst, *copy);
+		free(*copy);
+		*copy = NULL;
+	}
+}
+
+int	check_32(t_list *lst, char c, char **copy)
 {
 	if (c == 32)
 	{
-		if (*copy != NULL)
-		{
-			addnode(lst, *copy);
-			free(*copy);
-			*copy = NULL;
-		}
+		check_copy(lst, copy);	
 		return (1);
 	}
 	return (0);
 }
 
-int	check_spe(t_lst *lst, char c, char **copy)
+int	check_spe(t_list *lst, char c, char **copy)
 {
 	char	*tmp;
 
 	tmp = NULL;
 	if (c == '|' || c == '>' || c == '<')
 	{
-		if (*copy != NULL)
-		{
-			addnode(lst, *copy);
-			free(*copy);
-			*copy = NULL;
-		}
+		check_copy(lst, copy);	
 		tmp = joinfree2(tmp, c);
 		addnode(lst, tmp);
 		free(tmp);
@@ -48,42 +48,30 @@ int	check_spe(t_lst *lst, char c, char **copy)
 	return (0);
 }
 
-int	dollar_check(t_lst *lst, char *line, char **copy, int *i)
+int	quoted(t_list *lst, char *line, char **copy, int *i)
 {
-	char	*tmp;
+	int	start;
 
-	tmp = NULL;
-	if (line[*i] == '$')
-	{
-		if (*copy != NULL)
-		{
-			addnode(lst, *copy);
-			free(*copy);
-			*copy = NULL;
-		}
-		while (line[*i] && line[*i] != 32)
-			tmp = joinfree2(tmp, line[(*i)++]);
-		addnode(lst, tmp);
-		free(tmp);
-		return (1);
-	}
-	return (0);
-}
-
-int	quoted(char *line, char **copy, int *i)
-{
 	if (line[*i] == '\"')
 	{
+		check_copy(lst, copy);
+		start = (*i);
 		(*i)++;
 		while (line[*i] != '\"')
-			*copy = joinfree2(*copy, line[(*i)++]);
+			(*i)++;
+		*copy = substr2(line, start, *i + 1);
+		check_copy(lst, copy);
 		return (1);
 	}
 	if (line[*i] == '\'')
 	{
+		check_copy(lst, copy);
+		start = (*i);
 		(*i)++;
 		while (line[*i] != '\'')
-			*copy = joinfree2(*copy, line[(*i)++]);
+			(*i)++;
+		*copy = substr2(line, start, *i + 1);
+		check_copy(lst, copy);
 		return (1);
 	}
 	return (0);

@@ -6,29 +6,29 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:45:45 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/25 16:08:56 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/01 12:10:10 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	list_init(t_lst *list)
+void	list_init(t_list *list)
 {
 	list->len = 0;
 	list->first = NULL;
 	list->last = NULL;
 }
 
-void	addnode(t_lst *list, char *str)
+void	addnode(t_list *list, char *str)
 {
 	t_node	*new;
 
 	new = malloc(sizeof(t_node));
 	new->str = NULL;
 	new->path = NULL;
-	new->venv = NULL;
 	new->str = joinfree(new->str, str);
 	new->type = 0;
+	new->quote = 0;
 	if (list->last == NULL)
 	{
 		new->next = NULL;
@@ -46,7 +46,7 @@ void	addnode(t_lst *list, char *str)
 	list->len++;
 }
 /*
-void	delnode(t_lst *list, t_node *node)
+void	delnode(t_list *list, t_node *node)
 {
 	if (!node->next && !node->prev)
 	{
@@ -73,6 +73,9 @@ void	delnode(t_lst *list, t_node *node)
 		free(node);
 	}
 }*/
+
+
+
 /*
 t_list	*create_list(char **tab, t_list *list)
 {

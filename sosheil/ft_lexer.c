@@ -6,13 +6,27 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:33:02 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/25 10:20:37 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/01 11:46:00 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	tokenizer(t_lst *lst)
+int	dollar_check(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	tokenizer(t_list *lst)
 {
 	t_node	*tmp;
 
@@ -21,7 +35,9 @@ void	tokenizer(t_lst *lst)
 	tmp = lst->first;
 	while (tmp)
 	{
-		if (tmp->str[0] == '|' && !tmp->str[1])
+		if (dollar_check(tmp->str) == 1)
+			tmp->type = venv;
+		else if (tmp->str[0] == '|' && !tmp->str[1])
 			tmp->type = piperino;
 		else if (tmp->str[0] == '>' && !tmp->str[1])
 			tmp->type = rr;
@@ -31,11 +47,9 @@ void	tokenizer(t_lst *lst)
 	}
 }
 
-int	lexer_checks(t_lst *lst, char *line, char **copy, int *i)
+int	lexer_checks(t_list *lst, char *line, char **copy, int *i)
 {
-	if (quoted(line, copy, i) == 1)
-		return (1);
-	if (dollar_check(lst, line, copy, i) == 1)
+	if (quoted(lst, line, copy, i) == 1)
 		return (1);
 	if (check_32(lst, line[*i], copy) == 1)
 		return (1);
@@ -44,7 +58,19 @@ int	lexer_checks(t_lst *lst, char *line, char **copy, int *i)
 	return (0);
 }
 
-void	lexer(t_lst *lst, char *line)
+void	print_list(t_list *lst)
+{
+	t_node *tmp;
+
+	tmp = lst->first;
+	while (tmp)
+	{
+		printf("STR = %s ()() TYPE = %d\n", tmp->str, tmp->type);
+		tmp = tmp->next;
+	}
+}
+
+void	lexer(t_list *lst, char *line)
 {
 	char	*copy;
 	int		i;

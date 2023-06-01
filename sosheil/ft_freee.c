@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:22:29 by sboetti           #+#    #+#             */
-/*   Updated: 2023/05/26 11:13:38 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/01 12:10:17 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,19 @@ void	free_execve(t_data *data)
 	data->argexec = NULL;
 }*/
 
-void	freelst(t_lst *lst)
+void	freelst(t_list *lst)
 {
-	t_node	*current;
+	t_node	*tmp;
 	t_node	*next;
 
-	current = lst->first;
-	while (current)
+	tmp = lst->first;
+	next = NULL;
+	while (tmp)
 	{
-		next = current->next;
-		free(current);
-		current = next;
+		next = tmp->next;
+		free(tmp->str);
+		free(tmp);
+		tmp = next;
 	}
 	lst->len = 0;
 }
