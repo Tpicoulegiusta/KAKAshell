@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:13:57 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/31 18:48:48 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:53:55 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	dollar_check(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && str[i + 1])
 			return (1);
 		i++;
 	}
@@ -56,18 +56,6 @@ int	lexer_checks(t_list *lst, char *line, char **copy, int *i)
 	if (check_spe(lst, line[*i], copy) == 1)
 		return (1);
 	return (0);
-}
-
-void	print_lst(t_list *lst)
-{
-	t_node *tmp;
-
-	tmp = lst->first;
-	while (tmp)
-	{
-		printf("STR = %s ()() TYPE = %d\n", tmp->str, tmp->type);
-		tmp = tmp->next;
-	}
 }
 
 void	lexer(t_list *lst, char *line)

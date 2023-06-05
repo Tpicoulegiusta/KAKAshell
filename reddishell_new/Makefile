@@ -6,14 +6,13 @@
 #    By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/10 09:39:45 by rbulanad          #+#    #+#              #
-#    Updated: 2023/05/26 14:04:08 by rbulanad         ###   ########.fr        #
+#    Updated: 2023/06/05 14:50:43 by rbulanad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 SOURCES		= minishell.c \
 			  ft_strjoin.c \
-			  getpath.c \
 			  pipex.c \
 			  lists.c \
 			  lexer.c \
@@ -23,7 +22,8 @@ SOURCES		= minishell.c \
 			  ft_split.c \
 			  redir_checks.c \
 			  lexer_checks.c \
-			  parser.c
+			  parser.c \
+			  env_to_list.c
 OBJECTS		= ${SOURCES:.c=.o}
 RM		= rm -f
 CC		= gcc

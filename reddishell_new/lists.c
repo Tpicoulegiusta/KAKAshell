@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:21:03 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/01 16:12:11 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:47:07 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	addnode(t_list *list, char *str)
 
 	new = malloc(sizeof(t_node));
 	new->str = NULL;
-	new->path = NULL;
 	new->str = joinfree(new->str, str);
 	new->type = 0;
 	if (list->last == NULL)
