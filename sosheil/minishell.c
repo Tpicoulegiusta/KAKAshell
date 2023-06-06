@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/05 17:11:06 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/06 16:43:29 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,17 @@ int	checker(char *line)
 int	main(int argc, char **argv, char **envp)
 {
 	t_list	lst;
+	t_list	envlst;
 	char	*line;
 
 	(void)argc;
 	(void)argv;
+	ft_env_to_list(&envlst, envp);
+	// while (tmp)
+	// {
+	// 	printf("%s\n", tmp->str);
+	// 	tmp = tmp->next;
+	// }
 	while (1)
 	{
 		list_init(&lst);
@@ -53,10 +60,9 @@ int	main(int argc, char **argv, char **envp)
 		if (checker(line) == 1)
 			return (freelist(&lst), printf("SYNTAX ERR\n"), 1);
 		lexer(&lst, line);
-		parser(&lst, envp);
+		parser(&lst, &envlst, envp);
 		freelist(&lst);
 		free(line);
-		system("leaks minishell");
 	}
 	free(line);
 	return (0);

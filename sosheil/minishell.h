@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/05 15:31:42 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/06 16:00:43 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,9 @@ typedef struct s_node
 	struct s_node	*prev;
 }				t_node;
 
-/*
-typedef struct s_env
-{
-	char			*envline;
-	struct s_env	*next;
-	struct s_env	*prev;
-}				t_env;*/
-
 typedef struct s_list
 {
 	int				len;
-/*	t_env			*envfirst;
-	t_env			*envlast;*/
 	t_node			*first;
 	t_node			*last;
 	struct s_node	node;
@@ -61,9 +51,11 @@ char	*joinfree2(char *s1, char c);
 void	freetab(char **tab, int i);
 void	free_execve(t_data *data);
 char	*substr2(char *s, int start, int end);
+char	*ft_ministrrchr(char *s, char c);
 
 //////// LIST ///////////////////////////
 
+void	ft_env_to_list(t_list *envlst, char **envp);
 void	list_init(t_list *list);
 void	addnode(t_list *lst, char *str);
 void	delnode(t_list *list, t_node *node);
@@ -81,11 +73,11 @@ void	tokenizer(t_list *lst);
 
 //////// PARSER ////////////////////////
 
-void	parser(t_list *lst, char **envp);
+void	parser(t_list *lst, t_list *envlst, char **envp);
 char	*ft_pathjoin(char *s1, char *s2);
 char	*find_envline(char **envp, char *search);
 void	other_check(t_node *tmp);
-void	another_check(t_list *lst, t_node *tmp);
+void	another_check(t_list *lst, t_list *envlst, t_node *tmp);
 
 //////// EXEC //////////////////////////
 

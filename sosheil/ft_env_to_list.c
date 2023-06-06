@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:15:47 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/05 15:16:03 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/06 13:21:23 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	env_add(t_list *list, char *str)
 	list->len++;
 }
 */
-void	env_to_list(t_list *envlst, char **envp)
+void	ft_env_to_list(t_list *envlst, char **envp)
 {
 	int		i;
 

@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:33:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/06 12:10:43 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/06 17:07:48 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,7 @@ void	fake_exec(t_list *lst)
 	str = NULL;
 	while (tmp)
 	{
-		if (tmp->str)
-			free(tmp->str);
+		free(tmp->str);
 		tmp->str = ft_strdup(unquote(tmp->str));
 		str = joinfree(str, tmp->str);
 		tmp = tmp->next;
@@ -160,17 +159,17 @@ void	fake_exec(t_list *lst)
 	free(str);
 }
 
-void	parser(t_list *lst, char **envp)
+void	parser(t_list *lst, t_list *envlst, char **envp)
 {
 	t_node	*tmp;
 	t_node	*tmp2;
 
 	tmp = lst->first;
+	another_check(lst, envlst, tmp);
 	while (tmp)
 	{
 		printf("STR FROM LEXER = %s ()() TYPE = %d\n", tmp->str, tmp->type);
 		other_check(tmp);
-		another_check(lst, tmp);
 		if (tmp != lst->last && tmp->str[0] == '$' && !tmp->str[1])
 		{
 			tmp2 = tmp;
@@ -187,6 +186,6 @@ void	parser(t_list *lst, char **envp)
 		if (tmp)
 			tmp = tmp->next;
 	}
-	//print_lst(lst);
-	fake_exec(lst);
+	print_lst(lst);
+	//fake_exec(lst);
 }
