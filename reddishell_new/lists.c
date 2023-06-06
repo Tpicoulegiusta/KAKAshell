@@ -6,13 +6,13 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:21:03 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/05 14:47:07 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:53:55 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	list_init(t_list *list)
+void	lst_init(t_list *list)
 {
 	list->len = 0;
 	list->first = NULL;
@@ -27,6 +27,7 @@ void	addnode(t_list *list, char *str)
 	new->str = NULL;
 	new->str = joinfree(new->str, str);
 	new->type = 0;
+	new->space = 0;
 	if (list->last == NULL)
 	{
 		new->next = NULL;

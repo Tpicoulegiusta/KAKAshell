@@ -6,22 +6,22 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 12:23:43 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/16 19:26:15 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:38:31 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	freetab(char **tab, int i)
+void	freetab(char **tab)
 {
-	if (tab[i + 1] != NULL)
-	{
-		i++;
-		while (tab[i])
-			free(tab[i++]);
-		free(tab);
-		tab = NULL;
-	}
+	int	i;
+
+	i = 0;
+	i++;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+	tab = NULL;
 }
 /*
 void	free_execve(t_data *data)

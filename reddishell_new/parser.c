@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/05 15:05:01 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:09:06 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,5 @@ void	parser(t_list *lst, char **envp)
 		if (tmp)
 			tmp = tmp->next;
 	}
-	//print_lst(lst);
 	fake_exec(lst);
 }

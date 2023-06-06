@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/05 15:04:59 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:46:51 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_lst(t_list *lst)
 	tmp = lst->first;
 	while (tmp)
 	{
-		printf("STR = %s ()() TYPE = %d\n", tmp->str, tmp->type);
+		printf("STR = %s\n", tmp->str);
 		tmp = tmp->next;
 	}
 }
@@ -54,16 +54,10 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	env_to_list(&envlst, envp);
-	t_node *tmp = envlst.first;
-	while (tmp)
-	{
-		printf("%s\n", tmp->str);
-		tmp = tmp->next;
-	}
+	env_to_lst(&envlst, envp);
 	while (1)
 	{
-		list_init(&lst);
+		lst_init(&lst);
 		line = readline(NAME);
 		add_history(line);
 		if (enter_check(line) != 0)
@@ -72,6 +66,7 @@ int	main(int argc, char **argv, char **envp)
 			return (freelist(&lst), printf("SYNTAX ERR\n"), 1);
 		lexer(&lst, line);
 		parser(&lst, envp);
+		export_unset(line, &envlst);
 		freelist(&lst);
 		free(line);
 	}
