@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/05 17:10:31 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/06 12:06:45 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,7 @@ void	another_check(t_list *lst, t_node *tmp)
 	}
 	//chdir(pwd);
 	free(tmp->str);
-	tmp->str = pwd;
+	tmp->str = ft_strdup(pwd);
 	printf("tmp->str === %s\n\n", tmp->str);
 	return ;
 }
-
-// void	parser(t_list *lst, char **envp)
-// {
-// 	t_node	*tmp;
-
-// 	tmp = lst->first;
-// 	printf("str == %s\n", tmp->str);
-// 	while (tmp)
-// 	{
-// 		other_check(tmp);
-// 		another_check(tmp);
-// 		if (venv_check(tmp->str) == 1)
-// 			tmp->str = venv_change(lst, tmp->str, envp);
-// 		tmp = tmp->next;
-// 	}
-// 	print_lst(lst);
-// }

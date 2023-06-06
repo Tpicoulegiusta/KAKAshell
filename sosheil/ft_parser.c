@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:33:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/05 17:14:30 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/06 12:10:43 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,14 @@ void	fake_exec(t_list *lst)
 	str = NULL;
 	while (tmp)
 	{
-		tmp->str = unquote(tmp->str);//JHGHJUUDGVHDHKSVVJKSFBJKLSFBNJLFB JL
+		if (tmp->str)
+			free(tmp->str);
+		tmp->str = ft_strdup(unquote(tmp->str));
 		str = joinfree(str, tmp->str);
 		tmp = tmp->next;
 	}
 	printf("AFTER STR = %s\n\n", str);
+	free(str);
 }
 
 void	parser(t_list *lst, char **envp)
