@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:33:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/01 12:06:18 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/05 17:14:30 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,41 +75,59 @@ char	*venv_change(char *str, char **envp)
 	venv = NULL;
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1])
+		if (str[i] == '$' && str[i + 1] && str[i + 1] != '\"')
 		{
 			i++;
 			while (spe_char(str[i]) == 0 && str[i])
 				venv = joinfree2(venv, str[i++]);
-			printf("VENV = %s\n", venv);
+		//	printf("VENV = %s\n", venv);
 			venv = find_envline2(venv, envp);
 			ret = joinfree(ret, venv);
 			free(venv);
 			venv = NULL;
 		}
-		if (str[i])
+		else if (str[i])
 			ret = joinfree2(ret, str[i++]);
 	}
 	return (free(str), str = NULL, ret);
 }
 
-char 	*unquote(char *str)
+char 	*forquote(char *str, char **envp)
 {
 	int		i;
-	int		start;
 	char	*ret;
 
 	i = 0;
 	ret = NULL;
-	while (str[i])
-	{
-		if (str[i] == '\'')
-			return (str);
-		i++;
-	}
-		return (free(str), str = NULL, ret);
+	if (str[i] == '\'')
+		return (str);
+	ret = joinfree(ret, venv_change(str, envp));
+	return (ret);
 }
 
-//check si ya un $ et\ou des quotes dans la str
+char	*unquote(char *str)
+{
+	char	*ret;
+	int		i;
+
+	i = 1;
+	ret = NULL;
+	if (str[0] == '\"')
+	{
+		while (str[i] != '\"')
+			ret = joinfree2(ret, str[i++]);
+		return (free(str), str = NULL, ret);
+	}
+	if (str[0] == '\'')
+	{
+		while (str[i] != '\'')
+			ret = joinfree2(ret, str[i++]);
+		return (free(str), str = NULL, ret);
+	}
+	return (str);
+}
+
+//check si ya des quotes dans la str
 int	venv_check(char *str)
 {
 	int		i;
@@ -120,31 +138,52 @@ int	venv_check(char *str)
 		if (str[i] == '\"' || str[i] == '\'')
 			return (1);
 	}
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '$' && spe_char(str[i + 1]) == 0)
-			return (2);
-	}
 	return (0);
+}
+
+void	fake_exec(t_list *lst)
+{
+	t_node	*tmp;
+	char	*str;
+
+	tmp = lst->first;
+	str = NULL;
+	while (tmp)
+	{
+		tmp->str = unquote(tmp->str);//JHGHJUUDGVHDHKSVVJKSFBJKLSFBNJLFB JL
+		str = joinfree(str, tmp->str);
+		tmp = tmp->next;
+	}
+	printf("AFTER STR = %s\n\n", str);
 }
 
 void	parser(t_list *lst, char **envp)
 {
 	t_node	*tmp;
+	t_node	*tmp2;
 
 	tmp = lst->first;
 	while (tmp)
 	{
-		printf("STR FROM LEXER = %s\n", tmp->str);
-		if (tmp->type == venv)
+		printf("STR FROM LEXER = %s ()() TYPE = %d\n", tmp->str, tmp->type);
+		other_check(tmp);
+		another_check(lst, tmp);
+		if (tmp != lst->last && tmp->str[0] == '$' && !tmp->str[1])
+		{
+			tmp2 = tmp;
+			tmp = tmp->next;
+			delnode(lst, tmp2);
+		}
+		if (tmp && tmp->type == venv)
 		{
 			if (venv_check(tmp->str) == 1)
-				tmp->str = unquote(tmp->str);
-			else if (venv_check(tmp->str) == 2)
+				tmp->str = forquote(tmp->str, envp);
+			else
 				tmp->str = venv_change(tmp->str, envp);
 		}
-		tmp = tmp->next;
+		if (tmp)
+			tmp = tmp->next;
 	}
-	print_list(lst);
+	//print_lst(lst);
+	fake_exec(lst);
 }

@@ -1,14 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dlc_pwd.c                                          :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 11:34:18 by tpicoule          #+#    #+#             */
-/*   Updated: 2023/06/01 11:35:41 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/06/05 13:38:18 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 int	check_pwd(char *str)
 {
@@ -23,25 +25,7 @@ int	check_pwd(char *str)
 	return (1);
 }
 
-char	*ft_strdup(char *s1)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	str = malloc(sizeof(char) * len(s1) + 1);
-	if (str == NULL)
-		return (NULL);
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-void	other_check(t_node *tmp)						//FONCTION PRINCIPALE A RAJOUTER AU PARSER
+void	other_check(t_node *tmp)	//FONCTION PRINCIPALE A RAJOUTER AU PARSER
 {
 	char	buffer[BUFFER_SIZE];
 

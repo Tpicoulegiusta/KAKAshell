@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/01 11:53:25 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/05 15:31:42 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # define NAME "\e[0;94mPROMPETEUH% \e[0;97m"
+# define BUFFER_SIZE 100
 
 //RR = right redir, LR = left redir
 enum	e_tok{str, piperino, rr, lr, cmd, venv};
@@ -25,15 +26,24 @@ typedef struct s_node
 {
 	enum e_tok		type;
 	char			*str;
-	char			*path;
-	int				quote;
+	int				*space;
 	struct s_node	*next;
 	struct s_node	*prev;
 }				t_node;
 
+/*
+typedef struct s_env
+{
+	char			*envline;
+	struct s_env	*next;
+	struct s_env	*prev;
+}				t_env;*/
+
 typedef struct s_list
 {
 	int				len;
+/*	t_env			*envfirst;
+	t_env			*envlast;*/
 	t_node			*first;
 	t_node			*last;
 	struct s_node	node;
@@ -56,8 +66,10 @@ char	*substr2(char *s, int start, int end);
 
 void	list_init(t_list *list);
 void	addnode(t_list *lst, char *str);
+void	delnode(t_list *list, t_node *node);
 t_list	*create_list(char **tab, t_list *list);
-void	freelst(t_list *lst);
+void	freelist(t_list *lst);
+void	print_lst(t_list *lst);
 
 //////// LEXER //////////////////////////
 
@@ -72,6 +84,8 @@ void	tokenizer(t_list *lst);
 void	parser(t_list *lst, char **envp);
 char	*ft_pathjoin(char *s1, char *s2);
 char	*find_envline(char **envp, char *search);
+void	other_check(t_node *tmp);
+void	another_check(t_list *lst, t_node *tmp);
 
 //////// EXEC //////////////////////////
 

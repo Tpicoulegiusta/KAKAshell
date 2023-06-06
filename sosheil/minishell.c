@@ -6,13 +6,25 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/01 12:05:18 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/05 17:11:06 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_error;
+
+void	print_lst(t_list *lst)
+{
+	t_node *tmp;
+
+	tmp = lst->first;
+	while (tmp)
+	{
+		printf("STR = %s ()() TYPE = %d\n", tmp->str, tmp->type);
+		tmp = tmp->next;
+	}
+}
 
 int	checker(char *line)
 {
@@ -39,11 +51,12 @@ int	main(int argc, char **argv, char **envp)
 		if (enter_check(line) != 0)
 			continue ;
 		if (checker(line) == 1)
-			return (freelst(&lst), printf("SYNTAX ERR\n"), 1);
+			return (freelist(&lst), printf("SYNTAX ERR\n"), 1);
 		lexer(&lst, line);
 		parser(&lst, envp);
-		freelst(&lst);
+		freelist(&lst);
 		free(line);
+		system("leaks minishell");
 	}
 	free(line);
 	return (0);

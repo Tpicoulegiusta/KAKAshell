@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:45:45 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/01 12:10:10 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/05 17:13:54 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ void	addnode(t_list *list, char *str)
 
 	new = malloc(sizeof(t_node));
 	new->str = NULL;
-	new->path = NULL;
 	new->str = joinfree(new->str, str);
 	new->type = 0;
-	new->quote = 0;
 	if (list->last == NULL)
 	{
 		new->next = NULL;
@@ -45,7 +43,7 @@ void	addnode(t_list *list, char *str)
 	}
 	list->len++;
 }
-/*
+
 void	delnode(t_list *list, t_node *node)
 {
 	if (!node->next && !node->prev)
@@ -72,9 +70,24 @@ void	delnode(t_list *list, t_node *node)
 		node->next->prev = node->prev;
 		free(node);
 	}
-}*/
+}
 
+void	freelist(t_list *lst)
+{
+	t_node	*tmp;
+	t_node	*next;
 
+	tmp = lst->first;
+	next = NULL;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->str);
+		free(tmp);
+		tmp = next;
+	}
+	lst->len = 0;
+}
 
 /*
 t_list	*create_list(char **tab, t_list *list)
