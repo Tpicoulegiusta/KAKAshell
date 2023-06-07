@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lists.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:45:45 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/06 12:10:00 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/07 17:22:30 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	list_init(t_list *list)
 	list->len = 0;
 	list->first = NULL;
 	list->last = NULL;
+	list->oldpwd = NULL;
+	list->pwd = NULL;
 }
 
 void	addnode(t_list *list, char *str)
@@ -86,6 +88,12 @@ void	freelist(t_list *lst)
 		free(tmp);
 		tmp = next;
 	}
+	tmp = lst->pwd;
+	if (tmp != NULL && tmp->str != NULL)
+		free(tmp->str);
+	tmp = lst->oldpwd;
+	if (tmp != NULL && tmp->str != NULL)
+		free(tmp->str);
 	lst->len = 0;
 }
 

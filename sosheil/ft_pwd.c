@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 11:34:18 by tpicoule          #+#    #+#             */
-/*   Updated: 2023/06/06 13:32:39 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/07 17:19:32 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,39 @@ int	check_pwd(char *str)
 	return (1);
 }
 
-void	other_check(t_node *tmp)	//FONCTION PRINCIPALE A RAJOUTER AU PARSER
+void	init_pwd(t_list *envlst)
 {
-	char	buffer[BUFFER_SIZE];
+	t_node	*env;
 
-	if (getcwd(buffer, BUFFER_SIZE) == NULL)
-		return ;
+	env = envlst->first;
+	envlst->pwd = malloc(sizeof(t_node));
+	while (env)
+	{
+		if (ft_strncmp(env->str, "PWD", 3) == 0)
+			envlst->pwd->str = ft_strdup(env->str);
+		env = env->next;
+	}
+	return ;
+}
+
+void	other_check(t_node *tmp, t_list *envlst)
+{
 	if (tmp->prev == NULL)
 	{
 		if (check_pwd(tmp->str) == 0)
 		{
+			if (envlst->pwd == NULL)
+				init_pwd(envlst);
 			free(tmp->str);
-			tmp->str = ft_strdup(getcwd(buffer, BUFFER_SIZE));
+			tmp->str = ft_strdup(envlst->pwd->str);
 		}
 	}
 	else if (tmp->prev->type == piperino && check_pwd(tmp->str) == 0)
 	{
+		if (envlst->pwd == NULL)
+			init_pwd(envlst);
 		free(tmp->str);
-		tmp->str = ft_strdup(getcwd(buffer, BUFFER_SIZE));
+		tmp->str = ft_strdup(envlst->pwd->str);
 	}
 	return ;
 }

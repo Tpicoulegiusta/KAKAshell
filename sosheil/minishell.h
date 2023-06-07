@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/06 16:00:43 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/07 16:30:47 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct s_node
 typedef struct s_list
 {
 	int				len;
+	t_node			*oldpwd;
+	t_node			*pwd;
 	t_node			*first;
 	t_node			*last;
 	struct s_node	node;
@@ -76,7 +78,7 @@ void	tokenizer(t_list *lst);
 void	parser(t_list *lst, t_list *envlst, char **envp);
 char	*ft_pathjoin(char *s1, char *s2);
 char	*find_envline(char **envp, char *search);
-void	other_check(t_node *tmp);
+void	other_check(t_node *tmp, t_list *envlst);
 void	another_check(t_list *lst, t_list *envlst, t_node *tmp);
 
 //////// EXEC //////////////////////////
