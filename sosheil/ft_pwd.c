@@ -6,11 +6,21 @@
 /*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 11:34:18 by tpicoule          #+#    #+#             */
-/*   Updated: 2023/06/07 17:19:32 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:05:52 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_daeja(t_list *envlst)
+{
+	t_node	*tmp;
+
+	if (envlst->pwd->str != NULL)
+		free(envlst->pwd->str);
+	envlst->pwd->str = ft_strdup(ft_ministrchr(envlst->pwd->str, '='));
+	return ;
+}
 
 int	check_pwd(char *str)
 {
@@ -37,6 +47,7 @@ void	init_pwd(t_list *envlst)
 			envlst->pwd->str = ft_strdup(env->str);
 		env = env->next;
 	}
+	ft_daeja(envlst);
 	return ;
 }
 

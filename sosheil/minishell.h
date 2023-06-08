@@ -6,7 +6,7 @@
 /*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/07 16:30:47 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:41:13 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	freetab(char **tab, int i);
 void	free_execve(t_data *data);
 char	*substr2(char *s, int start, int end);
 char	*ft_ministrrchr(char *s, char c);
+char	*ft_ministrchr(char *s, char c);
 
 //////// LIST ///////////////////////////
 

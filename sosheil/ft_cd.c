@@ -6,11 +6,24 @@
 /*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/07 18:13:12 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:05:15 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_shyvana(t_list *envlst)
+{
+	t_node	*tmp;
+
+	if (envlst->pwd->str != NULL)
+		free(envlst->pwd->str);
+	envlst->pwd->str = ft_strdup(ft_ministrchr(envlst->pwd->str, '='));
+	if (envlst->oldpwd->str != NULL)
+		free(envlst->oldpwd->str);
+	envlst->oldpwd->str = ft_strdup(ft_ministrchr(envlst->oldpwd->str, '='));
+	return ;
+}
 
 void	init_envpwd(t_list *envlst)
 {
@@ -30,6 +43,7 @@ void	init_envpwd(t_list *envlst)
 			envlst->oldpwd = tmp;
 		tmp = tmp->next;
 	}
+	ft_shyvana(envlst);
 	return ;
 }
 
@@ -54,11 +68,11 @@ void	another_check(t_list *lst, t_list *envlst, t_node *tmp)
 			init_envpwd(envlst);
 		if (envlst->oldpwd->str != NULL)
 			free(envlst->oldpwd->str);
-		printf("Oldpwd->str >>> %s\n", envlst->oldpwd->str);
-		printf("pwd->str >>> %s\n", envlst->pwd->str);
+		//printf("Oldpwd->str >>> %s\n", envlst->oldpwd->str);
+		//printf("pwd->str >>> %s\n", envlst->pwd->str);
 		envlst->oldpwd->str = ft_strdup(envlst->pwd->str);
-			puts("coucou");
-		printf("NEW oldpwd->str >>> %s\n", envlst->oldpwd->str);
+		//	puts("coucou");
+		//printf("NEW oldpwd->str >>> %s\n", envlst->oldpwd->str);
 		if (tmp->next == NULL)
 		{
 			free(envlst->pwd->str);
@@ -66,10 +80,10 @@ void	another_check(t_list *lst, t_list *envlst, t_node *tmp)
 		}
 		else if (tmp->next->type == str)
 			ft_do_cd(tmp, envlst->pwd);
-		printf("pwd -> %s\n\n", envlst->pwd->str);
+		//printf("pwd -> %s\n\n", envlst->pwd->str);
 		free(tmp->str);
 		tmp->str = ft_strdup(envlst->pwd->str);
-		printf("tmp->str === %s\n\n", tmp->str);
+		//printf("tmp->str === %s\n\n", tmp->str);
 	}
 	return ;
 }

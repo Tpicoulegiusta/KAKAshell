@@ -6,7 +6,7 @@
 /*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/07 17:50:40 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:21:52 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 		parser(&lst, &envlst, envp);
 		freelist(&lst);
 		free(line);
-		system("leaks minishell");
+		//system("leaks minishell");
 	}
 	free(line);
 	return (0);
