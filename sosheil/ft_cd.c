@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/08 13:05:15 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:57:01 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	init_envpwd(t_list *envlst)
 		if (ft_strncmp(tmp->str, "PWD", 3) == 0)
 		{
 			envlst->pwd = tmp;
+			system("leaks minishell");
 		}
 		if (ft_strncmp(tmp->str, "OLDPWD", 6) == 0)
 			envlst->oldpwd = tmp;
@@ -49,10 +50,20 @@ void	init_envpwd(t_list *envlst)
 
 void	ft_do_cd(t_node *tmp, t_node *pwd)
 {
+	char	s[BUFFER_SIZE];
+
 	if (ft_strcmp(tmp->next->str, ".") == 0)
 		return ;
 	else if (ft_strcmp(tmp->next->str, "..") == 0)
 		pwd->str = ft_ministrrchr(pwd->str, '/');
+	else
+	{
+		chdir(tmp->next->str);
+		pwd->str = ft_strdup(getcwd(s, BUFFER_SIZE));
+		//free(pwd->str);
+		//pwd->str = ft_strdup(s);
+		printf("LE PWD->STR est devenu %s\n", pwd->str);
+	}
 	return ;
 }
 
@@ -71,7 +82,6 @@ void	another_check(t_list *lst, t_list *envlst, t_node *tmp)
 		//printf("Oldpwd->str >>> %s\n", envlst->oldpwd->str);
 		//printf("pwd->str >>> %s\n", envlst->pwd->str);
 		envlst->oldpwd->str = ft_strdup(envlst->pwd->str);
-		//	puts("coucou");
 		//printf("NEW oldpwd->str >>> %s\n", envlst->oldpwd->str);
 		if (tmp->next == NULL)
 		{
@@ -80,10 +90,8 @@ void	another_check(t_list *lst, t_list *envlst, t_node *tmp)
 		}
 		else if (tmp->next->type == str)
 			ft_do_cd(tmp, envlst->pwd);
-		//printf("pwd -> %s\n\n", envlst->pwd->str);
 		free(tmp->str);
 		tmp->str = ft_strdup(envlst->pwd->str);
-		//printf("tmp->str === %s\n\n", tmp->str);
 	}
 	return ;
 }
