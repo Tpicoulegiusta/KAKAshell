@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/06 17:09:06 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:14:50 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	spe_char(char c)
 {
-	if ((c >= 32 && c <= 47) || c == '\'' || c == '\"')
+	if ((c >= 32 && c <= 47) || c == '\'' || c == '\"' || c == '=')
 		return (1);
 	return (0);
 }
@@ -143,16 +143,20 @@ void	fake_exec(t_list *lst)
 {
 	t_node	*tmp;
 	char	*str;
+	int		i;
 
+	i = 1;
 	tmp = lst->first;
 	str = NULL;
 	while (tmp)
 	{
+		printf("node[%d] = %s\n", i, tmp->str);
 		tmp->str = unquote(tmp->str);
 		str = joinfree(str, tmp->str);
 		tmp = tmp->next;
+		i++;
 	}
-	printf("STR = %s\n", str);
+	printf("STR FROM PARSER = %s\n", str);
 }
 
 //no need de gerer $$, $1, $2, $3, $#, $! etc...

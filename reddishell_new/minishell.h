@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/06 14:38:45 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/07 12:53:15 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@
 
 //RR = right redir, LR = left redir
 enum	e_tok{str, piperino, rr, lr, cmd, venv};
+
+typedef struct s_global
+{
+
+}				t_global;
 
 typedef struct s_node
 {
@@ -80,7 +85,8 @@ char	*find_envline(char **envp, char *search);
 
 //////// BUILTINS //////////////////////
 
-void	export_unset(char *line, t_list *envlst);
+void	export_unset(char *line, t_list *envlst, t_list *sort_envlst);
+void	print_env(t_list *envlst);
 
 //////// EXEC //////////////////////////
 

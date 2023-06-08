@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_to_lst.c                                       :+:      :+:    :+:   */
+/*   dlc_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/06 13:58:37 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/07 11:26:26 by rbulanad         ###   ########.fr       */
+/*   Created: 2023/06/07 11:23:28 by rbulanad          #+#    #+#             */
+/*   Updated: 2023/06/07 11:34:26 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	env_to_lst(t_list *envlst, char **envp)
+void	print_env(t_list *envlst)
 {
-	int		i;
+	t_node	*tmp;
 
-	lst_init(envlst);
-	i = 0;
-	while (envp[i])
-		addnode(envlst, envp[i++]);
+	tmp = envlst->first;
+	while (tmp)
+	{
+		printf("%s\n", tmp->str);
+		tmp = tmp->next;
+	}
 }

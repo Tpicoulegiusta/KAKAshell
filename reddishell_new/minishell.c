@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/06 16:46:51 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:02:53 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_list	lst;
 	t_list	envlst;
+	t_list	sort_envlst;
 	char	*line;
 
 	(void)argc;
 	(void)argv;
 	env_to_lst(&envlst, envp);
+	env_to_lst(&sort_envlst, envp);
 	while (1)
 	{
 		lst_init(&lst);
@@ -66,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
 			return (freelist(&lst), printf("SYNTAX ERR\n"), 1);
 		lexer(&lst, line);
 		parser(&lst, envp);
-		export_unset(line, &envlst);
+		export_unset(line, &envlst, &sort_envlst);
 		freelist(&lst);
 		free(line);
 	}
