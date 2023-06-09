@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/07 16:02:53 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/09 12:02:26 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	main(int argc, char **argv, char **envp)
 		lexer(&lst, line);
 		parser(&lst, envp);
 		export_unset(line, &envlst, &sort_envlst);
+		check_env(&envlst, line);
 		freelist(&lst);
 		free(line);
 	}

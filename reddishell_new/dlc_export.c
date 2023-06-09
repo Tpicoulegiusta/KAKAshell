@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:29:46 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/08 15:32:12 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/09 12:01:53 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,32 +27,6 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return (0);
 }
-/*
-char	*add_quotes(char *str)
-{
-	char	*ret;
-	int		i;
-	int		x;
-
-	ret = NULL;
-	i = 0;
-	x = 0;
-	while (str[i])
-	{
-		if (str[i] == '=' && str[i + 1] != '\"')
-		{
-			ret = joinfree2(ret, str[i++]);
-			ret = joinfree2(ret, '"');
-			x = 1;
-		}
-		else
-			ret = joinfree2(ret, str[i++]);
-	}
-	if (str[i - 1] != '\"' && x == 1)
-		ret = joinfree2(ret, '"');
-	return (ret);
-}
-*/
 
 char	*cutter(char *str)
 {
@@ -86,7 +60,7 @@ int	ft_find_char(char *str, char c)
 	}
 	return (0);
 }
-
+//le chercheur de doublons
 int	check_tab(t_list *sort_envlst, char *str)
 {
 	t_node *tmp;
@@ -96,26 +70,25 @@ int	check_tab(t_list *sort_envlst, char *str)
 	tmp = sort_envlst->first;
 	cut1 = NULL;
 	cut2 = NULL;
-	cut2 = cutter(str);
+	cut2 = cutter(str); //on cut jusquau '=', '=' exclus
 	while (tmp)
 	{
 		cut1 = cutter(tmp->str);
-		printf("CUT1= %s, CUT2= %s\n", cut1, cut2);
 		if (ft_strcmp(cut1, cut2) == 0)
 		{
-			if (ft_find_char(tmp->str, '=') == 0 && ft_find_char(str, '=') == 1)
+			if (ft_find_char(tmp->str, '=') == 0 && ft_find_char(str, '=') == 1) //doublon + doit etre replaced + add dans env
 				return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 1);
-			if (ft_find_char(tmp->str, '=') == 1 && ft_find_char(str, '=') == 0)
+			if (ft_find_char(tmp->str, '=') == 1 && ft_find_char(str, '=') == 0) //doublon mais ne doit pas etre replaced
 				return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 2);
-			return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 1);
+			return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 1); //doublon + doit etre replaced
 		}
 		free(cut1);
 		cut1 = NULL;
 		tmp = tmp->next;
 	}
-	return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 0);
+	return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 0); //pas de doublons
 }
-
+//print l'export char par char en ajoutant les quotes apres le '=' et "declare -x" au debut
 void	print_export(t_list *lst)
 {
 	t_node *tmp;
@@ -145,7 +118,7 @@ void	print_export(t_list *lst)
 		tmp = tmp->next;
 	}
 }
-
+//tri la liste, pushswap style
 void	sort_lst(t_list *lst)
 {
 	t_list	tmplst;
@@ -180,7 +153,7 @@ void	sort_lst(t_list *lst)
 	freelist(&tmplst);
 }
 
-void	del_double(t_list *lst, char *str)
+void	del_double(t_list *lst, char *str) //sera replaced par unset
 {
 	t_node *tmp;
 	char	*cut1;
@@ -203,28 +176,39 @@ void	del_double(t_list *lst, char *str)
 		tmp = tmp->next;
 	}
 }
-
+//pour rajouter dans l'env
+void	export_env(t_list *envlst, char	*str)
+{
+	if (ft_find_char(str, '=') == 1)
+	{
+		if (check_tab(envlst, str) == 1)
+		{
+			del_double(envlst, str);
+			addnode(envlst, str);
+		}
+		else if (check_tab(envlst, str) == 0)
+			addnode(envlst, str);
+	}
+}
+//l'export dans toute sa grandeur
 void	ft_export(char **tab, t_list *envlst, t_list *sort_envlst)
 {
-	(void)envlst;
-	if (!tab[1] || tab[1][0] == '|' || tab[1][0] == '<' || tab[1][0] == '>')
+	if (!tab[1] || tab[1][0] == '|' || tab[1][0] == '<' || tab[1][0] == '>') //export sans arguments
 	{
 		sort_lst(sort_envlst);
 		print_export(sort_envlst);
 	}
 	else
 	{
-		if (check_tab(sort_envlst, tab[1]) == 1)  // != 0 means que c'est un doublon
+		if (check_tab(sort_envlst, tab[1]) == 1)  // means que c'est un doublon + add dans env
 		{
-			puts("IF");
 			del_double(sort_envlst, tab[1]);
 			addnode(sort_envlst, tab[1]);
+			export_env(envlst, tab[1]);
 		}
-		else if (check_tab(sort_envlst, tab[1]) == 0)
-		{
-			puts("ELSE IF");
+		else if (check_tab(sort_envlst, tab[1]) == 0) //pas de doublons
 			addnode(sort_envlst, tab[1]);
-		}
+		//else il ya un doublon mais ne doit pas etre replaced, donc ne fait rien
 	}
 }
 

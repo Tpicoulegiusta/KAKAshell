@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/07 12:53:15 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/09 11:14:07 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_data
 	char	**lextab;
 }				t_data;
 
+///////// UTILS /////////////////////////
+
 char	*getpath(char **envp, char *cmd);
 char	**ft_quote_split(char *str, char sep);
 char	*joinfree(char *s1, char *s2);
@@ -58,6 +60,7 @@ void	freetab(char **tab);
 void	free_execve(t_data *data);
 char	*substr2(char *s, int start, int end);
 char	**ft_split(char *s, char c);
+int		ft_strcmp(char *s1, char *s2);
 
 //////// LIST ///////////////////////////
 
@@ -86,7 +89,7 @@ char	*find_envline(char **envp, char *search);
 //////// BUILTINS //////////////////////
 
 void	export_unset(char *line, t_list *envlst, t_list *sort_envlst);
-void	print_env(t_list *envlst);
+void	check_env(t_list *envlst, char *line);
 
 //////// EXEC //////////////////////////
 
