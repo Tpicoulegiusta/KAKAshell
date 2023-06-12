@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 11:34:18 by tpicoule          #+#    #+#             */
-/*   Updated: 2023/06/08 13:05:52 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/06/12 16:42:39 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_daeja(t_list *envlst)
 
 	if (envlst->pwd->str != NULL)
 		free(envlst->pwd->str);
-	envlst->pwd->str = ft_strdup(ft_ministrchr(envlst->pwd->str, '='));
+	envlst->pwd->str = ft_ministrchr(envlst->pwd->str, '=');
 	return ;
 }
 

@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/08 15:57:01 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/12 16:51:55 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	ft_shyvana(t_list *envlst)
 
 	if (envlst->pwd->str != NULL)
 		free(envlst->pwd->str);
-	envlst->pwd->str = ft_strdup(ft_ministrchr(envlst->pwd->str, '='));
+	envlst->pwd->str = ft_ministrchr(envlst->pwd->str, '=');
 	if (envlst->oldpwd->str != NULL)
 		free(envlst->oldpwd->str);
-	envlst->oldpwd->str = ft_strdup(ft_ministrchr(envlst->oldpwd->str, '='));
+	envlst->oldpwd->str = ft_ministrchr(envlst->oldpwd->str, '=');
 	return ;
 }
 
@@ -29,16 +29,14 @@ void	init_envpwd(t_list *envlst)
 {
 	t_node	*tmp;
 
-	if (envlst->pwd == NULL)
-		envlst->pwd = malloc(sizeof(t_node));
-	envlst->oldpwd = malloc(sizeof(t_node));
 	tmp = envlst->first;
 	while (tmp)
 	{
 		if (ft_strncmp(tmp->str, "PWD", 3) == 0)
 		{
+			if (envlst->pwd != NULL)
+				free(envlst->pwd);
 			envlst->pwd = tmp;
-			system("leaks minishell");
 		}
 		if (ft_strncmp(tmp->str, "OLDPWD", 6) == 0)
 			envlst->oldpwd = tmp;
@@ -55,14 +53,16 @@ void	ft_do_cd(t_node *tmp, t_node *pwd)
 	if (ft_strcmp(tmp->next->str, ".") == 0)
 		return ;
 	else if (ft_strcmp(tmp->next->str, "..") == 0)
-		pwd->str = ft_ministrrchr(pwd->str, '/');
+	{
+		chdir("..");
+		free(pwd->str);
+		pwd->str = ft_strdup(getcwd(s, BUFFER_SIZE));
+	}
 	else
 	{
 		chdir(tmp->next->str);
+		free(pwd->str);
 		pwd->str = ft_strdup(getcwd(s, BUFFER_SIZE));
-		//free(pwd->str);
-		//pwd->str = ft_strdup(s);
-		printf("LE PWD->STR est devenu %s\n", pwd->str);
 	}
 	return ;
 }
@@ -79,13 +79,12 @@ void	another_check(t_list *lst, t_list *envlst, t_node *tmp)
 			init_envpwd(envlst);
 		if (envlst->oldpwd->str != NULL)
 			free(envlst->oldpwd->str);
-		//printf("Oldpwd->str >>> %s\n", envlst->oldpwd->str);
-		//printf("pwd->str >>> %s\n", envlst->pwd->str);
 		envlst->oldpwd->str = ft_strdup(envlst->pwd->str);
-		//printf("NEW oldpwd->str >>> %s\n", envlst->oldpwd->str);
 		if (tmp->next == NULL)
 		{
-			free(envlst->pwd->str);
+			chdir(getenv("HOME"));
+			if (envlst->pwd->str != NULL)
+				free(envlst->pwd->str);
 			envlst->pwd->str = ft_strdup(getenv("HOME"));
 		}
 		else if (tmp->next->type == str)

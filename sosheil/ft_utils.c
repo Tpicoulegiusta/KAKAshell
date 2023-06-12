@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:17:29 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/08 12:40:54 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:20:33 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,5 @@ char	*ft_ministrchr(char *s, char c)
 	}
 	if (ok == -1)
 		return (0);
-	return ((char *)&s[ok + 1]);
+	return (substr2(s, ok + 1, ft_strlen(s)));
 }
