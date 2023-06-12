@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/08 14:14:50 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:07:16 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,10 @@ void	fake_exec(t_list *lst)
 	while (tmp)
 	{
 		printf("node[%d] = %s\n", i, tmp->str);
-		tmp->str = unquote(tmp->str);
+		tmp->str = unquote(tmp->str);	
 		str = joinfree(str, tmp->str);
+		if (tmp->space == 1)
+			str = joinfree2(str, ' ');
 		tmp = tmp->next;
 		i++;
 	}

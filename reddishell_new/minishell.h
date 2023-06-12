@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/09 11:14:07 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:54:24 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*find_envline(char **envp, char *search);
 
 //////// BUILTINS //////////////////////
 
-void	export_unset(char *line, t_list *envlst, t_list *sort_envlst);
+void	export_unset(t_list *lst, t_list *envlst, t_list *sort_envlst);
 void	check_env(t_list *envlst, char *line);
 
 //////// EXEC //////////////////////////

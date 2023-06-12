@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:21:03 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/06 16:53:55 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:03:43 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,23 @@ void	lst_init(t_list *list)
 	list->len = 0;
 	list->first = NULL;
 	list->last = NULL;
+}
+
+int	is_space(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == 32)
+		{
+			str = substr2(str, 0, i);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
 void	addnode(t_list *list, char *str)

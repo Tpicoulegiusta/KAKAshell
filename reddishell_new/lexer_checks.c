@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:15:28 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/01 16:06:20 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:03:50 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	check_32(t_list *lst, char c, char **copy)
 	{
 		if (*copy != NULL)
 		{
-			*copy = joinfree2(*copy, ' ');
 			addnode(lst, *copy);
+			lst->last->space = 1;
 			free(*copy);
 			*copy = NULL;
 		}

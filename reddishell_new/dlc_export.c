@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:29:46 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/09 12:01:53 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:16:03 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,33 +191,43 @@ void	export_env(t_list *envlst, char	*str)
 	}
 }
 //l'export dans toute sa grandeur
-void	ft_export(char **tab, t_list *envlst, t_list *sort_envlst)
+void	ft_export(t_list *lst, t_list *envlst, t_list *sort_envlst)
 {
-	if (!tab[1] || tab[1][0] == '|' || tab[1][0] == '<' || tab[1][0] == '>') //export sans arguments
+	t_node	*tmp;
+
+	if (!lst->first->next) //export sans arguments
 	{
 		sort_lst(sort_envlst);
 		print_export(sort_envlst);
 	}
 	else
 	{
-		if (check_tab(sort_envlst, tab[1]) == 1)  // means que c'est un doublon + add dans env
+		tmp = lst->first->next;
+		while (tmp)
 		{
-			del_double(sort_envlst, tab[1]);
-			addnode(sort_envlst, tab[1]);
-			export_env(envlst, tab[1]);
+			if (check_tab(sort_envlst, tmp->str) == 1)  // means que c'est un doublon + add dans env
+			{
+				del_double(sort_envlst, tmp->str);
+				addnode(sort_envlst, tmp->str);
+				export_env(envlst, tmp->str);
+			}
+			else if (check_tab(sort_envlst, tmp->str) == 0) //pas de doublons
+			{
+				export_env(envlst, tmp->str);
+				addnode(sort_envlst, tmp->str);
+			}
+			//else il ya un doublon mais ne doit pas etre replaced, donc ne fait rien
+			tmp = tmp->next;
 		}
-		else if (check_tab(sort_envlst, tab[1]) == 0) //pas de doublons
-			addnode(sort_envlst, tab[1]);
-		//else il ya un doublon mais ne doit pas etre replaced, donc ne fait rien
 	}
 }
 
-void	export_unset(char *line, t_list *envlst, t_list *sort_envlst)
+void	export_unset(t_list *lst, t_list *envlst, t_list *sort_envlst)
 {
-	char	**tabline;
+	char	**tab;
 
-	tabline = ft_split(line, ' ');
-	if (ft_strcmp(tabline[0], "export") == 0)
-		ft_export(tabline, envlst, sort_envlst);
-	freetab(tabline);
+	tab = ft_split(lst->first->str, ' ');
+	if (ft_strcmp(tab[0], "export") == 0)
+		ft_export(lst, envlst, sort_envlst);
+	freetab(tab);
 }

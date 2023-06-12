@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/09 12:02:26 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/12 12:57:11 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,10 @@ int	main(int argc, char **argv, char **envp)
 		if (checker(line) == 1)
 			return (freelist(&lst), printf("SYNTAX ERR\n"), 1);
 		lexer(&lst, line);
+		if (lst.len == 0)
+			continue ;
 		parser(&lst, envp);
-		export_unset(line, &envlst, &sort_envlst);
+		export_unset(&lst, &envlst, &sort_envlst);
 		check_env(&envlst, line);
 		freelist(&lst);
 		free(line);
