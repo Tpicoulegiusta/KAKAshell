@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/12 16:51:55 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/13 11:45:23 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	init_envpwd(t_list *envlst)
 		if (ft_strncmp(tmp->str, "PWD", 3) == 0)
 		{
 			if (envlst->pwd != NULL)
+			{
+				free(envlst->pwd->str);
 				free(envlst->pwd);
+			}
 			envlst->pwd = tmp;
 		}
 		if (ft_strncmp(tmp->str, "OLDPWD", 6) == 0)
