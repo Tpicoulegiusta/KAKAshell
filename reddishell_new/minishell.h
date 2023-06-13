@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/13 15:44:22 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:03:53 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,13 @@ void	tokenizer(t_list *lst);
 
 //////// PARSER ////////////////////////
 
-char	**parser(t_list *lst, char **envp);
+char	**parser(t_list *lst, t_list *envlst);
 char	*ft_pathjoin(char *s1, char *s2);
 char	*find_envline(char **envp, char *search);
 
 //////// BUILTINS //////////////////////
 
-void	export_unset(t_list *lst, t_list *envlst, t_list *sort_envlst);
+void	export_unset(char **tab, t_list *envlst, t_list *sort_envlst);
 void	check_env(t_list *envlst, char *line);
 
 //////// EXEC //////////////////////////

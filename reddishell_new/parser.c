@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/13 15:57:07 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:13:59 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,26 @@ int	ft_find(char *str, char *search)
 	return (0);
 }
 //cherche et return la bonne ligne d'env ou rien si ne trouve pas
-char	*find_envline2(char	*search, char **envp)
+char	*find_envline2(char	*search, t_list *envlst)
 {
-	int		i;
 	int		j;
 	char	*ret;
+	t_node	*tmp;
 
-	i = 0;
 	j = 0;
 	ret = NULL;
-	while (envp[i])
+	tmp = envlst->first;
+	while (tmp)
 	{
-		if (ft_find(envp[i], search) == 1)
+		if (ft_find(tmp->str, search) == 1)
 		{
-			while (envp[i][j] != '=')
+			while (tmp->str[j] != '=')
 				j++;
-			ret = substr2(envp[i], j + 1, len(envp[i]));
+			ret = substr2(tmp->str, j + 1, len(tmp->str));
 			free(search);
 			return (ret);
 		}
-		i++;
+		tmp = tmp->next;
 	}
 	free(search);
 	ret = malloc(sizeof(char) * 1);
@@ -62,7 +62,7 @@ char	*find_envline2(char	*search, char **envp)
 }
 
 //swap le $ par sa var d'env correspondante
-char	*venv_change(char *str, char **envp)
+char	*venv_change(char *str, t_list *envlst)
 {
 	int		i;
 	char	*venv;
@@ -79,7 +79,7 @@ char	*venv_change(char *str, char **envp)
 			while (spe_char(str[i]) == 0 && str[i])
 				venv = joinfree2(venv, str[i++]);
 			//printf("VENV = %s\n", venv);
-			venv = find_envline2(venv, envp);
+			venv = find_envline2(venv, envlst);
 			ret = joinfree(ret, venv);
 			free(venv);
 			venv = NULL;
@@ -90,7 +90,7 @@ char	*venv_change(char *str, char **envp)
 	return (free(str), str = NULL, ret);
 }
 
-char 	*forquote(char *str, char **envp)
+char 	*forquote(char *str, t_list *envlst)
 {
 	int		i;
 	char	*ret;
@@ -99,7 +99,7 @@ char 	*forquote(char *str, char **envp)
 	ret = NULL;
 	if (str[i] == '\'')
 		return (str);
-	ret = joinfree(ret, venv_change(str, envp));
+	ret = joinfree(ret, venv_change(str, envlst));
 	return (ret);
 }
 
@@ -164,7 +164,7 @@ char	**prep_exec(t_list *lst)
 }
 
 //no need de gerer $$, $1, $2, $3, $#, $! etc...
-char	**parser(t_list *lst, char **envp)
+char	**parser(t_list *lst, t_list *envlst)
 {
 	t_node	*tmp;
 	t_node	*tmp2;
@@ -181,9 +181,9 @@ char	**parser(t_list *lst, char **envp)
 		if (tmp && tmp->type == venv)
 		{
 			if (venv_check(tmp->str) == 1)
-				tmp->str = forquote(tmp->str, envp);
+				tmp->str = forquote(tmp->str, envlst);
 			else
-				tmp->str = venv_change(tmp->str, envp);
+				tmp->str = venv_change(tmp->str, envlst);
 		}
 		if (tmp)
 			tmp = tmp->next;

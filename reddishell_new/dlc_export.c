@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:29:46 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/13 15:54:53 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:59:28 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,38 +208,32 @@ void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str)
 }
 
 //l'export dans toute sa grandeur
-void	ft_export(t_list *lst, t_list *envlst, t_list *sort_envlst)
+void	ft_export(char **tab, t_list *envlst, t_list *sort_envlst)
 {
-	t_node	*tmp;
+	int	i;
 
-	if (!lst->first->next) //export sans arguments
+	i = 0;
+	if (!tab[1]) //export sans arguments
 	{
 		sort_lst(sort_envlst);
 		print_export(sort_envlst);
 	}
 	else
 	{
-		tmp = lst->first->next;
-		if ((tmp->str[0] >= 33 && tmp->str[0] <= 59)
-			|| tmp->str[0] == '=' || tmp->str[0] == '!' || tmp->str[0] == '?')
+		if ((tab[1][0] >= 37 && tab[1][0] <= 59)
+			|| tab[1][0] == '=' || tab[1][0] == '!' || tab[1][0] == '?'
+			|| tab[1][0] == '!' || tab[1][0] == '\"' || tab[1][0] == '#')
 		{
 			printf("EXPORT SYNTAX ERR\n");
 			return ;
 		}
-		while (tmp)
-		{
-			if_else_double(sort_envlst, envlst, tmp->str);
-			tmp = tmp->next;
-		}
+		while (tab[++i])
+			if_else_double(sort_envlst, envlst, tab[i]);
 	}
 }
 
-void	export_unset(t_list *lst, t_list *envlst, t_list *sort_envlst)
+void	export_unset(char **tab, t_list *envlst, t_list *sort_envlst)
 {
-	char	**tab;
-
-	tab = ft_split(lst->first->str, ' ');
 	if (ft_strcmp(tab[0], "export") == 0)
-		ft_export(lst, envlst, sort_envlst);
-	freetab(tab);
+		ft_export(tab, envlst, sort_envlst);
 }
