@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/13 15:39:48 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:52:49 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ int	main(int argc, char **argv, char **envp)
 		if (lst.len == 0)
 			continue ;
 		tab = parser(&lst, envp);
+		int	i = 0;
+		printf("JOINED TAB FROM LEXER = ");
+		while (tab[i])
+			printf("%s ", tab[i++]);
+		printf("\n");
 		export_unset(&lst, &envlst, &sort_envlst);
 		check_env(&envlst, line);
 		freelist(&lst);

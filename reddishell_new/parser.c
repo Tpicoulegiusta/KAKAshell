@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/13 15:45:14 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:57:07 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ char	**prep_exec(t_list *lst)
 	str = NULL;
 	while (tmp)
 	{
-		printf("node[%d] = %s\n", i, tmp->str);
+		printf("node[%d] = %s ()() TYPE = %d\n", i, tmp->str, tmp->type);
 		tmp->str = unquote(tmp->str);
 		str = joinfree(str, tmp->str);
 		if (tmp->space == 1)
@@ -160,7 +160,6 @@ char	**prep_exec(t_list *lst)
 		i++;
 	}
 	tab = ft_split(str, ' ');
-	printf("STR FROM PARSER = %s\n", str);
 	return (free(str), str = NULL, tab);
 }
 
@@ -173,7 +172,6 @@ char	**parser(t_list *lst, char **envp)
 	tmp = lst->first;
 	while (tmp)
 	{
-		printf("STR FROM LEXER = %s ()() TYPE = %d\n", tmp->str, tmp->type);
 		if (tmp != lst->last && tmp->str[0] == '$' && !tmp->str[1])
 		{
 			tmp2 = tmp;
@@ -190,5 +188,5 @@ char	**parser(t_list *lst, char **envp)
 		if (tmp)
 			tmp = tmp->next;
 	}
-	prep_exec(lst);
+	return (prep_exec(lst));
 }
