@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:29:46 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/12 13:16:03 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/13 11:16:31 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,23 @@ void	export_env(t_list *envlst, char	*str)
 			addnode(envlst, str);
 	}
 }
+
+void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str)
+{
+	if (check_tab(sort_envlst, str) == 1)  // means que c'est un doublon + add dans env
+	{
+		del_double(sort_envlst, str);
+		addnode(sort_envlst, str);
+		export_env(envlst, str);
+	}
+	else if (check_tab(sort_envlst, str) == 0) //pas de doublons
+	{
+		export_env(envlst, str);
+		addnode(sort_envlst, str);
+	}
+	//else il ya un doublon mais ne doit pas etre replaced, donc ne fait rien
+}
+
 //l'export dans toute sa grandeur
 void	ft_export(t_list *lst, t_list *envlst, t_list *sort_envlst)
 {
@@ -203,20 +220,15 @@ void	ft_export(t_list *lst, t_list *envlst, t_list *sort_envlst)
 	else
 	{
 		tmp = lst->first->next;
+		if ((tmp->str[0] >= 33 && tmp->str[0] <= 59)
+			|| tmp->str[0] == '=' || tmp->str[0] == '!' || tmp->str[0] == '?')
+		{
+			printf("EXPORT SYNTAX ERR\n");
+			return ;
+		}
 		while (tmp)
 		{
-			if (check_tab(sort_envlst, tmp->str) == 1)  // means que c'est un doublon + add dans env
-			{
-				del_double(sort_envlst, tmp->str);
-				addnode(sort_envlst, tmp->str);
-				export_env(envlst, tmp->str);
-			}
-			else if (check_tab(sort_envlst, tmp->str) == 0) //pas de doublons
-			{
-				export_env(envlst, tmp->str);
-				addnode(sort_envlst, tmp->str);
-			}
-			//else il ya un doublon mais ne doit pas etre replaced, donc ne fait rien
+			if_else_double(sort_envlst, envlst, tmp->str);
 			tmp = tmp->next;
 		}
 	}

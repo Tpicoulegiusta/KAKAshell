@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/12 13:07:16 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:07:58 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*venv_change(char *str, char **envp)
 			i++;
 			while (spe_char(str[i]) == 0 && str[i])
 				venv = joinfree2(venv, str[i++]);
-		//	printf("VENV = %s\n", venv);
+			printf("VENV = %s\n", venv);
 			venv = find_envline2(venv, envp);
 			ret = joinfree(ret, venv);
 			free(venv);
@@ -151,7 +151,7 @@ void	fake_exec(t_list *lst)
 	while (tmp)
 	{
 		printf("node[%d] = %s\n", i, tmp->str);
-		tmp->str = unquote(tmp->str);	
+		tmp->str = unquote(tmp->str);
 		str = joinfree(str, tmp->str);
 		if (tmp->space == 1)
 			str = joinfree2(str, ' ');
