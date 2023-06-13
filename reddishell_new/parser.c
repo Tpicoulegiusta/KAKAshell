@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/12 17:07:58 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:45:14 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*venv_change(char *str, char **envp)
 			i++;
 			while (spe_char(str[i]) == 0 && str[i])
 				venv = joinfree2(venv, str[i++]);
-			printf("VENV = %s\n", venv);
+			//printf("VENV = %s\n", venv);
 			venv = find_envline2(venv, envp);
 			ret = joinfree(ret, venv);
 			free(venv);
@@ -139,10 +139,11 @@ char	*unquote(char *str)
 	return (str);
 }
 
-void	fake_exec(t_list *lst)
+char	**prep_exec(t_list *lst)
 {
 	t_node	*tmp;
 	char	*str;
+	char	**tab;
 	int		i;
 
 	i = 1;
@@ -158,11 +159,13 @@ void	fake_exec(t_list *lst)
 		tmp = tmp->next;
 		i++;
 	}
+	tab = ft_split(str, ' ');
 	printf("STR FROM PARSER = %s\n", str);
+	return (free(str), str = NULL, tab);
 }
 
 //no need de gerer $$, $1, $2, $3, $#, $! etc...
-void	parser(t_list *lst, char **envp)
+char	**parser(t_list *lst, char **envp)
 {
 	t_node	*tmp;
 	t_node	*tmp2;
@@ -187,5 +190,5 @@ void	parser(t_list *lst, char **envp)
 		if (tmp)
 			tmp = tmp->next;
 	}
-	fake_exec(lst);
+	prep_exec(lst);
 }
