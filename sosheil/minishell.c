@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/12 15:11:55 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/14 11:29:59 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	main(int argc, char **argv, char **envp)
 	t_list	envlst;
 	char	*line;
 
-	(void)argc;
+	if (argc > 1)
+		return (1);
 	(void)argv;
 	ft_env_to_list(&envlst, envp);
 	while (1)
@@ -55,10 +56,15 @@ int	main(int argc, char **argv, char **envp)
 		if (checker(line) == 1)
 			return (freelist(&lst), printf("SYNTAX ERR\n"), 1);
 		lexer(&lst, line);
+		if (lst.len == 0)
+		{
+			free(line);
+			continue ;
+		}
 		parser(&lst, &envlst, envp);
 		freelist(&lst);
 		free(line);
-		system("leaks minishell");
+		//system("leaks minishell");
 	}
 	free(line);
 	return (0);
