@@ -12,6 +12,7 @@ NAME = minishell
 LIB_F = libft
 LIB = libft.a
 GCCFLG = gcc -Wall -Wextra -Werror -I minishell.h
+
 SRCS = minishell.c ft_ministrjoin.c ft_lists.c \
 		ft_lexer.c ft_freee.c \
 		ft_instant_error.c ft_utils.c \
@@ -19,23 +20,30 @@ SRCS = minishell.c ft_ministrjoin.c ft_lists.c \
 		ft_check_lexer.c ft_parser.c ft_pwd.c \
 		ft_cd.c ft_env_to_list.c \
 
-OBJS = $(SRCS:.c=.o)
+OBJ = ./objs
+
+OBJS = $(addprefix $(OBJ)/, ${SRCS:.c=.o})
 
 all: credit $(NAME)
 
 $(NAME): ${OBJS} $(LIB_F)/$(LIB)
 	@echo "$(GREEN)Minishell is up to date!${DEFAULT}"
-	@$(GCCFLG) $(OBJS) $(LIB_F)/$(LIB) -o $(NAME) -lreadline
+	@$(GCCFLG) $(LIB_F)/$(LIB) -o $(NAME) $(OBJS) -lreadline
 
 $(LIB_F)/$(LIB):
 	@make -C $(LIB_F)
 
+$(OBJ)/%.o: ./%.c
+	@mkdir -p ${OBJ}
+	@$(GCCFLG) -c $< -o $@
+
 clean:
-	@rm -rf $(OBJS)
+	@rm -rf $(OBJ)
+	@make clean -C $(LIB_F)
 	@echo "${RED}Making Clean 🗑️${DEFAULT}"
 
 fclean:
-	@rm -rf $(OBJS)
+	@rm -rf $(OBJ)
 	@rm -rf $(NAME)
 	@make fclean -C $(LIB_F)
 	@echo "${RED}Making Fclean 🗑️${DEFAULT}"

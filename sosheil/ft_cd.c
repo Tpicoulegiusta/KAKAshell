@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/13 11:45:23 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/14 15:16:43 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_shyvana(t_list *envlst)
 {
-	t_node	*tmp;
+	// t_node	*tmp;
 
 	if (envlst->pwd->str != NULL)
 		free(envlst->pwd->str);
@@ -76,7 +76,7 @@ void	another_check(t_list *lst, t_list *envlst, t_node *tmp)
 		&& (tmp->str[2] == '\0' || tmp->str[2] == ' '))
 	{
 		if (lst->len > 2)
-			if (tmp->next->next->type == piperino)
+			if (tmp->next->next->type == 1)
 				return ;
 		if (envlst->oldpwd == NULL || envlst->pwd == NULL)
 			init_envpwd(envlst);
