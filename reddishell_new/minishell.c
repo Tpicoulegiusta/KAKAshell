@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/15 11:07:30 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/15 14:27:09 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 		if (enter_check(line) != 0)
 			continue ;
 		if (checker(line) == 1)
-			return (freelist(&lst), printf("SYNTAX ERR\n"), 1);
+			return (freelist(&lst), freelist(&envlst), freelist(&sort_envlst), printf("SYNTAX ERR\n"), 1);
 		lexer(&lst, line);
 		if (lst.len == 0)
 			continue ;
@@ -78,12 +78,13 @@ int	main(int argc, char **argv, char **envp)
 		while (tab[i])
 			printf("%s ", tab[i++]);
 		printf("\n");
-		export_unset(tab, &envlst, &sort_envlst);
-		check_env(&envlst, line);
+		executor(tab, &envlst, &sort_envlst);
 		freelist(&lst);
 		freetab(tab);
 		free(line);
 	}
+	freelist(&envlst);
+	freelist(&sort_envlst);
 	free(line);
 	return (0);
 }

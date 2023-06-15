@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/15 10:34:01 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/15 12:00:38 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ char	**prep_exec(t_list *lst)
 	str = NULL;
 	while (tmp)
 	{
-		printf("node[%d] = %s ()() TYPE = %d\n", i, tmp->str, tmp->type);
+		printf("node[%d] = %s ()() TYPE = %d ()() SPACE? = %d\n", i, tmp->str, tmp->type, tmp->space);
 		tmp->str = unquote(tmp->str);
 		str = joinfree(str, tmp->str);
 		if (tmp->space == 1)

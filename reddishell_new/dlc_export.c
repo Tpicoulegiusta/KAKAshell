@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:29:46 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/15 11:01:24 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:10:53 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_strcmp(char *s1, char *s2)
 	int	i;
 
 	if (!s1 || !s2)
-		return (0);
+		return (-1);
 	i = 0;
 	while (s1[i] || s2[i])
 	{
@@ -217,25 +217,24 @@ int	spe_char_exp_uns(char c)
 }
 
 //l'export dans toute sa grandeur
-void	ft_export(char **tab, t_list *envlst, t_list *sort_envlst)
+void	ft_export(char **tab, int *i, t_list *envlst, t_list *sort_envlst)
 {
-	int	i;
-
-	i = 0;
-	if (!tab[1])
+	if (!tab[*i + 1])
 	{
 		sort_lst(sort_envlst);
 		print_export(sort_envlst);
+		puts("PRINT EXPORT");
 	}
 	else
 	{
-		if (spe_char_exp_uns(tab[1][0]) == 1)
+		if (spe_char_exp_uns(tab[*i + 1][0]) == 1)
 		{
 			printf("EXPORT SYNTAX ERR\n");
 			return ;
 		}
-		while (tab[++i])
-			if_else_double(sort_envlst, envlst, tab[i]);
+		puts("BEFORE WHILE");
+		while (tab[++(*i)])
+			if_else_double(sort_envlst, envlst, tab[*i]);
 	}
 }
 
@@ -266,26 +265,23 @@ void	search_and_del(t_list *envlst, t_list *sort_envlst, char *str)
 	}
 }
 
-void	ft_unset(char **tab, t_list *envlst, t_list *sort_envlst)
+void	ft_unset(char **tab, int *i, t_list *envlst, t_list *sort_envlst)
 {
-	int	i;
-
-	i = 0;
-	if (!tab[1])
+	if (!tab[*i + 1])
 		return ;
-	if (spe_char_exp_uns(tab[1][0]) == 1)
+	if (spe_char_exp_uns(tab[*i + 1][0]) == 1)
 	{
 		printf("UNSET SYNTAX ERR\n");
 		return ;
 	}
-	while (tab[++i])
-		search_and_del(envlst, sort_envlst, tab[i]);
+	while (tab[++(*i)])
+		search_and_del(envlst, sort_envlst, tab[*i]);
 }
 
-void	export_unset(char **tab, t_list *envlst, t_list *sort_envlst)
+void	export_unset(char **tab, int *i, t_list *envlst, t_list *sort_envlst)
 {
-	if (ft_strcmp(tab[0], "export") == 0)
-		ft_export(tab, envlst, sort_envlst);
-	if (ft_strcmp(tab[0], "unset") == 0)
-		ft_unset(tab, envlst, sort_envlst);
+	if (ft_strcmp(tab[*i], "export") == 0)
+		ft_export(tab, i, envlst, sort_envlst);
+	if (ft_strcmp(tab[*i], "unset") == 0)
+		ft_unset(tab, i, envlst, sort_envlst);
 }

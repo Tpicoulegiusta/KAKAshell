@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dlc_env.c                                          :+:      :+:    :+:   */
+/*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 11:23:28 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/15 15:10:22 by rbulanad         ###   ########.fr       */
+/*   Created: 2023/06/15 11:15:47 by rbulanad          #+#    #+#             */
+/*   Updated: 2023/06/15 15:11:30 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env(t_list *envlst)
+int		check_builtins(char *str)
 {
-	t_node	*tmp;
-
-	tmp = envlst->first;
-	while (tmp)
-	{
-		printf("%s\n", tmp->str);
-		tmp = tmp->next;
-	}
+	if (ft_strcmp(str, "export") == 0 || ft_strcmp(str, "unset") == 0
+		|| ft_strcmp(str, "env") == 0)
+		return (1);
+	return (0);
 }
 
-void	check_env(t_list *envlst, char **tab, int *i)
+void	executor(char **tab, t_list *envlst, t_list *sort_envlst)
 {
-	if (ft_strcmp(tab[*i], "env") == 0)
+	int	i;
+
+	i = 0;
+	while (tab[i])
 	{
-		if (tab[*i + 1])
-			printf("ENV ERROR\n");
-		else
-			print_env(envlst);
+		if (check_builtins(tab[i]) == 1)
+		{
+			export_unset(tab, &i, envlst, sort_envlst);
+			check_env(envlst, tab, &i);
+		}
+		if (tab[i])
+			i++;
 	}
 }
