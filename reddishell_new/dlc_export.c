@@ -223,18 +223,19 @@ void	ft_export(char **tab, int *i, t_list *envlst, t_list *sort_envlst)
 	{
 		sort_lst(sort_envlst);
 		print_export(sort_envlst);
-		puts("PRINT EXPORT");
 	}
 	else
 	{
-		if (spe_char_exp_uns(tab[*i + 1][0]) == 1)
-		{
-			printf("EXPORT SYNTAX ERR\n");
-			return ;
-		}
-		puts("BEFORE WHILE");
 		while (tab[++(*i)])
-			if_else_double(sort_envlst, envlst, tab[*i]);
+		{
+			if (spe_char_exp_uns(tab[*i][0]) == 1)
+			{
+				printf("EXPORT SYNTAX ERR\n");
+				(*i)++;
+			}
+			if (tab[*i])
+				if_else_double(sort_envlst, envlst, tab[*i]);
+		}
 	}
 }
 
@@ -256,12 +257,12 @@ void	search_and_del(t_list *envlst, t_list *sort_envlst, char *str)
 	tmp = sort_envlst->first;
 	while (tmp)
 	{
-		cutstr = NULL;
-		cutstr = cutter(tmp->str);
-		if (ft_strcmp(cutstr, str) == 0)
-			delnode(sort_envlst, tmp);
-		tmp = tmp->next;
-		free(cutstr);
+	    cutstr = NULL;
+	    cutstr = cutter(tmp->str);
+	    if (ft_strcmp(cutstr, str) == 0)
+		delnode(sort_envlst, tmp);
+	    tmp = tmp->next;
+	    free(cutstr);
 	}
 }
 
@@ -269,13 +270,18 @@ void	ft_unset(char **tab, int *i, t_list *envlst, t_list *sort_envlst)
 {
 	if (!tab[*i + 1])
 		return ;
-	if (spe_char_exp_uns(tab[*i + 1][0]) == 1)
-	{
-		printf("UNSET SYNTAX ERR\n");
-		return ;
-	}
 	while (tab[++(*i)])
-		search_and_del(envlst, sort_envlst, tab[*i]);
+	{
+		puts("BOUCLE");
+	    if (spe_char_exp_uns(tab[*i][0]) == 1)
+	    {
+		    printf("UNSET SYNTAX ERR\n");
+			(*i)++;
+	    }
+		if (!tab[*i])
+			break ;
+	    search_and_del(envlst, sort_envlst, tab[*i]);
+	}
 }
 
 void	export_unset(char **tab, int *i, t_list *envlst, t_list *sort_envlst)
