@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/08 12:41:13 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:18:04 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,19 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <dirent.h>
+# include <fcntl.h>
+# include <sys/types.h>
+# include <signal.h>
+# include <limits.h>
+# include <termios.h>
+# include <dirent.h>
+# include <sys/stat.h>
+# include <sys/ioctl.h>
+# include <sys/param.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # define NAME "\e[0;94mPROMPETEUH% \e[0;97m"
-# define BUFFER_SIZE 100
 
 //RR = right redir, LR = left redir
 enum	e_tok{str, piperino, rr, lr, cmd, venv};

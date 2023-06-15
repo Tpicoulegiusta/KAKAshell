@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 11:34:18 by tpicoule          #+#    #+#             */
-/*   Updated: 2023/06/14 15:16:31 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/15 11:10:20 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	ft_daeja(t_list *envlst)
 {
-	// t_node	*tmp;
-// 
 	if (envlst->pwd->str != NULL)
 		free(envlst->pwd->str);
 	envlst->pwd->str = ft_ministrchr(envlst->pwd->str, '=');

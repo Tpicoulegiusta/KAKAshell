@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/14 15:16:43 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/15 15:11:56 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	ft_shyvana(t_list *envlst)
 {
-	// t_node	*tmp;
-
 	if (envlst->pwd->str != NULL)
 		free(envlst->pwd->str);
 	envlst->pwd->str = ft_ministrchr(envlst->pwd->str, '=');
@@ -51,22 +49,24 @@ void	init_envpwd(t_list *envlst)
 
 void	ft_do_cd(t_node *tmp, t_node *pwd)
 {
-	char	s[BUFFER_SIZE];
+	char	*s;
 
+	s = malloc(sizeof(char) * (MAXPATHLEN + 1));
 	if (ft_strcmp(tmp->next->str, ".") == 0)
 		return ;
 	else if (ft_strcmp(tmp->next->str, "..") == 0)
 	{
 		chdir("..");
 		free(pwd->str);
-		pwd->str = ft_strdup(getcwd(s, BUFFER_SIZE));
+		pwd->str = ft_strdup(getcwd(s, MAXPATHLEN));
 	}
 	else
 	{
 		chdir(tmp->next->str);
 		free(pwd->str);
-		pwd->str = ft_strdup(getcwd(s, BUFFER_SIZE));
+		pwd->str = ft_strdup(getcwd(s, MAXPATHLEN));
 	}
+	free(s);
 	return ;
 }
 
