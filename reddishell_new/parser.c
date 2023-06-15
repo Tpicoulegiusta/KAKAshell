@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/13 18:13:59 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/15 10:34:01 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ char	**prep_exec(t_list *lst)
 	char	**tab;
 	int		i;
 
-	i = 1;
+	i = 0;
 	tmp = lst->first;
 	str = NULL;
 	while (tmp)

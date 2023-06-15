@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:29:46 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/13 17:59:28 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:01:24 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,22 +207,29 @@ void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str)
 	//else il ya un doublon mais ne doit pas etre replaced, donc ne fait rien
 }
 
+int	spe_char_exp_uns(char c)
+{
+	if ((c >= 37 && c <= 59)
+		|| c == '=' || c == '!' || c == '?'
+		|| c == '!' || c == '\"' || c == '#')
+		return (1);
+	return (0);
+}
+
 //l'export dans toute sa grandeur
 void	ft_export(char **tab, t_list *envlst, t_list *sort_envlst)
 {
 	int	i;
 
 	i = 0;
-	if (!tab[1]) //export sans arguments
+	if (!tab[1])
 	{
 		sort_lst(sort_envlst);
 		print_export(sort_envlst);
 	}
 	else
 	{
-		if ((tab[1][0] >= 37 && tab[1][0] <= 59)
-			|| tab[1][0] == '=' || tab[1][0] == '!' || tab[1][0] == '?'
-			|| tab[1][0] == '!' || tab[1][0] == '\"' || tab[1][0] == '#')
+		if (spe_char_exp_uns(tab[1][0]) == 1)
 		{
 			printf("EXPORT SYNTAX ERR\n");
 			return ;
@@ -232,8 +239,53 @@ void	ft_export(char **tab, t_list *envlst, t_list *sort_envlst)
 	}
 }
 
+void	search_and_del(t_list *envlst, t_list *sort_envlst, char *str)
+{
+	t_node	*tmp;
+	char	*cutstr;
+
+	tmp = envlst->first;
+	while (tmp)
+	{
+		cutstr = NULL;
+		cutstr = cutter(tmp->str);
+		if (ft_strcmp(cutstr, str) == 0)
+			delnode(envlst, tmp);
+		tmp = tmp->next;
+		free(cutstr);
+	}
+	tmp = sort_envlst->first;
+	while (tmp)
+	{
+		cutstr = NULL;
+		cutstr = cutter(tmp->str);
+		if (ft_strcmp(cutstr, str) == 0)
+			delnode(sort_envlst, tmp);
+		tmp = tmp->next;
+		free(cutstr);
+	}
+}
+
+void	ft_unset(char **tab, t_list *envlst, t_list *sort_envlst)
+{
+	int	i;
+
+	i = 0;
+	if (!tab[1])
+		return ;
+	if (spe_char_exp_uns(tab[1][0]) == 1)
+	{
+		printf("UNSET SYNTAX ERR\n");
+		return ;
+	}
+	while (tab[++i])
+		search_and_del(envlst, sort_envlst, tab[i]);
+}
+
 void	export_unset(char **tab, t_list *envlst, t_list *sort_envlst)
 {
 	if (ft_strcmp(tab[0], "export") == 0)
 		ft_export(tab, envlst, sort_envlst);
+	if (ft_strcmp(tab[0], "unset") == 0)
+		ft_unset(tab, envlst, sort_envlst);
 }
