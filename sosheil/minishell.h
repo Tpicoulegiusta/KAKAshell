@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/15 11:18:04 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/16 14:05:41 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	free_execve(t_data *data);
 char	*substr2(char *s, int start, int end);
 char	*ft_ministrrchr(char *s, char c);
 char	*ft_ministrchr(char *s, char c);
+t_node	*find_node(char *key, t_list *env);
 
 //////// LIST ///////////////////////////
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:33:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/08 12:09:47 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/06/16 15:00:27 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,11 +165,13 @@ void	parser(t_list *lst, t_list *envlst, char **envp)
 	t_node	*tmp2;
 
 	tmp = lst->first;
-	another_check(lst, envlst, tmp);
 	while (tmp)
 	{
 		printf("STR FROM LEXER = %s ()() TYPE = %d\n", tmp->str, tmp->type);
-		other_check(tmp, envlst);
+		if (ft_strncmp("cd", tmp->str, 2) == 0)
+			another_check(lst, envlst, tmp);
+		if (ft_strncmp("pwd", tmp->str, 3) == 0)
+			other_check(tmp, envlst);
 		if (tmp != lst->last && tmp->str[0] == '$' && !tmp->str[1])
 		{
 			tmp2 = tmp;
