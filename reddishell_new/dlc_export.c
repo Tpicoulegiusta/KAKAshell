@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:29:46 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/15 15:10:53 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:30:08 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,6 @@ void	ft_unset(char **tab, int *i, t_list *envlst, t_list *sort_envlst)
 		return ;
 	while (tab[++(*i)])
 	{
-		puts("BOUCLE");
 	    if (spe_char_exp_uns(tab[*i][0]) == 1)
 	    {
 		    printf("UNSET SYNTAX ERR\n");

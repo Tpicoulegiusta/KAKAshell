@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/15 14:30:16 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/16 14:12:03 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct s_data
 
 ///////// UTILS /////////////////////////
 
-char	*getpath(char **envp, char *cmd);
 char	**ft_quote_split(char *str, char sep);
 char	*joinfree(char *s1, char *s2);
 char	*joinfree2(char *s1, char c);
@@ -88,7 +87,7 @@ void	check_env(t_list *envlst, char **tab, int *i);
 
 //////// EXEC //////////////////////////
 
-void	executor(char **tab, t_list *envlst, t_list *sort_envlst);
+void	executor(char **tab, t_list *envlst, t_list *sort_envlst, char **envp);
 
 //////// CHECKER ////////////////////////
 

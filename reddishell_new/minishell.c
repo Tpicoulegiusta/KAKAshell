@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/15 14:27:09 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/16 14:08:11 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int argc, char **argv, char **envp)
 		while (tab[i])
 			printf("%s ", tab[i++]);
 		printf("\n");
-		executor(tab, &envlst, &sort_envlst);
+		executor(tab, &envlst, &sort_envlst, envp);
 		freelist(&lst);
 		freetab(tab);
 		free(line);
