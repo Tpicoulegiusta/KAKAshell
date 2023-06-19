@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/16 14:08:11 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:33:29 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	main(int argc, char **argv, char **envp)
 	t_list	envlst;
 	t_list	sort_envlst;
 	char	*line;
-	char	**tab;
 
 	(void)argc;
 	(void)argv;
@@ -70,17 +69,11 @@ int	main(int argc, char **argv, char **envp)
 		lexer(&lst, line);
 		if (lst.len == 0)
 			continue ;
-		tab = parser(&lst, &envlst);
-		if (!tab[0])
+		parser(&lst, &envlst);
+		if (!lst.first)
 			continue ;
-		int i = 0;
-		printf("JOINED TAB FROM LEXER = ");
-		while (tab[i])
-			printf("%s ", tab[i++]);
-		printf("\n");
-		executor(tab, &envlst, &sort_envlst, envp);
+		executor(&lst, &envlst, &sort_envlst, envp);
 		freelist(&lst);
-		freetab(tab);
 		free(line);
 	}
 	freelist(&envlst);

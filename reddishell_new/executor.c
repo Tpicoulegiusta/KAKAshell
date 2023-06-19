@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:15:47 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/16 15:40:55 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:54:46 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,61 +59,79 @@ char	*getpath(char *cmd, t_list *envlst)
 	return (path);
 }
 
-char	**subtab(char **tab, int start, int end)
+char	*absolutepath(char *cmd)
+{
+	if (access(cmd, F_OK) == 0)
+		return (cmd);
+	return (free(cmd), NULL);
+}
+
+char	*path_check(char *cmd, t_list *envlst)
+{
+	if (cmd[0] == '/')
+		return (absolutepath(cmd));
+	else
+		return (getpath(cmd, envlst));
+}
+
+char	**lst_to_tab(t_node *node, int moves)
 {
 	char 	*join;
 	char	**ret;
 
 	join = NULL;
-	if (start == end)
+	if (moves == 0)
 	{
-		join = joinfree(join, tab[start]);
+		join = joinfree(join, node->str);
 		ret = ft_split(join, ' ');
 		return (free(join), ret);
 	}
-	while (start <= end)
+	while (moves >= 0)
 	{
-		join = joinfree(join, tab[start]);
+		join = joinfree(join, node->str);
 		join = joinfree2(join, ' ');
-		start++;
+		moves--;
 	}
 	ret = ft_split(join, ' ');
 	return (free(join), ret);
 }
 
-void	executor(char **tab, t_list *envlst, t_list *sort_envlst, char **envp)
+void	executor(t_list *lst, t_list *envlst, t_list *sort_envlst, char **envp)
 {
-	int		i;
-	int		start;
 	char	*argpath;
 	char	**tabexec;
+	t_node	*tmp;
+	int		moves;
 	int		pid;
 
-	i = 0;
-	while (tab[i])
+	tmp = lst->first;
+	while (tmp)
 	{
 		argpath = NULL;
-		if (check_builtins(tab[i]) == 1)
+		if (check_builtins(tmp->str) == 1)
 		{
-			export_unset(tab, &i, envlst, sort_envlst);
-			check_env(envlst, tab, &i);
+			export_unset(tmp, envlst, sort_envlst);
+			check_env(envlst, tmp);
 		}
 		else
 		{
-			argpath = getpath(tab[i], envlst);
+			argpath = path_check(tmp->str, envlst);
 			if (argpath)
 			{
-				start = i;
-				while (tab[i + 1] && tab[i + 1][0] == '-')
-					i++;
-				tabexec = subtab(tab, start, i);
+				moves = 0;
+				while (tmp->next && tmp->next->str[0] == '-')
+				{
+					moves++;
+					tmp = tmp->next;
+				}
+				tabexec = lst_to_tab(tmp, moves);
 				pid = fork();
 				if (pid == 0)
 					execve(argpath, tabexec, envp);
 				waitpid(pid, NULL, 0);
 			}
 		}
-		if (tab[i])
-			i++;
+		if (tmp)
+			tmp = tmp->next;
 	}
 }

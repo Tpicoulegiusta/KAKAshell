@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/16 14:12:03 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:02:12 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ void	free_execve(t_data *data);
 char	*substr2(char *s, int start, int end);
 char	**ft_split(char *s, char c);
 int		ft_strcmp(char *s1, char *s2);
+int		ft_find(char *str, char *search);
+int		spe_char(char c);
+char	*absolutepath(char *cmd);
+char	*getpath(char *cmd, t_list *envlst);
 
 //////// LIST ///////////////////////////
 
@@ -76,18 +80,19 @@ void	tokenizer(t_list *lst);
 
 //////// PARSER ////////////////////////
 
-char	**parser(t_list *lst, t_list *envlst);
+void	parser(t_list *lst, t_list *envlst);
 char	*ft_pathjoin(char *s1, char *s2);
 char	*find_envline(char **envp, char *search);
+void	dollaz(t_list *lst, t_list *envlst);
 
 //////// BUILTINS //////////////////////
 
-void	export_unset(char **tab, int *i, t_list *envlst, t_list *sort_envlst);
-void	check_env(t_list *envlst, char **tab, int *i);
+void	export_unset(t_node *node, t_list *envlst, t_list *sort_envlst);
+void	check_env(t_list *envlst, t_node *node);
 
 //////// EXEC //////////////////////////
 
-void	executor(char **tab, t_list *envlst, t_list *sort_envlst, char **envp);
+void	executor(t_list *lst, t_list *envlst, t_list *sort_envlst, char **envp);
 
 //////// CHECKER ////////////////////////
 

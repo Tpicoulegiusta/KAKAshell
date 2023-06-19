@@ -6,7 +6,7 @@
 #    By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/10 09:39:45 by rbulanad          #+#    #+#              #
-#    Updated: 2023/06/15 11:18:44 by rbulanad         ###   ########.fr        #
+#    Updated: 2023/06/19 12:17:20 by rbulanad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SOURCES		= minishell.c \
 			  env_to_lst.c \
 			  dlc_export.c \
 			  dlc_env.c	\
-			  executor.c
+			  executor.c \
+			  var_env.c
 OBJECTS		= ${SOURCES:.c=.o}
 RM		= rm -f
 CC		= gcc

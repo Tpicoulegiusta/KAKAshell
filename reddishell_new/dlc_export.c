@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:29:46 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/16 11:30:08 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:02:33 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,24 +217,28 @@ int	spe_char_exp_uns(char c)
 }
 
 //l'export dans toute sa grandeur
-void	ft_export(char **tab, int *i, t_list *envlst, t_list *sort_envlst)
+void	ft_export(t_node *node, t_list *envlst, t_list *sort_envlst)
 {
-	if (!tab[*i + 1])
+	if (!node->next)
 	{
 		sort_lst(sort_envlst);
 		print_export(sort_envlst);
 	}
 	else
 	{
-		while (tab[++(*i)])
+		node = node->next;
+		while (node)
 		{
-			if (spe_char_exp_uns(tab[*i][0]) == 1)
+			if (spe_char_exp_uns(node->str[0]) == 1)
 			{
 				printf("EXPORT SYNTAX ERR\n");
-				(*i)++;
+				node = node->next;
 			}
-			if (tab[*i])
-				if_else_double(sort_envlst, envlst, tab[*i]);
+			if (node)
+			{
+				if_else_double(sort_envlst, envlst, node->str);
+				node = node->next;
+			}
 		}
 	}
 }
@@ -266,27 +270,30 @@ void	search_and_del(t_list *envlst, t_list *sort_envlst, char *str)
 	}
 }
 
-void	ft_unset(char **tab, int *i, t_list *envlst, t_list *sort_envlst)
+void	ft_unset(t_node *node, t_list *envlst, t_list *sort_envlst)
 {
-	if (!tab[*i + 1])
+	if (!node->next)
 		return ;
-	while (tab[++(*i)])
+	node = node->next;
+	while (node)
 	{
-	    if (spe_char_exp_uns(tab[*i][0]) == 1)
+	    if (spe_char_exp_uns(node->str[0]) == 1)
 	    {
 		    printf("UNSET SYNTAX ERR\n");
-			(*i)++;
+			node = node->next;
+			continue ;
 	    }
-		if (!tab[*i])
+		if (!node)
 			break ;
-	    search_and_del(envlst, sort_envlst, tab[*i]);
+	    search_and_del(envlst, sort_envlst, node->str);
+		node = node->next;
 	}
 }
 
-void	export_unset(char **tab, int *i, t_list *envlst, t_list *sort_envlst)
+void	export_unset(t_node *node, t_list *envlst, t_list *sort_envlst)
 {
-	if (ft_strcmp(tab[*i], "export") == 0)
-		ft_export(tab, i, envlst, sort_envlst);
-	if (ft_strcmp(tab[*i], "unset") == 0)
-		ft_unset(tab, i, envlst, sort_envlst);
+	if (ft_strcmp(node->str, "export") == 0)
+		ft_export(node, envlst, sort_envlst);
+	if (ft_strcmp(node->str, "unset") == 0)
+		ft_unset(node, envlst, sort_envlst);
 }
