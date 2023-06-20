@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/19 17:17:10 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:03:31 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	unquoter(t_list *lst)
 	tmp = lst->first;
 	while (tmp)
 	{
-		tmp->str = unquote(tmp->str);
+		if (tmp->type != venv)
+			tmp->str = unquote(tmp->str);
 		tmp = tmp->next;
 		i++;
 	}

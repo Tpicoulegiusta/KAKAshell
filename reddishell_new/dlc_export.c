@@ -5,8 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/20 12:58:54 by rbulanad          #+#    #+#             */
+/*   Updated: 2023/06/20 13:54:54 by rbulanad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dlc_export.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/20 12:58:54 by rbulanad          #+#    #+#             */
+/*   Updated: 2023/06/20 12:58:54 by rbulanad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dlc_export.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:29:46 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/19 16:02:33 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:53:56 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +85,7 @@ int	ft_find_char(char *str, char c)
 	return (0);
 }
 //le chercheur de doublons
-int	check_tab(t_list *sort_envlst, char *str)
+int	check_double(t_list *sort_envlst, char *str)
 {
 	t_node *tmp;
 	char	*cut1;
@@ -181,25 +205,25 @@ void	export_env(t_list *envlst, char	*str)
 {
 	if (ft_find_char(str, '=') == 1)
 	{
-		if (check_tab(envlst, str) == 1)
+		if (check_double(envlst, str) == 1)
 		{
 			del_double(envlst, str);
 			addnode(envlst, str);
 		}
-		else if (check_tab(envlst, str) == 0)
+		else if (check_double(envlst, str) == 0)
 			addnode(envlst, str);
 	}
 }
 
 void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str)
 {
-	if (check_tab(sort_envlst, str) == 1)  // means que c'est un doublon + add dans env
+	if (check_double(sort_envlst, str) == 1)  // means que c'est un doublon + add dans env
 	{
 		del_double(sort_envlst, str);
 		addnode(sort_envlst, str);
 		export_env(envlst, str);
 	}
-	else if (check_tab(sort_envlst, str) == 0) //pas de doublons
+	else if (check_double(sort_envlst, str) == 0) //pas de doublons
 	{
 		export_env(envlst, str);
 		addnode(sort_envlst, str);
@@ -211,14 +235,48 @@ int	spe_char_exp_uns(char c)
 {
 	if ((c >= 37 && c <= 59)
 		|| c == '=' || c == '!' || c == '?'
-		|| c == '!' || c == '\"' || c == '#')
+		|| c == '\"' || c == '#')
 		return (1);
 	return (0);
+}
+
+int	is_pipe_redir(char c)
+{
+	if (c == '|' || c == '>' || c == '<')
+		return (1);
+	return (0);
+}
+
+char	**node_tab_setter(t_node *node)
+{
+	t_node	*tmp;
+	char	*join;
+
+	tmp = node;
+	join = NULL;
+	while (node)
+	{
+		if (is_pipe_redir(node->str[0]) == 1)
+			break;
+		node = node->next;
+	}
+	while (tmp && is_pipe_redir(tmp->str[0]) == 0)
+	{
+		join = joinfree(join, tmp->str);
+		if (tmp->space == 1)
+			join = joinfree2(join, ' ');
+		tmp = tmp->next;
+	}
+	char **tab = ft_split(join, ' ');
+	return (free(join), tab );
 }
 
 //l'export dans toute sa grandeur
 void	ft_export(t_node *node, t_list *envlst, t_list *sort_envlst)
 {
+	char	**tmptab;
+	int		i;
+	
 	if (!node->next)
 	{
 		sort_lst(sort_envlst);
@@ -226,20 +284,20 @@ void	ft_export(t_node *node, t_list *envlst, t_list *sort_envlst)
 	}
 	else
 	{
-		node = node->next;
-		while (node)
+		tmptab= node_tab_setter(node);
+
+		i = 1;
+		while (tmptab[i])
 		{
-			if (spe_char_exp_uns(node->str[0]) == 1)
+			if (spe_char_exp_uns(tmptab[i][0]) == 1)
 			{
 				printf("EXPORT SYNTAX ERR\n");
-				node = node->next;
+				i++;
 			}
-			if (node)
-			{
-				if_else_double(sort_envlst, envlst, node->str);
-				node = node->next;
-			}
+			if (tmptab[i])
+				if_else_double(sort_envlst, envlst, tmptab[i++]);
 		}
+		free(tmptab);
 	}
 }
 
@@ -275,7 +333,7 @@ void	ft_unset(t_node *node, t_list *envlst, t_list *sort_envlst)
 	if (!node->next)
 		return ;
 	node = node->next;
-	while (node)
+	while (node && is_pipe_redir(node->str[0]) == 0)
 	{
 	    if (spe_char_exp_uns(node->str[0]) == 1)
 	    {
