@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/19 17:02:12 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:13:39 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define NAME "turboshell% "
 
 //RR = right redir, LR = left redir
-enum	e_tok{str, piperino, rr, lr, cmd, venv};
+enum	e_tok{str, piperino, rr, lr, cmd, venv, builtin};
 
 typedef struct s_node
 {
@@ -80,7 +80,7 @@ void	tokenizer(t_list *lst);
 
 //////// PARSER ////////////////////////
 
-void	parser(t_list *lst, t_list *envlst);
+int		parser(t_list *lst, t_list *envlst);
 char	*ft_pathjoin(char *s1, char *s2);
 char	*find_envline(char **envp, char *search);
 void	dollaz(t_list *lst, t_list *envlst);

@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/19 14:33:29 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:45:01 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,12 @@ int	main(int argc, char **argv, char **envp)
 		lexer(&lst, line);
 		if (lst.len == 0)
 			continue ;
-		parser(&lst, &envlst);
+		if (parser(&lst, &envlst) == 1)
+		{
+			freelist(&lst);
+			printf("command not found\n");
+			continue ;
+		}
 		if (!lst.first)
 			continue ;
 		executor(&lst, &envlst, &sort_envlst, envp);

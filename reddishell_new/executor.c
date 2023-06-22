@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:15:47 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/19 16:54:46 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:27:22 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*getpath(char *cmd, t_list *envlst)
 	envcpy = substr2(tmp->str, 5, len(tmp->str));
 	allpaths = ft_split(envcpy, ':');
 	path = checkaccess(allpaths, cmd);
+	printf("path = %s\n", path);
 	if (!path)
 		return (NULL);
 	return (path);
