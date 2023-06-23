@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:33:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/16 15:00:27 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/23 10:23:54 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,10 +168,17 @@ void	parser(t_list *lst, t_list *envlst, char **envp)
 	while (tmp)
 	{
 		printf("STR FROM LEXER = %s ()() TYPE = %d\n", tmp->str, tmp->type);
-		if (ft_strncmp("cd", tmp->str, 2) == 0)
-			another_check(lst, envlst, tmp);
-		if (ft_strncmp("pwd", tmp->str, 3) == 0)
+		if (!ft_strncmp("pwd", tmp->str, 3)
+			|| !ft_strncmp("\"pwd\"", tmp->str, 5))
 			other_check(tmp, envlst);
+		if (!ft_strncmp("cd", tmp->str, 2) || !ft_strncmp("\"cd\"", tmp->str, 4))
+			another_check(envlst, tmp);
+		if (!ft_strncmp("echo", tmp->str, 4)
+			|| !ft_strncmp("\"echo\"", tmp->str, 6))
+			and_another_check(tmp);
+		if (!ft_strncmp(tmp->str, "exit", 4)
+			|| !ft_strncmp(tmp->str, "\"exit\"", 6))
+			ft_built_exit(tmp->next);
 		if (tmp != lst->last && tmp->str[0] == '$' && !tmp->str[1])
 		{
 			tmp2 = tmp;
@@ -189,5 +196,4 @@ void	parser(t_list *lst, t_list *envlst, char **envp)
 			tmp = tmp->next;
 	}
 	print_lst(lst);
-	//fake_exec(lst);
 }

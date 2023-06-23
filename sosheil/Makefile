@@ -18,7 +18,8 @@ SRCS = minishell.c ft_ministrjoin.c ft_lists.c \
 		ft_instant_error.c ft_utils.c \
 		ft_redir_checks.c ft_instant_error2.c \
 		ft_check_lexer.c ft_parser.c ft_pwd.c \
-		ft_cd.c ft_env_to_list.c \
+		ft_cd.c ft_env_to_list.c ft_built_exit.c \
+		ft_echo.c \
 
 OBJ = ./objs
 

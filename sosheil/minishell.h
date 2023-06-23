@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/16 14:05:41 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/23 12:14:15 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <readline/history.h>
 # define NAME "\e[0;94mPROMPETEUH% \e[0;97m"
 
-//RR = right redir, LR = left redir
+//rr = right redir, lr = left redir
 enum	e_tok{str, piperino, rr, lr, cmd, venv};
 
 typedef struct s_node
@@ -57,6 +57,7 @@ typedef struct s_data
 
 char	*getpath(char **envp, char *cmd);
 char	**ft_minisplit(char *s, char c);
+char	*ft_ministrjoin(char *s1, char *s2);
 char	*joinfree(char *s1, char *s2);
 char	*joinfree2(char *s1, char c);
 void	freetab(char **tab, int i);
@@ -90,7 +91,9 @@ void	parser(t_list *lst, t_list *envlst, char **envp);
 char	*ft_pathjoin(char *s1, char *s2);
 char	*find_envline(char **envp, char *search);
 void	other_check(t_node *tmp, t_list *envlst);
-void	another_check(t_list *lst, t_list *envlst, t_node *tmp);
+void	another_check(t_list *envlst, t_node *tmp);
+void	and_another_check(t_node *tmp);
+void	ft_built_exit(t_node *tmp);
 
 //////// EXEC //////////////////////////
 
