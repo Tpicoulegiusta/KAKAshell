@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/23 14:32:25 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/26 10:45:03 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int argc, char **argv, char **envp)
 		parser(&lst, &envlst, envp);
 		freelist(&lst);
 		free(line);
-		system("leaks minishell");
+		//system("leaks minishell");
 	}
 	free(line);
 	return (0);
