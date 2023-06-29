@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/28 17:45:35 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/29 13:42:55 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,15 +126,17 @@ void	more_tokens(t_list *lst, t_list *envlst)
 	{
 		if (tmp->type == in && tmp->next && tmp->next->type == in)
 		{
+			tmp = tmp->next;
 			tmp->str = joinfree2(tmp->str, '<');
-			tmp->type = append;
-			delnode(lst, tmp->next);
+			tmp->type = eof;
+			delnode(lst, tmp->prev);
 		}
 		if (tmp->type == out && tmp->next && tmp->next->type == out)
 		{
+			tmp = tmp->next;
 			tmp->str = joinfree2(tmp->str, '>');
-			tmp->type = eof;
-			delnode(lst, tmp->next);
+			tmp->type = append;
+			delnode(lst, tmp->prev);
 		}
 		if (is_cmd(tmp->str, envlst) == 1)
 			tmp->type = cmd;
