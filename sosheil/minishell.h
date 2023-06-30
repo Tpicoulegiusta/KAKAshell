@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/23 12:14:15 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/29 10:40:50 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@
 # define NAME "\e[0;94mPROMPETEUH% \e[0;97m"
 
 //rr = right redir, lr = left redir
-enum	e_tok{str, piperino, rr, lr, cmd, venv};
+enum	e_tok{str, piperino, out, in, eof, append, cmd, venv, builtin};
+//			  0       1       2    3   4     5      6     7      8
 
 typedef struct s_node
 {
 	enum e_tok		type;
 	char			*str;
-	int				*space;
+	int				space;
 	struct s_node	*next;
 	struct s_node	*prev;
 }				t_node;
@@ -43,8 +44,6 @@ typedef struct s_node
 typedef struct s_list
 {
 	int				len;
-	t_node			*oldpwd;
-	t_node			*pwd;
 	t_node			*first;
 	t_node			*last;
 	struct s_node	node;
@@ -53,6 +52,16 @@ typedef struct s_list
 typedef struct s_data
 {
 	char	**lextab;
+	t_list	lst;
+	t_list	envlst;
+	t_list	sort_env;
+	int		pid;
+	int		fd[2];
+	int		prev_fd;
+	int		fd_in;
+	int		fd_out;
+	int		sfd_in;
+	int		sfd_out;
 }				t_data;
 
 char	*getpath(char **envp, char *cmd);

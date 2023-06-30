@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 12:47:44 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/21 16:50:32 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/30 15:53:06 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	ft_option(t_node *tmp)
 {
 	int	i;
 
-	i = -1;
-	puts("tom");
-	if (tmp->str[++i] == '-')
+	i = 0;
+	// puts("tom");
+	if (tmp->str[i] == '-')
 	{
 		while (tmp->str[++i])
 		{
@@ -27,30 +27,7 @@ int	ft_option(t_node *tmp)
 				return (1);
 		}
 		return (0);
-		puts("pere");
-	}
-	return (1);
-}
-
-int	ft_option2(t_node *tmp)
-{
-	int	i;
-
-	i = 0;
-	puts("tam");
-	if (tmp->str[i] == '\"' || tmp->str[i] == '\"')
-	{
-		i++;
-		if (tmp->str[i++] == '-')
-		{
-			while (tmp->str[i])
-			{
-				if (tmp->str[i] && tmp->str[i] != 'n')
-					return (1);
-			}
-			return (0);
-			puts("mere");
-		}
+		// puts("pere");
 	}
 	return (1);
 }
@@ -62,38 +39,41 @@ void	and_another_check(t_node *tmp)
 
 	i = 0;
 	option = 0;
-	if ((tmp->prev == NULL && !ft_strncmp(tmp->str, "echo", 4))
-		|| (tmp->prev == NULL && !ft_strncmp(tmp->str, "\"echo\"", 6)))
+	if ((!ft_strncmp(tmp->str, "echo", 4))
+		|| ft_strncmp(tmp->str, "\"echo\"", 6))
 	{
-		puts("tagram");
-		if ((tmp->next && !ft_option(tmp->next)) || (tmp->next && !ft_option2(tmp->next)))
+		// puts("tagram");
+		if (!tmp->next)
+			return ;//aucune idee
+		if (tmp->next && !ft_option(tmp->next))
 		{
 			option = 1;
 			tmp = tmp->next;
-			//si rien apres le -n ajouter condtion ou int//
+			if (!tmp->next)
+				return ;
 		}
-		printf("option === > %d\n", option);
 		if (tmp->next)
 			tmp = tmp->next;
-		printf("tmp === > %s\n", tmp->str);
-/*  		if (tmp->next )
+		printf("option ===> %d\n", option);
+		printf("tmp ===> %s\n", tmp->str);
+		if (option == 1)
 		{
-			while (tmp ||  ft_strcmp(tmp->str, "|") != 0)
+			while (tmp && tmp->type != 1)
 			{
-				while (tmp->str[i])
-				{
-					puts("maga");
-					write(1, &tmp->str[i], 1);
-					i++;
-				}
+				printf("%s", tmp->str);// a modifier imperativement
 				tmp = tmp->next;
 			}
-		} */
-		//FAIRE MARCHER CETTE BOUCLE DE MERDE//
-		if (option != 0)
-		{
-			write(1, "\n", 1);
 		}
-		//puts("caca");
+		else
+		{
+			while (tmp && tmp->type != 1)
+			{
+				printf("%s", tmp->str);// a modifier imperativement
+				tmp = tmp->next;
+			}
+			printf("\n");
+		}
+		// puts("MERREEE");
 	}
 }
+ 

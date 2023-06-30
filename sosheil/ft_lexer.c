@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:33:02 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/05 13:04:46 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/29 14:44:02 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	tokenizer(t_list *lst)
 		else if (tmp->str[0] == '|' && !tmp->str[1])
 			tmp->type = piperino;
 		else if (tmp->str[0] == '>' && !tmp->str[1])
-			tmp->type = rr;
+			tmp->type = out;
 		else if (tmp->str[0] == '<' && !tmp->str[1])
-			tmp->type = lr;
+			tmp->type = in;
 		tmp = tmp->next;
 	}
 }

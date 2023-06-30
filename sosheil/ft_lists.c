@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:45:45 by sboetti           #+#    #+#             */
-/*   Updated: 2023/06/12 16:53:29 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/06/29 14:43:05 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	list_init(t_list *list)
 	list->len = 0;
 	list->first = NULL;
 	list->last = NULL;
-	list->oldpwd = NULL;
-	list->pwd = NULL;
+	// list->oldpwd = NULL;
+	// list->pwd = NULL;
 }
 
 void	addnode(t_list *list, char *str)
@@ -88,12 +88,12 @@ void	freelist(t_list *lst)
 		free(tmp);
 		tmp = next;
 	}
-	tmp = lst->pwd;
-	if (tmp != NULL && tmp->str != NULL)
-		free(tmp->str);
-	tmp = lst->oldpwd;
-	if (tmp != NULL && tmp->str != NULL)
-		free(tmp->str);
+	// tmp = lst->pwd;
+	// if (tmp != NULL && tmp->str != NULL)
+	// 	free(tmp->str);
+	// tmp = lst->oldpwd;
+	// if (tmp != NULL && tmp->str != NULL)
+	// 	free(tmp->str);
 	lst->len = 0;
 }
 
