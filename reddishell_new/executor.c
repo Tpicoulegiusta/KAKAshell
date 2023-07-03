@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/15 11:15:47 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/22 15:27:22 by rbulanad         ###   ########.fr       */
+/*   Created: 2023/06/28 10:59:05 by rbulanad          #+#    #+#             */
+/*   Updated: 2023/07/03 16:11:11 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_builtins(char *str)
+char	*absolutepath(char *cmd)
 {
-	if (ft_strcmp(str, "export") == 0 || ft_strcmp(str, "unset") == 0
-		|| ft_strcmp(str, "env") == 0)
-		return (1);
-	return (0);
+	if (access(cmd, F_OK) == 0)
+		return (cmd);
+	return (free(cmd), NULL);
 }
 
 char	*checkaccess(char **allpaths, char *cmd)
@@ -60,11 +59,20 @@ char	*getpath(char *cmd, t_list *envlst)
 	return (path);
 }
 
-char	*absolutepath(char *cmd)
+char	**lst_to_tab(t_node *node)
 {
-	if (access(cmd, F_OK) == 0)
-		return (cmd);
-	return (free(cmd), NULL);
+	char 	*join;
+	char	**ret;
+
+	join = NULL;
+	while (node && node->type != piperino)
+	{
+		join = joinfree(join, node->str);
+		join = joinfree2(join, ' ');
+		node = node->next;
+	}
+	ret = ft_split(join, ' ');
+	return (free(join), ret);
 }
 
 char	*path_check(char *cmd, t_list *envlst)
@@ -75,64 +83,169 @@ char	*path_check(char *cmd, t_list *envlst)
 		return (getpath(cmd, envlst));
 }
 
-char	**lst_to_tab(t_node *node, int moves)
+void	init_fds(t_data *d)
 {
-	char 	*join;
-	char	**ret;
-
-	join = NULL;
-	if (moves == 0)
-	{
-		join = joinfree(join, node->str);
-		ret = ft_split(join, ' ');
-		return (free(join), ret);
-	}
-	while (moves >= 0)
-	{
-		join = joinfree(join, node->str);
-		join = joinfree2(join, ' ');
-		moves--;
-	}
-	ret = ft_split(join, ' ');
-	return (free(join), ret);
+	d->prev_fd = 0;
+	d->fd_in = 0;
+	d->fd_out = 0;
+	d->sfd_in = dup(STDIN_FILENO);
+	d->sfd_out = dup(STDOUT_FILENO);
 }
 
-void	executor(t_list *lst, t_list *envlst, t_list *sort_envlst, char **envp)
+int	open_infile(t_data *d, t_node *node)
 {
+	if (node->type == in)
+	{
+		delnode(&d->lst, node);
+		node = node->next;
+		if (d->fd_in)
+			close(d->fd_in);
+		d->fd_in = open(node->str, O_RDONLY, 0777);
+		delnode(&d->lst, node);
+		node = node->next;
+		if (d->fd_in < 0)
+			return (1);
+		printf("fdIN = %d, fdOUT = %d\n", d->fd_in, d->fd_out);
+	}
+	return (0);
+}
+
+int	open_outfile(t_data *d, t_node *node)
+{
+	if (node->type == out)
+	{
+		delnode(&d->lst, node);
+		node = node->next;
+		if (d->fd_out)
+			close(d->fd_out);
+		d->fd_out = open(node->str, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		delnode(&d->lst, node);
+		node = node->next;
+		if (d->fd_in < 0)
+			return (1);
+		printf("fdIN = %d, fdOUT = %d\n", d->fd_in, d->fd_out);
+	}
+	return (0);
+}
+
+int	open_doubleout(t_data *d, t_node *node)
+{
+	if (node->type == append)
+	{
+		delnode(&d->lst, node);
+		node = node->next;
+		if (d->fd_out)
+			close(d->fd_out);
+		d->fd_out = open(node->str, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		delnode(&d->lst, node);
+		node = node->next;
+		if (d->fd_in < 0)
+			return (1);
+		printf("fdIN = %d, fdOUT = %d\n", d->fd_in, d->fd_out);
+	}
+	return (0);
+}
+
+int	scan_out_infiles(t_data *d, t_node *node, t_list *lst)
+{
+	node = lst->first;
+	while (node && node->type != piperino)
+	{
+		if (open_infile(d, node) == 1)
+			continue;
+		if (open_outfile(d, node) == 1)
+			continue;
+		if (open_doubleout(d, node) == 1)
+			continue;
+		if (node)
+			node = node->next;
+	}
+	if (node)
+		return (1);
+	return (0);
+}
+
+int	is_redir_pipe(int type)
+{
+	if (type >= 1 && type <= 5)
+		return (1);
+	return (0);
+}
+
+int	check_fds(int fd_in, int fd_out)
+{
+	if (fd_in < 0)
+	{
+		(printf("INFILE ERROR\n"));
+		return (1);
+	}
+	if (fd_in)
+		dup2(fd_in, STDIN_FILENO);
+	if (fd_out < 0)
+	{
+		(printf("OUTFILE ERROR\n"));
+		return (1);
+	}
+	if (fd_out)
+		dup2(fd_out, STDOUT_FILENO);
+	return (0);
+}
+
+void	executor(t_data *d, char **envp)
+{
+	//fd_in for infiles
+	//fd_out for outfiles
+	//sfd_in is STDIN
+	//sfd_out is STDOUT
+	//prev_fd for pipes
+	t_node	*node;
+	t_node	*filenode;
 	char	*argpath;
 	char	**tabexec;
-	t_node	*tmp;
-	int		moves;
 	int		pid;
+	int		tagram;
 
-	tmp = lst->first;
-	while (tmp)
+	argpath = NULL;
+	init_fds(d);
+	node = d->lst.first;
+	filenode = node;
+	while (node)
 	{
-		argpath = NULL;
-		if (check_builtins(tmp->str) == 1)
+		tagram = 0;
+		if (scan_out_infiles(d, filenode, &d->lst) == 1) // s'arrete a la premiere pipe, =1 means que stopped sur une pipe
+			puts("YOHOHO");
+		argpath = path_check(node->str, &d->envlst);
+		//builtins ouistiti//
+		if (builtins(d) == 0)
 		{
-			export_unset(tmp, envlst, sort_envlst);
-			check_env(envlst, tmp);
+			tagram = 1;
 		}
-		else
+		else if (argpath && tagram != 1)
 		{
-			argpath = path_check(tmp->str, envlst);
-			if (argpath)
+			tabexec = lst_to_tab(node);					// s'arrete a la premiere pipe
+			pid = fork();
+			if (pid == 0)
 			{
-				moves = 0;
-				while (tmp->next && tmp->next->str[0] == '-')
-				{
-					moves++;
-					tmp = tmp->next;
-				}
-				tabexec = lst_to_tab(tmp, moves);
-				pid = fork();
-				if (pid == 0)
-					execve(argpath, tabexec, envp);
-				waitpid(pid, NULL, 0);
+				if (check_fds(d->fd_in, d->fd_out) == 1)
+					exit (1);
+				execve(argpath, tabexec, envp);
 			}
 		}
-		if (tmp)
-			tmp = tmp->next;
+		node = node->next;
 	}
+	waitpid(pid, NULL, 0);
+
+	///////////////// T E S T /////////////////
+	char	*test = NULL;
+	node = d->lst.first;
+	while (node)
+	{
+		test = joinfree(test, node->str);
+		if (node->space != 0)
+			test = joinfree2(test, ' ');
+		node = node->next;
+	}
+	printf("after scan = %s\n", test);
 }
+
+

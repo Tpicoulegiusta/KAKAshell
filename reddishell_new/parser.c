@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/22 15:25:59 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/29 13:42:55 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	is_cmd(char *str, t_list *envlst)
 	}
 	else
 	{
-		if (getpath(str, envlst) != NULL) 
+		if (getpath(str, envlst) != NULL)
 			return (1);
 	}
 	return (0);
@@ -124,6 +124,20 @@ void	more_tokens(t_list *lst, t_list *envlst)
 	tmp = lst->first;
 	while (tmp)
 	{
+		if (tmp->type == in && tmp->next && tmp->next->type == in)
+		{
+			tmp = tmp->next;
+			tmp->str = joinfree2(tmp->str, '<');
+			tmp->type = eof;
+			delnode(lst, tmp->prev);
+		}
+		if (tmp->type == out && tmp->next && tmp->next->type == out)
+		{
+			tmp = tmp->next;
+			tmp->str = joinfree2(tmp->str, '>');
+			tmp->type = append;
+			delnode(lst, tmp->prev);
+		}
 		if (is_cmd(tmp->str, envlst) == 1)
 			tmp->type = cmd;
 		if (is_builtin(tmp->str) == 1)
@@ -132,12 +146,18 @@ void	more_tokens(t_list *lst, t_list *envlst)
 	}
 }
 
-int	type_check(int i)
+int	syntax_checker(t_list *lst)
 {
-	if (i == str || i == piperino
-		|| i == rr || i == lr
-		|| i == venv)
-		return (1);
+	t_node	*tmp;
+
+	tmp = lst->first;
+	while (tmp)
+	{
+		if ((tmp->type == in || tmp->type == out || tmp->type == append
+			|| tmp->type == eof || tmp->type == piperino) && !tmp->next)
+			return (printf("SYNTAX ERROR IN PARSER\n"), 1);
+		tmp = tmp->next;
+	}
 	return (0);
 }
 
@@ -150,13 +170,13 @@ int	parser(t_list *lst, t_list *envlst)
 	dollaz(lst, envlst);
 	unquoter(lst);
 	more_tokens(lst, envlst);
+	if (syntax_checker(lst) == 1)
+		return (1);
 	while (tmp)
 	{
 		printf("node[%d] = %s ()() TYPE = %d ()() SPACE? = %d\n", i, tmp->str, tmp->type, tmp->space);
 		i++;
 		tmp = tmp->next;
 	}
-	if (type_check(lst->first->type) == 1)
-		return (1);	
 	return (0);
 }

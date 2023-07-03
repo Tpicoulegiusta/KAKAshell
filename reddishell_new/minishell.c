@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/22 14:45:01 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/28 17:44:48 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,41 +48,38 @@ int	checker(char *line)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_list	lst;
-	t_list	envlst;
-	t_list	sort_envlst;
+	t_data	d;
 	char	*line;
 
 	(void)argc;
 	(void)argv;
-	env_to_lst(&envlst, envp);
-	env_to_lst(&sort_envlst, envp);
+	env_to_lst(&d.envlst, envp);
+	env_to_lst(&d.sort_env, envp);
 	while (1)
 	{
-		lst_init(&lst);
+		lst_init(&d.lst);
 		line = readline(NAME);
 		add_history(line);
 		if (enter_check(line) != 0)
 			continue ;
 		if (checker(line) == 1)
-			return (freelist(&lst), freelist(&envlst), freelist(&sort_envlst), printf("SYNTAX ERR\n"), 1);
-		lexer(&lst, line);
-		if (lst.len == 0)
+			return (freelist(&d.lst), freelist(&d.envlst), freelist(&d.sort_env), printf("SYNTAX ERR IN MAIN\n"), 1);
+		lexer(&d.lst, line);
+		if (d.lst.len == 0)
 			continue ;
-		if (parser(&lst, &envlst) == 1)
+		if (parser(&d.lst, &d.envlst) == 1)
 		{
-			freelist(&lst);
-			printf("command not found\n");
+			freelist(&d.lst);
 			continue ;
 		}
-		if (!lst.first)
+		if (!d.lst.first)
 			continue ;
-		executor(&lst, &envlst, &sort_envlst, envp);
-		freelist(&lst);
+		executor(&d, envp);
+		freelist(&d.lst);
 		free(line);
 	}
-	freelist(&envlst);
-	freelist(&sort_envlst);
+	freelist(&d.envlst);
+	freelist(&d.sort_env);
 	free(line);
 	return (0);
 }

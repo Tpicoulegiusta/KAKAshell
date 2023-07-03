@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/22 15:13:39 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/03 17:00:32 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
 # define NAME "turboshell% "
 
 //RR = right redir, LR = left redir
-enum	e_tok{str, piperino, rr, lr, cmd, venv, builtin};
+enum	e_tok{str, piperino, out, in, eof, append, cmd, venv, builtin};
+//			  0       1       2    3   4     5      6     7      8
 
 typedef struct s_node
 {
@@ -42,6 +44,16 @@ typedef struct s_list
 typedef struct s_data
 {
 	char	**lextab;
+	t_list	lst;
+	t_list	envlst;
+	t_list	sort_env;
+	int		pid;
+	int		fd[2];
+	int		prev_fd;
+	int		fd_in;
+	int		fd_out;
+	int		sfd_in;
+	int		sfd_out;
 }				t_data;
 
 ///////// UTILS /////////////////////////
@@ -59,6 +71,14 @@ int		ft_find(char *str, char *search);
 int		spe_char(char c);
 char	*absolutepath(char *cmd);
 char	*getpath(char *cmd, t_list *envlst);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		other_check(t_node *tmp, t_list *env);
+int		another_check(t_list *envlst, t_node *tmp);
+int		and_another_check(t_node *tmp);
+int		ft_built_exit(t_node *tmp);
+t_node	*find_node(char *key, t_list *env);
+char	*ft_ministrjoin(char *s1, char *s2);
+char	*ft_strdup(char *s1);
 
 //////// LIST ///////////////////////////
 
@@ -73,7 +93,7 @@ void	env_to_lst(t_list *envlst, char **envp);
 //////// LEXER //////////////////////////
 
 int		check_32(t_list *lst, char c, char **copy);
-int		check_spe(t_list *lst, char c, char **copy);
+int		check_spe(t_list *lst, char *line, int i, char **copy);
 int		quoted(t_list *lst, char *line, char **copy, int *i);
 void	lexer(t_list *lst, char *line);
 void	tokenizer(t_list *lst);
@@ -92,7 +112,8 @@ void	check_env(t_list *envlst, t_node *node);
 
 //////// EXEC //////////////////////////
 
-void	executor(t_list *lst, t_list *envlst, t_list *sort_envlst, char **envp);
+void	executor(t_data *d, char **envp);
+int		builtins(t_data *d);
 
 //////// CHECKER ////////////////////////
 

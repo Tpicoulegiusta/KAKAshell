@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:15:28 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/22 14:22:06 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/28 17:33:07 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,18 @@ int	check_32(t_list *lst, char c, char **copy)
 	return (0);
 }
 
-int	check_spe(t_list *lst, char c, char **copy)
+int	check_spe(t_list *lst, char *line, int i, char **copy)
 {
 	char	*tmp;
 
 	tmp = NULL;
-	if (c == '|' || c == '>' || c == '<')
+	if (line[i] == '|' || line[i] == '>' || line[i] == '<')
 	{
-		check_copy(lst, copy);	
-		tmp = joinfree2(tmp, c);
+		check_copy(lst, copy);
+		tmp = joinfree2(tmp, line[i]);
 		addnode(lst, tmp);
+		if (line[i + 1] == 32)
+			lst->last->space = 1;
 		free(tmp);
 		return (1);
 	}

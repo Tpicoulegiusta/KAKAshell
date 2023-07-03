@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/10 09:39:45 by rbulanad          #+#    #+#              #
-#    Updated: 2023/06/19 12:17:20 by rbulanad         ###   ########.fr        #
+#    Updated: 2023/07/03 16:48:28 by tpicoule         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,11 @@ SOURCES		= minishell.c \
 			  dlc_export.c \
 			  dlc_env.c	\
 			  executor.c \
+			  builtins.c \
+			  pwd.c \
+			  cd.c \
+			  exit.c \
+			  echo.c \
 			  var_env.c
 OBJECTS		= ${SOURCES:.c=.o}
 RM		= rm -f

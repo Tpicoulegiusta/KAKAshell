@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:22:24 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/24 14:52:57 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:58:23 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,33 @@ char	*ft_pathjoin(char *s1, char *s2)
 		ret[i + j] = s2[j];
 	ret[i + j] = '\0';
 	free(s1);
+	return (ret);
+}
+
+char	*ft_ministrjoin(char *s1, char *s2)
+{
+	char	*ret;
+	int		i;
+	int		j;
+
+	if (!s2 || !s1)
+		return (NULL);
+	ret = malloc ((len(s1) + len(s2) + 1) * sizeof(char));
+	if (!ret)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i])
+	{
+		ret[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		ret[i + j] = s2[j];
+		j++;
+	}
+	ret[i + j] = '\0';
 	return (ret);
 }
 

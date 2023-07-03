@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:13:57 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/19 16:42:24 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/06/28 17:35:01 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	tokenizer(t_list *lst)
 		else if (tmp->str[0] == '|' && !tmp->str[1])
 			tmp->type = piperino;
 		else if (tmp->str[0] == '>' && !tmp->str[1])
-			tmp->type = rr;
+			tmp->type = out;
 		else if (tmp->str[0] == '<' && !tmp->str[1])
-			tmp->type = lr;
+			tmp->type = in;
 		tmp = tmp->next;
 	}
 }
@@ -53,7 +53,7 @@ int	lexer_checks(t_list *lst, char *line, char **copy, int *i)
 		return (1);
 	if (check_32(lst, line[*i], copy) == 1)
 		return (1);
-	if (check_spe(lst, line[*i], copy) == 1)
+	if (check_spe(lst, line, *i, copy) == 1)
 		return (1);
 	return (0);
 }
