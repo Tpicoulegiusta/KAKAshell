@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:33:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/04 10:49:41 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/04 15:06:28 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,19 +104,10 @@ void	more_tokens(t_list *lst, t_list *envlst)
 //no need de gerer $$, $1, $2, $3, $#, $! etc...
 int	parser(t_list *lst, t_list *envlst)
 {
-	t_node	*tmp = lst->first;
-
-	int	i = 0;
 	dollaz(lst, envlst);
 	unquoter(lst);
 	more_tokens(lst, envlst);
 	if (syntax_checker(lst) == 1)
 		return (1);
-	while (tmp)
-	{
-		printf("NODE[%d] = %s; TYPE = %d; SPACE = %d\n", i, tmp->str, tmp->type, tmp->space);
-		i++;
-		tmp = tmp->next;
-	}
 	return (0);
 }

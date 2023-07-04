@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:57:13 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/04 13:20:46 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/04 15:18:24 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,8 @@ void	executor(t_data *d, char **envp)
 		tagram = 0;
 		if (scan_out_infiles(d, filenode, &d->lst) == 1)// s'arrete a la premiere pipe, =1 means que stopped sur une pipe
 			puts("YOHOHO");
-		argpath = path_check(node->str, &d->envlst);
+		if (node->type == cmd)
+			argpath = path_check(node->str, &d->envlst);
 		//builtins ouistiti//
 		if (builtins(d) == 0)
 			tagram = 1;

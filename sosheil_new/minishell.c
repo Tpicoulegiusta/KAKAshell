@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/04 10:56:58 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/04 15:05:40 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_lst(t_list *lst)
 	tmp = lst->first;
 	while (tmp)
 	{
-		printf("STR = %s ()() TYPE = %d\n", tmp->str, tmp->type);
+		printf("STR = %s; TYPE = %d; SPACE = %d\n", tmp->str, tmp->type, tmp->space);
 		tmp = tmp->next;
 	}
 }
