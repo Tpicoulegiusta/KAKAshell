@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 16:47:11 by tpicoule          #+#    #+#             */
-/*   Updated: 2023/07/03 16:48:01 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:58:41 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	ft_option(t_node *tmp)
 	int	i;
 
 	i = 0;
-	// puts("tom");
 	if (tmp->str[i] == '-')
 	{
 		while (tmp->str[++i])
@@ -26,7 +25,6 @@ int	ft_option(t_node *tmp)
 				return (1);
 		}
 		return (0);
-		// puts("pere");
 	}
 	return (1);
 }
@@ -70,7 +68,7 @@ int	and_another_check(t_node *tmp)
 	// 		tmp = tmp->next;
 	// 	}
 	// }
-	// else
+	//else
 	// {
 	// 	while (tmp && tmp->type != 1)
 	// 	{

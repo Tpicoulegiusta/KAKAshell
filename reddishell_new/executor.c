@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 10:59:05 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/03 16:11:11 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/07/04 11:11:54 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,11 +152,11 @@ int	scan_out_infiles(t_data *d, t_node *node, t_list *lst)
 	while (node && node->type != piperino)
 	{
 		if (open_infile(d, node) == 1)
-			continue;
+			continue ;
 		if (open_outfile(d, node) == 1)
-			continue;
+			continue ;
 		if (open_doubleout(d, node) == 1)
-			continue;
+			continue ;
 		if (node)
 			node = node->next;
 	}
@@ -217,9 +217,7 @@ void	executor(t_data *d, char **envp)
 		argpath = path_check(node->str, &d->envlst);
 		//builtins ouistiti//
 		if (builtins(d) == 0)
-		{
 			tagram = 1;
-		}
 		else if (argpath && tagram != 1)
 		{
 			tabexec = lst_to_tab(node);					// s'arrete a la premiere pipe
@@ -247,5 +245,3 @@ void	executor(t_data *d, char **envp)
 	}
 	printf("after scan = %s\n", test);
 }
-
-
