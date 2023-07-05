@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/04 14:49:54 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/05 10:49:24 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	addnode(t_list *lst, char *str);
 void	delnode(t_list *list, t_node *node);
 t_list	*create_list(char **tab, t_list *list);
 void	freelist(t_list *lst);
+void	ft_free_all(t_list *lst1, t_list *lst2);
 void	print_lst(t_list *lst);
 
 //////// LEXER //////////////////////////

@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:45:45 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/04 14:46:13 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/05 10:48:29 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,6 @@ void	list_init(t_list *list)
 	list->len = 0;
 	list->first = NULL;
 	list->last = NULL;
-}
-
-int	is_space(char *str)
-{
-	int		i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == 32)
-		{
-			str = substr2(str, 0, i);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
 }
 
 void	addnode(t_list *list, char *str)
@@ -105,4 +88,10 @@ void	freelist(t_list *lst)
 		tmp = next;
 	}
 	lst->len = 0;
+}
+
+void	ft_free_all(t_list *lst1, t_list *lst2)
+{
+	freelist(lst1);
+	freelist(lst2);
 }

@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:49:01 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/04 13:19:37 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/05 10:40:26 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,21 @@ void	unquoter(t_list *lst)
 		tmp = tmp->next;
 		i++;
 	}
+}
+
+int	is_space(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == 32)
+		{
+			str = substr2(str, 0, i);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }

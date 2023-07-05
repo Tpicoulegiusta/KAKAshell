@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:57:13 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/04 15:18:24 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/05 12:29:29 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,10 @@ void	executor(t_data *d, char **envp)
 			argpath = path_check(node->str, &d->envlst);
 		//builtins ouistiti//
 		if (builtins(d) == 0)
+		{
 			tagram = 1;
+			break ;
+		}
 		else if (argpath && tagram != 1)
 		{
 			tabexec = lst_to_tab(node);// s'arrete a la premiere pipe
@@ -244,5 +247,5 @@ void	executor(t_data *d, char **envp)
 			test = joinfree2(test, ' ');
 		node = node->next;
 	}
-	printf("after scan = %s\n", test);
+	printf("after scan = [%s]\n", test);
 }
