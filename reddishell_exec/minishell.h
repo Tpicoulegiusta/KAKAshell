@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/28 17:35:11 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/05 19:41:29 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,13 @@ typedef struct s_list
 typedef struct s_data
 {
 	char	**lextab;
+	char	*argpath;
+	char	**tabexec;
 	t_list	lst;
 	t_list	envlst;
 	t_list	sort_env;
-	int		pid;
+	int		*pid;
+	int		i;
 	int		fd[2];
 	int		prev_fd;
 	int		fd_in;

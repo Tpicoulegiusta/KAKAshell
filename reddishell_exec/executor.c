@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 10:59:05 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/29 17:19:57 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/05 19:44:10 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,8 @@ int	open_doubleout(t_data *d, t_node *node)
 	return (0);
 }
 
-int	scan_out_infiles(t_data *d, t_node *node, t_list *lst)
+int	scan_out_infiles(t_data *d, t_node *node)
 {
-	node = lst->first;
 	while (node && node->type != piperino)
 	{
 		if (open_infile(d, node) == 1)
@@ -191,6 +190,80 @@ int	check_fds(int fd_in, int fd_out)
 	return (0);
 }
 
+int	pipe_count(t_list *lst)
+{
+	t_node	*node;
+	int		count;
+
+	count = 0;
+	node = lst->first;
+	while (node)
+	{
+		if (node->type == piperino)
+			count++;
+		node = node->next;
+	}
+	return (count);
+}
+
+void	execute(t_data *d, t_node *node, char **envp, int pipes)
+{
+	d->argpath = path_check(node->str, &d->envlst);
+	if (d->argpath)
+	{
+		d->tabexec = lst_to_tab(node);
+		d->pid[d->i] = fork();
+		if (d->pid[d->i] == 0)
+		{
+			if (check_fds(d->fd_in, d->fd_out) == 1)
+				exit (1);
+			execve(d->argpath, d->tabexec, envp);
+		}
+		if (pipes)
+			dup2(d->sfd_in, STDIN_FILENO);
+	}
+}
+
+void	execute_pipes(t_data *d, t_node *node, char **envp)
+{
+	d->argpath = path_check(node->str, &d->envlst);
+	if (d->argpath)
+	{
+		d->tabexec = lst_to_tab(node);
+		pipe(d->fd);
+		d->pid[d->i] = fork();
+		if (d->pid[d->i] == 0)
+		{
+			close(d->fd[0]);
+			dup2(d->fd[1], STDOUT_FILENO);
+			close(d->fd[1]);
+			if (check_fds(d->fd_in, d->fd_out) == 1)
+				exit (1);
+			execve(d->argpath, d->tabexec, envp);
+		}
+		close(d->fd[1]);
+		dup2(d->fd[0], STDIN_FILENO);
+		close(d->fd[0]);
+	}
+}
+
+void	wait_for_pids(t_data *d)
+{
+	int	i;
+
+	i = 0;
+	while (d->pid[i])
+		waitpid(d->pid[i++], NULL, 0);
+}
+
+void	close_fds(t_data *d)
+{
+	if (d->fd_in)
+		close(d->fd_in);
+	if (d->fd_out)
+		close(d->fd_out);
+}
+
 void	executor(t_data *d, char **envp)
 {
 	//fd_in for infiles
@@ -199,34 +272,28 @@ void	executor(t_data *d, char **envp)
 	//sfd_out is STDOUT
 	//prev_fd for pipes
 	t_node	*node;
-	t_node	*filenode;
-	char	*argpath;
-	char	**tabexec;
-	int		pid;
+	int		pipes;
 
-	argpath = NULL;
+	d->argpath = NULL;
+	d->i = 0;
+	d->pid = malloc (sizeof(pid_t) * (pipe_count(&d->lst) + 1));
 	init_fds(d);
+	pipes = pipe_count(&d->lst);
 	node = d->lst.first;
-	filenode = node;
 	while (node)
 	{
-		if (scan_out_infiles(d, filenode, &d->lst) == 1) // s'arrete a la premiere pipe, =1 means que stopped sur une pipe
-			puts("YOHOHO");
-		argpath = path_check(node->str, &d->envlst);
-		if (argpath)
-		{
-			tabexec = lst_to_tab(node);					// s'arrete a la premiere pipe
-			pid = fork();
-			if (pid == 0)
-			{
-				if (check_fds(d->fd_in, d->fd_out) == 1)
-					exit (1);
-				execve(argpath, tabexec, envp);
-			}
-		}
-		node = node->next;
+		if (scan_out_infiles(d, node) == 1)
+			execute_pipes(d, node, envp);
+		else
+			execute(d, node, envp, pipes);
+		close_fds(d);
+		while (node && node->type != piperino)
+			node = node->next;
+		if (node)
+			node = node->next;
+		d->i++;
 	}
-	waitpid(pid, NULL, 0);
+	wait_for_pids(d);
 
 	///////////////// T E S T /////////////////
 	char	*test = NULL;
@@ -240,5 +307,3 @@ void	executor(t_data *d, char **envp)
 	}
 	printf("after scan = %s\n", test);
 }
-
-
