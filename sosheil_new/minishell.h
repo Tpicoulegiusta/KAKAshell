@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/05 10:49:24 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/07 18:13:43 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 //rr = right redir, lr = left redir
 enum	e_tok{str, piperino, out, in, eof, append, cmd, venv, builtin};
-//			  0       1       2    3   4     5      6     7      8
+//			   0      1       2   3   4      5      6     7      8
 
 typedef struct s_node
 {
@@ -52,10 +52,14 @@ typedef struct s_list
 typedef struct s_data
 {
 	char	**lextab;
+	char	*argpath;
+	char	**tabexec;
+	char	**envtab;
 	t_list	lst;
 	t_list	envlst;
 	t_list	sort_env;
-	int		pid;
+	int		*pid;
+	int		i;
 	int		fd[2];
 	int		prev_fd;
 	int		fd_in;
@@ -63,6 +67,8 @@ typedef struct s_data
 	int		sfd_in;
 	int		sfd_out;
 }				t_data;
+
+///////// UTILS /////////////////////////
 
 char	*getpath(char *cmd, t_list *envlst);
 char	*absolutepath(char *cmd);
@@ -75,12 +81,13 @@ void	unquoter(t_list *lst);
 char	*ft_ministrjoin(char *s1, char *s2);
 char	*joinfree(char *s1, char *s2);
 char	*joinfree2(char *s1, char c);
-void	freetab(char **tab, int i);
+void	freetab(char **tab);
 void	free_execve(t_data *data);
 char	*substr2(char *s, int start, int end);
 char	*ft_ministrrchr(char *s, char c);
 char	*ft_ministrchr(char *s, char c);
 t_node	*find_node(char *key, t_list *env);
+int		is_builtin(char *str);
 
 //////// LIST ///////////////////////////
 
@@ -106,16 +113,20 @@ void	tokenizer(t_list *lst);
 int		parser(t_list *lst, t_list *envlst);
 char	*ft_pathjoin(char *s1, char *s2);
 char	*find_envline(char **envp, char *search);
+
+//////// EXEC //////////////////////////
+
+void	executor(t_data *d);
+
+/////// BUILTINS ///////////////////////
+
+int		builtins(t_data *d);
+int		export_unset(t_node *node, t_list *envlst, t_list *sort_envlst);
+void	check_env(t_list *envlst, t_node *node);
 int		other_check(t_node *tmp, t_list *envlst);
 int		another_check(t_list *envlst, t_node *tmp);
 int		and_another_check(t_node *tmp);
 int		ft_built_exit(t_node *tmp);
-
-//////// EXEC //////////////////////////
-
-void	exec(t_data *data, char **envp);
-void	executor(t_data *d, char **envp);
-int		builtins(t_data *d);
 
 //////// CHECKER ////////////////////////
 

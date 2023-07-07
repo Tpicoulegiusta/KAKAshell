@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:18:37 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/06 11:41:15 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/07 17:42:38 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	check_32(t_list *lst, char c, char **copy)
 			free(*copy);
 			*copy = NULL;
 		}
-		lst->last->space = 1;
-		puts("avant le segv");
+		if (lst->last)
+			lst->last->space = 1;
 		return (1);
 	}
 	return (0);
