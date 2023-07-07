@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 10:59:05 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/05 19:44:10 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/07 16:36:29 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,10 +206,18 @@ int	pipe_count(t_list *lst)
 	return (count);
 }
 
-void	execute(t_data *d, t_node *node, char **envp, int pipes)
+int	execute(t_data *d, t_node *node, int builtin)
 {
 	d->argpath = path_check(node->str, &d->envlst);
-	if (d->argpath)
+	if (builtin)
+	{
+		if (ft_strcmp(node->str, "export") == 0 && node->next
+			&& node->next->type != piperino)
+			return (1);
+		if (ft_strcmp(node->str, "unset") == 0)
+			return (1);
+	}
+	if (d->argpath || builtin)
 	{
 		d->tabexec = lst_to_tab(node);
 		d->pid[d->i] = fork();
@@ -217,17 +225,30 @@ void	execute(t_data *d, t_node *node, char **envp, int pipes)
 		{
 			if (check_fds(d->fd_in, d->fd_out) == 1)
 				exit (1);
-			execve(d->argpath, d->tabexec, envp);
+			if (builtin)
+			{
+				free(d->argpath);
+				freetab(d->tabexec);
+				check_env(&d->envlst, node);
+				export_unset(node, &d->envlst, &d->sort_env);
+				exit(0);
+			}
+			else
+				execve(d->argpath, d->tabexec, d->envtab);
 		}
-		if (pipes)
-			dup2(d->sfd_in, STDIN_FILENO);
 	}
+	return (0);
 }
 
-void	execute_pipes(t_data *d, t_node *node, char **envp)
+int	execute_pipes(t_data *d, t_node *node, int builtin)
 {
 	d->argpath = path_check(node->str, &d->envlst);
-	if (d->argpath)
+	if (builtin)
+	{
+		if (ft_strcmp(node->str, "unset") == 0)
+			return (1);
+	}
+	if (d->argpath || builtin)
 	{
 		d->tabexec = lst_to_tab(node);
 		pipe(d->fd);
@@ -239,12 +260,25 @@ void	execute_pipes(t_data *d, t_node *node, char **envp)
 			close(d->fd[1]);
 			if (check_fds(d->fd_in, d->fd_out) == 1)
 				exit (1);
-			execve(d->argpath, d->tabexec, envp);
+			if (builtin)
+			{
+				free(d->argpath);
+				freetab(d->tabexec);
+				check_env(&d->envlst, node);
+				if (ft_strcmp(node->str, "export") == 0 && node->next
+					&& node->next->type != piperino)
+					exit (1);
+				export_unset(node, &d->envlst, &d->sort_env);
+				exit(0);
+			}
+			else
+				execve(d->argpath, d->tabexec, d->envtab);
 		}
 		close(d->fd[1]);
 		dup2(d->fd[0], STDIN_FILENO);
 		close(d->fd[0]);
 	}
+	return (0);
 }
 
 void	wait_for_pids(t_data *d)
@@ -264,28 +298,38 @@ void	close_fds(t_data *d)
 		close(d->fd_out);
 }
 
-void	executor(t_data *d, char **envp)
+void	executor(t_data *d)
 {
-	//fd_in for infiles
-	//fd_out for outfiles
-	//sfd_in is STDIN
-	//sfd_out is STDOUT
-	//prev_fd for pipes
 	t_node	*node;
 	int		pipes;
+	int		builtin;
 
 	d->argpath = NULL;
 	d->i = 0;
+	builtin = 0;
 	d->pid = malloc (sizeof(pid_t) * (pipe_count(&d->lst) + 1));
 	init_fds(d);
 	pipes = pipe_count(&d->lst);
 	node = d->lst.first;
 	while (node)
 	{
+		builtin = is_builtin(node->str);
 		if (scan_out_infiles(d, node) == 1)
-			execute_pipes(d, node, envp);
+		{
+			if (execute_pipes(d, node, builtin) == 1)
+			{
+				check_env(&d->envlst, node);	
+				export_unset(node, &d->envlst, &d->sort_env);
+			}
+		}
 		else
-			execute(d, node, envp, pipes);
+		{
+			if (execute(d, node, builtin) == 1)
+			{
+				check_env(&d->envlst, node);	
+				export_unset(node, &d->envlst, &d->sort_env);
+			}
+		}
 		close_fds(d);
 		while (node && node->type != piperino)
 			node = node->next;
@@ -293,7 +337,9 @@ void	executor(t_data *d, char **envp)
 			node = node->next;
 		d->i++;
 	}
+	dup2(d->sfd_in, STDIN_FILENO);
 	wait_for_pids(d);
+	//free pid maybe
 
 	///////////////// T E S T /////////////////
 	char	*test = NULL;

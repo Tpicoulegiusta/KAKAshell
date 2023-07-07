@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/05 19:41:29 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/07 14:46:55 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_data
 	char	**lextab;
 	char	*argpath;
 	char	**tabexec;
+	char	**envtab;
 	t_list	lst;
 	t_list	envlst;
 	t_list	sort_env;
@@ -74,6 +75,7 @@ int		ft_find(char *str, char *search);
 int		spe_char(char c);
 char	*absolutepath(char *cmd);
 char	*getpath(char *cmd, t_list *envlst);
+int		is_builtin(char *str);
 
 //////// LIST ///////////////////////////
 
@@ -102,12 +104,12 @@ void	dollaz(t_list *lst, t_list *envlst);
 
 //////// BUILTINS //////////////////////
 
-void	export_unset(t_node *node, t_list *envlst, t_list *sort_envlst);
+int		export_unset(t_node *node, t_list *envlst, t_list *sort_envlst);
 void	check_env(t_list *envlst, t_node *node);
 
 //////// EXEC //////////////////////////
 
-void	executor(t_data *d, char **envp);
+void	executor(t_data *d);
 
 //////// CHECKER ////////////////////////
 

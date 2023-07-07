@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:29:46 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/29 10:43:34 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/07 16:03:00 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,15 +227,12 @@ char	**node_tab_setter(t_node *node)
 {
 	t_node	*tmp;
 	char	*join;
+	char	**tab;
 
 	tmp = node;
 	join = NULL;
-	while (node)
-	{
-		if (is_pipe_redir(node->str[0]) == 1)
-			break;
+	while (node && node->type != piperino)
 		node = node->next;
-	}
 	while (tmp && is_pipe_redir(tmp->str[0]) == 0)
 	{
 		join = joinfree(join, tmp->str);
@@ -243,38 +240,36 @@ char	**node_tab_setter(t_node *node)
 			join = joinfree2(join, ' ');
 		tmp = tmp->next;
 	}
-	char **tab = ft_split(join, ' ');
-	return (free(join), tab );
+	tab = ft_split(join, ' ');
+	return (free(join), tab);
 }
 
 //l'export dans toute sa grandeur
-void	ft_export(t_node *node, t_list *envlst, t_list *sort_envlst)
+int	ft_export(t_node *node, t_list *envlst, t_list *sort_envlst)
 {
 	char	**tmptab;
 	int		i;
 	
-	if (!node->next)
+	if (!node->next || (node->next && node->next->type == piperino))
 	{
 		sort_lst(sort_envlst);
 		print_export(sort_envlst);
+		return (0);
 	}
-	else
+	tmptab = node_tab_setter(node);
+	i = 1;   //pour skip le "export"
+	while (tmptab[i])
 	{
-		tmptab= node_tab_setter(node);
-
-		i = 1;
-		while (tmptab[i])
+		if (spe_char_exp_uns(tmptab[i][0]) == 1)
 		{
-			if (spe_char_exp_uns(tmptab[i][0]) == 1)
-			{
-				printf("EXPORT SYNTAX ERR\n");
-				i++;
-			}
-			if (tmptab[i])
-				if_else_double(sort_envlst, envlst, tmptab[i++]);
+			printf("EXPORT SYNTAX ERR\n");
+			i++;
 		}
-		free(tmptab);
+		if (tmptab[i])
+			if_else_double(sort_envlst, envlst, tmptab[i++]);
 	}
+	free(tmptab);
+	return (1);
 }
 
 void	search_and_del(t_list *envlst, t_list *sort_envlst, char *str)
@@ -324,10 +319,19 @@ void	ft_unset(t_node *node, t_list *envlst, t_list *sort_envlst)
 	}
 }
 
-void	export_unset(t_node *node, t_list *envlst, t_list *sort_envlst)
+int	export_unset(t_node *node, t_list *envlst, t_list *sort_envlst)
 {
+	int	export;
+
 	if (ft_strcmp(node->str, "export") == 0)
-		ft_export(node, envlst, sort_envlst);
+	{
+		export = ft_export(node, envlst, sort_envlst);
+		return (export);
+	}
 	if (ft_strcmp(node->str, "unset") == 0)
+	{
 		ft_unset(node, envlst, sort_envlst);
+		return (1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 11:23:28 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/19 14:10:41 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/07 16:15:30 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	check_env(t_list *envlst, t_node *node)
 {
 	if (ft_strcmp(node->str, "env") == 0)
 	{
-		if (node->next)
+		if (node->next && node->next->type != piperino)
 			printf("ENV ERROR\n");
 		else
 			print_env(envlst);

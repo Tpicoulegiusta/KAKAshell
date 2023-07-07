@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/05 17:56:33 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/07 15:06:27 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,27 @@ int	checker(char *line)
 	return (0);
 }
 
+void	envlst_envtab(t_data *d)
+{
+	char	*tmp;
+	t_node	*node;
+	
+	tmp = NULL;
+	node = d->envlst.first;
+	if (d->envtab)
+		freetab(d->envtab);
+	while (node)
+	{
+		tmp = joinfree(tmp, node->str);
+		tmp = joinfree2(tmp, ' ');
+		node = node->next;
+	}
+	d->envtab = ft_split(tmp, ' ');
+	/*int	i = 0;
+	while (d->envtab[i])
+		printf("%s\n" d->envtab[i]);*/
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	d;
@@ -55,6 +76,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	env_to_lst(&d.envlst, envp);
 	env_to_lst(&d.sort_env, envp);
+	d.envtab = NULL;
 	while (1)
 	{
 		lst_init(&d.lst);
@@ -74,7 +96,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (!d.lst.first)
 			continue ;
-		executor(&d, envp);
+		envlst_envtab(&d);
+		executor(&d);
 		freelist(&d.lst);
 		free(line);
 	}
