@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:57:13 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/07 19:04:37 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/08 11:00:38 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,12 @@ char	*getpath(char *cmd, t_list *envlst)
 	while (tmp)
 	{
 		if (tmp->str[0] == 'P' && tmp->str[1] == 'A'
-				&& tmp->str[2] == 'T' && tmp->str[3] == 'H')
+			&& tmp->str[2] == 'T' && tmp->str[3] == 'H')
 			break ;
 		tmp = tmp->next;
 	}
+	if (tmp == NULL)
+		return (0);
 	envcpy = substr2(tmp->str, 5, ft_strlen(tmp->str));
 	allpaths = ft_split(envcpy, ':');
 	path = checkaccess(allpaths, cmd);

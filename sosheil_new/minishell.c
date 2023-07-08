@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/07 17:59:32 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/08 10:56:15 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,17 @@ int	checker(char *line)
 t_node	*find_node(char *key, t_list *env)
 {
 	t_node	*tmp;
-
-	tmp = env->first;
-	while (tmp)
+	// a chercher dans la envlst qd y'a rien ou quoi
+	tmp = NULL;
+	if (env->first != NULL)
 	{
-		if (ft_strncmp(key, tmp->str, ft_strlen(key)) == 0)
-			return (tmp);
-		tmp = tmp->next;
+		tmp = env->first;
+		while (tmp)
+		{
+			if (ft_strncmp(key, tmp->str, ft_strlen(key)) == 0)
+				return (tmp);
+			tmp = tmp->next;
+		}
 	}
 	return (NULL);
 }

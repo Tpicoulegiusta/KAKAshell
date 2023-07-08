@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:00:08 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/07 18:14:56 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/08 11:07:00 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ int	ft_export(t_node *node, t_list *envlst, t_list *sort_envlst)
 {
 	char	**tmptab;
 	int		i;
-	
+
 	if (!node->next || (node->next && node->next->type == piperino))
 	{
 		sort_lst(sort_envlst);
@@ -245,7 +245,7 @@ int	ft_export(t_node *node, t_list *envlst, t_list *sort_envlst)
 		return (0);
 	}
 	tmptab = node_tab_setter(node);
-	i = 1;   //pour skip le "export"
+	i = 1;//pour skip le "export"
 	while (tmptab[i])
 	{
 		if (spe_char_exp_uns(tmptab[i][0]) == 1)

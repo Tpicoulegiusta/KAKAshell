@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:07:44 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/07 18:48:31 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/08 10:57:49 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,17 @@ void	print_env(t_list *envlst)
 
 	tmp = NULL;
 	if (envlst->first)
-		tmp = envlst->first;
-	while (tmp)
 	{
-		printf("%s\n", tmp->str);
-		tmp = tmp->next;
+		tmp = envlst->first;
+		while (tmp)
+		{
+			printf("%s\n", tmp->str);
+			tmp = tmp->next;
+		}
+		if (tmp == NULL && tmp->prev == NULL)
+			return ;
 	}
-	if (tmp == NULL && tmp->prev == NULL)
-		return ;
+	return ;
 }
 
 void	check_env(t_list *envlst, t_node *node)
