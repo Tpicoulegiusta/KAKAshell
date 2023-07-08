@@ -20,7 +20,7 @@ SRCS = minishell.c ft_ministrjoin.c ft_lists.c \
 		ft_check_lexer.c ft_parser.c ft_pwd.c \
 		ft_cd.c ft_env_to_list.c ft_built_exit.c \
 		ft_echo.c ft_check_parser.c ft_executor.c \
-		ft_var_env.c ft_builtins.c ft_built_export.c \
+		ft_var_env.c ft_built_export.c \
 		ft_built_env.c \
 
 OBJ = ./objs

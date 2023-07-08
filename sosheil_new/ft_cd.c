@@ -6,36 +6,48 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/04 13:29:14 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/08 13:44:25 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	change_oldpwd(char *path, t_list *env)
+void	change_oldpwd(char *path, t_data *d)
 {
 	t_node	*tmp;
 
-	tmp = find_node("OLDPWD", env);
+	tmp = find_node("OLDPWD", &(d->envlst));
+	if (!tmp)
+	{
+		printf("OLDPWD is not in the env\n");
+		return ;
+	}
 	if (tmp->str)
 		free(tmp->str);
 	tmp->str = ft_ministrjoin("OLDPWD=", path);
+	if_else_double(&(d->sort_env), &(d->envlst), tmp->str);
 	free(path);
-	//envoyer a reddy l'export a modifier
+	return ;
 }
 
-void	change_pwd(t_list *env)
+void	change_pwd(t_data *d)
 {
 	t_node	*tmp;
 	char	*s;
 
 	s = getcwd(NULL, 0);
-	tmp = find_node("PWD", env);
+	tmp = find_node("PWD", &(d->envlst));
+	if (!tmp)
+	{
+		printf("PWD is not in the env\n");
+		return ;
+	}
 	if (tmp->str)
 		free(tmp->str);
 	tmp->str = ft_ministrjoin("PWD=", s);
+	if_else_double(&(d->sort_env), &(d->envlst), tmp->str);
 	free(s);
-	//envoyer a reddy l'export a modifier
+	return ;
 }
 
 int	cd_dot(char *path, char *str)
@@ -62,7 +74,7 @@ int	cd_dot(char *path, char *str)
 	return (0);
 }
 
-int	another_check(t_list *envlst, t_node *tmp)
+int	ft_cd(t_data *d, t_node *tmp)
 {
 	char	*s;
 
@@ -76,20 +88,17 @@ int	another_check(t_list *envlst, t_node *tmp)
 			if (!tmp->next->str[1]
 				&& (tmp->next->str[0] == '~' || tmp->next->str[0] == '-'))
 				return (1);
-			printf("Tu veux aller ou la ??\n");
+			write(2, "Tu veux aller ou la ??\n", 23);
 			free(s);
 			return (1);
 		}
 	}
-	if (chdir(getenv("HOME")) == -1)
+	else if (chdir(getenv("HOME")) == -1)
 	{
 		write(2, "Le HOME a disparu\n", 19);
 		return (1);
 	}
-	if (tmp->str)
-		free(tmp->str);
-	tmp->str = ft_strdup(getenv("HOME"));
-	change_pwd(envlst);
-	change_oldpwd(s, envlst);
+	change_pwd(d);
+	change_oldpwd(s, d);
 	return (0);
 }

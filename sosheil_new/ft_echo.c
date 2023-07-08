@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 12:47:44 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/04 17:21:49 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/08 13:08:02 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ int	ft_option(t_node *tmp)
 	return (1);
 }
 
-void	gros_con(t_node *tmp)
+void	filler(t_node *tmp)
 {
 	while (tmp && tmp->type != 1)
 	{
-		printf("[%s]", tmp->str);
+		printf("%s", tmp->str);
 		if (tmp->space == 1)
 			printf(" ");
 		tmp = tmp->next;
@@ -42,7 +42,7 @@ void	gros_con(t_node *tmp)
 	return ;
 }
 
-int	and_another_check(t_node *tmp)
+int	ft_echo(t_node *tmp)
 {
 	int	i;
 	int	option;
@@ -61,7 +61,7 @@ int	and_another_check(t_node *tmp)
 	}
 	if (tmp->next && tmp->space == 1)
 		tmp = tmp->next;
-	gros_con(tmp);
+	filler(tmp);
 	if (option == 0)
 		printf("\n");
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:03:51 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/05 11:09:30 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/08 11:30:49 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_built_exit(t_node *tmp)
 	int	i;
 
 	i = -1;
+	if (tmp->prev && tmp->prev->type == piperino)
+		return (0);
 	if (!tmp->next)
 	{
 		exit(127);

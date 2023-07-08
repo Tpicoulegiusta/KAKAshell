@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/07 18:13:43 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/08 13:27:59 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ char	*ft_ministrrchr(char *s, char c);
 char	*ft_ministrchr(char *s, char c);
 t_node	*find_node(char *key, t_list *env);
 int		is_builtin(char *str);
+void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str);
 
 //////// LIST ///////////////////////////
 
@@ -123,9 +124,9 @@ void	executor(t_data *d);
 int		builtins(t_data *d);
 int		export_unset(t_node *node, t_list *envlst, t_list *sort_envlst);
 void	check_env(t_list *envlst, t_node *node);
-int		other_check(t_node *tmp, t_list *envlst);
-int		another_check(t_list *envlst, t_node *tmp);
-int		and_another_check(t_node *tmp);
+int		ft_pwd(t_node *tmp, t_list *envlst);
+int		ft_cd(t_data *d, t_node *tmp);
+int		ft_echo(t_node *tmp);
 int		ft_built_exit(t_node *tmp);
 
 //////// CHECKER ////////////////////////

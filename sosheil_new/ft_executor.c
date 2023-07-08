@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:57:13 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/08 11:00:38 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/08 14:11:27 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*getpath(char *cmd, t_list *envlst)
 	envcpy = substr2(tmp->str, 5, ft_strlen(tmp->str));
 	allpaths = ft_split(envcpy, ':');
 	path = checkaccess(allpaths, cmd);
-	printf("path = %s\n", path);
+	// printf("path = %s\n", path);
 	if (!path)
 		return (NULL);
 	return (path);
@@ -63,7 +63,7 @@ char	*getpath(char *cmd, t_list *envlst)
 
 char	**lst_to_tab(t_node *node)
 {
-	char 	*join;
+	char	*join;
 	char	**ret;
 
 	join = NULL;
@@ -231,7 +231,7 @@ int	execute(t_data *d, t_node *node, int builtin)
 	if (builtin)
 	{
 		if (!ft_strcmp("cd", node->str))
-			return (another_check(&(d->envlst), node));
+			return (ft_cd(d, node));
 		if (!ft_strcmp("exit", node->str))
 			return (ft_built_exit(node));
 		if (ft_strcmp(node->str, "export") == 0 && node->next
@@ -240,24 +240,29 @@ int	execute(t_data *d, t_node *node, int builtin)
 		if (ft_strcmp(node->str, "unset") == 0)
 			return (1);
 	}
-	if (d->argpath || builtin)
+	d->tabexec = lst_to_tab(node);
+	d->pid[d->i] = fork();
+	if (d->pid[d->i] == 0)
 	{
-		d->tabexec = lst_to_tab(node);
-		d->pid[d->i] = fork();
-		if (d->pid[d->i] == 0)
+		if (check_fds(d->fd_in, d->fd_out) == 1)
+			exit (1);
+		if (builtin)
 		{
-			if (check_fds(d->fd_in, d->fd_out) == 1)
-				exit (1);
-			if (builtin)
-			{
-				free(d->argpath);
-				freetab(d->tabexec);
-				check_env(&d->envlst, node);
-				export_unset(node, &d->envlst, &d->sort_env);
+			if (!ft_strcmp("echo", node->str))
+				ft_echo(node);
+			if (!ft_strcmp("pwd", node->str))
+				return (ft_pwd(node, &(d->envlst)));
+			free(d->argpath);
+			freetab(d->tabexec);
+			check_env(&d->envlst, node);
+			export_unset(node, &d->envlst, &d->sort_env);
+			exit(0);
+		}
+		else
+		{
+			execve(d->argpath, d->tabexec, d->envtab);
+			if (!d->argpath || !builtin)
 				exit(0);
-			}
-			else
-				execve(d->argpath, d->tabexec, d->envtab);
 		}
 	}
 	return (0);
@@ -269,42 +274,47 @@ int	execute_pipes(t_data *d, t_node *node, int builtin)
 	if (builtin)
 	{
 		if (!ft_strcmp("cd", node->str))
-			return (another_check(&(d->envlst), node));
+			return (ft_cd(d, node));
 		if (!ft_strcmp("exit", node->str))
 			return (ft_built_exit(node));
-		if (ft_strcmp(node->str, "unset") == 0)
+		if (ft_strcmp("unset", node->str) == 0)
 			return (1);
 	}
-	if (d->argpath || builtin)
+	d->tabexec = lst_to_tab(node);
+	pipe(d->fd);
+	d->pid[d->i] = fork();
+	if (d->pid[d->i] == 0)
 	{
-		d->tabexec = lst_to_tab(node);
-		pipe(d->fd);
-		d->pid[d->i] = fork();
-		if (d->pid[d->i] == 0)
-		{
-			close(d->fd[0]);
-			dup2(d->fd[1], STDOUT_FILENO);
-			close(d->fd[1]);
-			if (check_fds(d->fd_in, d->fd_out) == 1)
-				exit (1);
-			if (builtin)
-			{
-				free(d->argpath);
-				freetab(d->tabexec);
-				check_env(&d->envlst, node);
-				if (ft_strcmp(node->str, "export") == 0 && node->next
-					&& node->next->type != piperino)
-					exit (1);
-				export_unset(node, &d->envlst, &d->sort_env);
-				exit(0);
-			}
-			else
-				execve(d->argpath, d->tabexec, d->envtab);
-		}
-		close(d->fd[1]);
-		dup2(d->fd[0], STDIN_FILENO);
 		close(d->fd[0]);
+		dup2(d->fd[1], STDOUT_FILENO);
+		close(d->fd[1]);
+		if (check_fds(d->fd_in, d->fd_out) == 1)
+			exit (1);
+		if (builtin)
+		{
+			free(d->argpath);
+			freetab(d->tabexec);
+			check_env(&d->envlst, node);
+			if (!ft_strcmp("echo", node->str))
+				ft_echo(node);
+			if (!ft_strcmp("pwd", node->str))
+				ft_pwd(node, &(d->envlst));
+			if (!ft_strcmp(node->str, "export") && node->next
+				&& node->next->type != piperino)
+				exit (1);
+			export_unset(node, &d->envlst, &d->sort_env);
+			exit(0);
+		}
+		else
+		{
+			execve(d->argpath, d->tabexec, d->envtab);
+			if (!d->argpath || !builtin)
+				exit(0);
+		}
 	}
+	close(d->fd[1]);
+	dup2(d->fd[0], STDIN_FILENO);
+	close(d->fd[0]);
 	return (0);
 }
 
