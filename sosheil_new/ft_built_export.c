@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:00:08 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/08 11:07:00 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/09 14:18:41 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ int	check_double(t_list *sort_envlst, char *str)
 //print l'export char par char en ajoutant les quotes apres le '=' et "declare -x" au debut
 void	print_export(t_list *lst)
 {
-	t_node *tmp;
+	t_node	*tmp;
 	int		i;
 	int		x;
 
 	tmp = lst->first;
 	while (tmp)
 	{
-		printf("declare -x ");
+		write(1, "declare -x ", 12);
 		i = 0;
 		x = 0;
 		while (tmp->str[i])

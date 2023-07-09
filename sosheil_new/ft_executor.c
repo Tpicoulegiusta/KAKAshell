@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:57:13 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/08 14:11:27 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/09 16:20:42 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*checkaccess(char **allpaths, char *cmd)
 	while (allpaths[i])
 	{
 		ret = ft_pathjoin(allpaths[i++], cmd);
+		system("leaks minishell");
+		puts("SORTIE LE PATHJOIN ATTENTION");
 		if (access(ret, F_OK) == 0)
 			return (ret);
 	}
@@ -52,10 +54,15 @@ char	*getpath(char *cmd, t_list *envlst)
 	}
 	if (tmp == NULL)
 		return (0);
+	system("leaks minishell");
+	puts("COUCOUCOUCOUCOUCOUCOUCOU");
 	envcpy = substr2(tmp->str, 5, ft_strlen(tmp->str));
 	allpaths = ft_split(envcpy, ':');
+	system("leaks minishell");
+	puts("HAHAHHAAHAHAHAHAHAHAHAH");
 	path = checkaccess(allpaths, cmd);
-	// printf("path = %s\n", path);
+	free(envcpy);
+	free(allpaths);
 	if (!path)
 		return (NULL);
 	return (path);
@@ -251,7 +258,7 @@ int	execute(t_data *d, t_node *node, int builtin)
 			if (!ft_strcmp("echo", node->str))
 				ft_echo(node);
 			if (!ft_strcmp("pwd", node->str))
-				return (ft_pwd(node, &(d->envlst)));
+				ft_pwd(node, &(d->envlst));
 			free(d->argpath);
 			freetab(d->tabexec);
 			check_env(&d->envlst, node);
@@ -362,14 +369,14 @@ void	executor(t_data *d)
 	// free pid maybe
 
 	///////////////// T E S T /////////////////
-	char	*test = NULL;
-	node = d->lst.first;
-	while (node)
-	{
-		test = joinfree(test, node->str);
-		if (node->space != 0)
-			test = joinfree2(test, ' ');
-		node = node->next;
-	}
-	printf("after scan = [%s]\n", test);
+	// char	*test = NULL;
+	// node = d->lst.first;
+	// while (node)
+	// {
+	// 	test = joinfree(test, node->str);
+	// 	if (node->space != 0)
+	// 		test = joinfree2(test, ' ');
+	// 	node = node->next;
+	// }
+	// printf("after scan = [%s]\n", test);
 }
