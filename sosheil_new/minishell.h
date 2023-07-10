@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/08 13:27:59 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/10 12:31:15 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_data
 	t_list	sort_env;
 	int		*pid;
 	int		i;
+	int		builtin;
 	int		fd[2];
 	int		prev_fd;
 	int		fd_in;
@@ -89,6 +90,7 @@ char	*ft_ministrchr(char *s, char c);
 t_node	*find_node(char *key, t_list *env);
 int		is_builtin(char *str);
 void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str);
+char	**lst_to_tab(t_node *node);
 
 //////// LIST ///////////////////////////
 
@@ -118,6 +120,18 @@ char	*find_envline(char **envp, char *search);
 //////// EXEC //////////////////////////
 
 void	executor(t_data *d);
+int		exec_builtin_checks(int builtin, t_node *node);
+int		exec_builtin_checks_pipe(int builtin, t_node *node);
+void	child_func(t_data *d, t_node *node);
+void	child_func_pipes(t_data *d, t_node *node);
+int		check_fds(int fd_in, int fd_out);
+void	executor_body(t_data *d, t_node *node);
+int		execute(t_data *d, t_node *node);
+int		execute_pipes(t_data *d, t_node *node);
+int		scan_out_infiles(t_data *d, t_node *node);
+char	*path_check(char *cmd, t_list *envlst);
+void	init_fds(t_data *d);
+int		pipe_count(t_list *lst);
 
 /////// BUILTINS ///////////////////////
 
