@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:07:32 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/22 15:22:13 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/10 09:07:21 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*venv_change(char *str, t_list *envlst)
 	return (free(str), str = NULL, ret);
 }
 
-char 	*forquote(char *str, t_list *envlst)
+char	*forquote(char *str, t_list *envlst)
 {
 	int		i;
 	char	*ret;

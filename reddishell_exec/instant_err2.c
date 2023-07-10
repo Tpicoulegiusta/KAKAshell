@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:10:41 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/24 16:31:40 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/09 17:01:36 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	semi(char *line)
 		i++;
 	}
 	return (0);
-
 }
 
 int	backslash(char *line)
@@ -41,5 +40,4 @@ int	backslash(char *line)
 		i++;
 	}
 	return (0);
-
 }

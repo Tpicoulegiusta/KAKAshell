@@ -6,14 +6,14 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 15:30:19 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/18 15:30:43 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/09 17:00:59 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static	int	countwrd(char *s, char c)
-{	
+{
 	int		i;
 	int		trigger;
 

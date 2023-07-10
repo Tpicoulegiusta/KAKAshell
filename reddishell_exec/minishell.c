@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/07 15:06:27 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/10 09:43:49 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	len(char *str)
 
 void	print_lst(t_list *lst)
 {
-	t_node *tmp;
+	t_node	*tmp;
 
 	tmp = lst->first;
 	while (tmp)
@@ -41,7 +41,7 @@ int	checker(char *line)
 	if (quote_check(line) != 0)
 		return (1);
 	if (dobble_pipe(line) != 0 || redir_check(line) != 0
-			|| semi(line) != 0 || backslash(line) != 0)
+		|| semi(line) != 0 || backslash(line) != 0)
 		return (1);
 	return (0);
 }
@@ -50,7 +50,7 @@ void	envlst_envtab(t_data *d)
 {
 	char	*tmp;
 	t_node	*node;
-	
+
 	tmp = NULL;
 	node = d->envlst.first;
 	if (d->envtab)
@@ -62,9 +62,26 @@ void	envlst_envtab(t_data *d)
 		node = node->next;
 	}
 	d->envtab = ft_split(tmp, ' ');
+	free(tmp);
 	/*int	i = 0;
 	while (d->envtab[i])
 		printf("%s\n" d->envtab[i]);*/
+}
+
+t_node	*find_node(char *key, t_list *env)
+{
+	t_node	*tmp;
+
+	tmp = NULL;
+	if (env->first != NULL)
+		tmp = env->first;
+	while (tmp)
+	{
+		if (ft_strncmp(key, tmp->str, len(key)) == 0)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -76,16 +93,22 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	env_to_lst(&d.envlst, envp);
 	env_to_lst(&d.sort_env, envp);
-	d.envtab = NULL;
 	while (1)
 	{
+		d.envtab = NULL;
 		lst_init(&d.lst);
 		line = readline(NAME);
+		if (!line) //////// for CTRL-D
+		{
+			printf("exit\n");
+			exit(0);
+		}
 		add_history(line);
 		if (enter_check(line) != 0)
 			continue ;
 		if (checker(line) == 1)
-			return (freelist(&d.lst), freelist(&d.envlst), freelist(&d.sort_env), printf("SYNTAX ERR IN MAIN\n"), 1);
+			return (freelist(&d.lst), freelist(&d.envlst), \
+				freelist(&d.sort_env), printf("SYNTAX ERR IN MAIN\n"), 1);
 		lexer(&d.lst, line);
 		if (d.lst.len == 0)
 			continue ;
@@ -98,6 +121,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		envlst_envtab(&d);
 		executor(&d);
+		freetab(d.envtab);
 		freelist(&d.lst);
 		free(line);
 	}

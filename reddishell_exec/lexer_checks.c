@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:15:28 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/28 17:33:07 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/09 17:02:03 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	check_copy(t_list *lst, char **copy)
 		*copy = NULL;
 	}
 }
+
 int	check_32(t_list *lst, char c, char **copy)
 {
 	if (c == 32)

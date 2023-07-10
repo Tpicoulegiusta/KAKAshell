@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/07 14:46:55 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:57:52 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_data
 	t_list	sort_env;
 	int		*pid;
 	int		i;
+	int		builtin;
 	int		fd[2];
 	int		prev_fd;
 	int		fd_in;
@@ -76,6 +77,14 @@ int		spe_char(char c);
 char	*absolutepath(char *cmd);
 char	*getpath(char *cmd, t_list *envlst);
 int		is_builtin(char *str);
+int		ft_atoi(const char *str);
+int		ft_isdigit(int c);
+char	*ft_ministrjoin(char *s1, char *s2);
+int		ft_strncmp(char *s1, char *s2, size_t n);
+void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str);
+t_node	*find_node(char *key, t_list *env);
+char	*ft_strdup(char *s1);
+char	**lst_to_tab(t_node *node);
 
 //////// LIST ///////////////////////////
 
@@ -101,15 +110,33 @@ int		parser(t_list *lst, t_list *envlst);
 char	*ft_pathjoin(char *s1, char *s2);
 char	*find_envline(char **envp, char *search);
 void	dollaz(t_list *lst, t_list *envlst);
+int		is_cmd(char *str, t_list *envlst);
+void	unquoter(t_list *lst);
 
 //////// BUILTINS //////////////////////
 
 int		export_unset(t_node *node, t_list *envlst, t_list *sort_envlst);
 void	check_env(t_list *envlst, t_node *node);
+int		ft_built_exit(t_node *tmp);
+int		ft_cd(t_data *d, t_node *tmp);
+int		ft_echo(t_node *tmp);
+int		ft_pwd(t_node *tmp, t_list *env);
 
 //////// EXEC //////////////////////////
 
 void	executor(t_data *d);
+int		exec_builtin_checks(int builtin, t_node *node);
+int		exec_builtin_checks_pipe(int builtin, t_node *node);
+void	child_func(t_data *d, t_node *node);
+void	child_func_pipes(t_data *d, t_node *node);
+int		check_fds(int fd_in, int fd_out);
+void	executor_body(t_data *d, t_node *node);
+int		execute(t_data *d, t_node *node);
+int		execute_pipes(t_data *d, t_node *node);
+int		scan_out_infiles(t_data *d, t_node *node);
+char	*path_check(char *cmd, t_list *envlst);
+void	init_fds(t_data *d);
+int		pipe_count(t_list *lst);
 
 //////// CHECKER ////////////////////////
 
