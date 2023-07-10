@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:12:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/09 16:20:34 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/10 17:20:17 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,11 @@ char	*ft_pathjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	system("leaks minishell");
-	puts("ENTREE LE PATHJOIN GDSHGDGDY");
 	if (!s1)
-	{
-		s1 = malloc(sizeof(char) * 1);
-		s1[0] = '\0';
-	}
+		ft_strdup("");
 	if (!s2)
 		return (NULL);
-	ret = malloc ((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	ret = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!ret)
 		return (NULL);
 	i = -1;
@@ -38,7 +33,6 @@ char	*ft_pathjoin(char *s1, char *s2)
 	while (s2[++j])
 		ret[i + j] = s2[j];
 	ret[i + j] = '\0';
-	free(s1);
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:22:29 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/07 18:16:03 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/10 17:23:35 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,19 @@ void	freetab(char **tab)
 		free(tab[i++]);
 	free(tab);
 	tab = NULL;
+	return ;
+}
+
+void	freetabpath(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+	tab = NULL;
+	return ;
 }
 /*
 void	free_execve(t_data *data)

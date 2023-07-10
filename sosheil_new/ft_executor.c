@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:57:13 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/10 12:28:18 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/10 17:33:59 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	executor(t_data *d)
 	d->argpath = NULL;
 	d->i = 0;
 	d->builtin = 0;
-	d->pid = malloc (sizeof(pid_t) * (pipe_count(&d->lst) + 1));
+	d->pid = malloc(sizeof(pid_t) * (pipe_count(&d->lst) + 1));
 	init_fds(d);
 	node = d->lst.first;
 	while (node)

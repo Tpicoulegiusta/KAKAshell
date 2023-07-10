@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:33:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/09 16:01:29 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/10 17:30:01 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	is_cmd(char *str, t_list *envlst)
 
 	i = 1;
 	start = 0;
-	tmp = NULL;
 	if (str[0] == '/')
 	{
 		while (str[i])
@@ -44,22 +43,17 @@ int	is_cmd(char *str, t_list *envlst)
 				start = i;
 			i++;
 		}
-		system("leaks minishell");
-		tmp = substr2(str, start, i);
-		if (absolutepath(tmp) != NULL)
-		{
-			free(tmp);
-			return (1);
-		}
+		tmp = absolutepath(substr2(str, start, i));
+		if (tmp != NULL)
+			return (free(tmp), 1);
 		free(tmp);
-		system("leaks minishell");
 	}
 	else
 	{
-		//system("leaks minishell");
-		if (getpath(str, envlst) != NULL)
-			return (1);
-		//system("leaks minishell");
+		tmp = getpath(str, envlst);
+		if (tmp != NULL)
+			return (free(tmp), 1);
+		free(tmp);
 	}
 	return (0);
 }
@@ -118,7 +112,6 @@ int	parser(t_list *lst, t_list *envlst)
 	dollaz(lst, envlst);
 	unquoter(lst);
 	more_tokens(lst, envlst);
-	//system("leaks minishell");
 	if (syntax_checker(lst) == 1)
 		return (1);
 	return (0);

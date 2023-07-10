@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:24:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/10 12:32:17 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/10 17:24:30 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,17 @@ char	*checkaccess(char **allpaths, char *cmd)
 	while (allpaths[i])
 	{
 		ret = ft_pathjoin(allpaths[i++], cmd);
+		if (!ret)
+			return (NULL);
 		if (access(ret, F_OK) == 0)
+		{
+			freetabpath(allpaths);
 			return (ret);
+		}
 		free(ret);
 		ret = NULL;
 	}
+	freetabpath(allpaths);
 	free(ret);
 	return (NULL);
 }
@@ -46,7 +52,6 @@ char	*getpath(char *cmd, t_list *envlst)
 	char	**allpaths;
 
 	tmp = envlst->first;
-	envcpy = NULL;
 	while (tmp)
 	{
 		if (tmp->str[0] == 'P' && tmp->str[1] == 'A'
@@ -58,11 +63,8 @@ char	*getpath(char *cmd, t_list *envlst)
 	allpaths = ft_split(envcpy, ':');
 	path = checkaccess(allpaths, cmd);
 	free(envcpy);
-	freetab(allpaths);
-	free(allpaths);
 	if (!path)
-		return (NULL);
-	system("leaks minishell");
+		return (free(path), NULL);
 	return (path);
 }
 

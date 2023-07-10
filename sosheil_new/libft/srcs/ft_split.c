@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 14:46:57 by sboetti           #+#    #+#             */
-/*   Updated: 2023/04/07 13:25:56 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/10 16:30:08 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	kuantanamo(char *str, char charset)
 	return (mot);
 }
 
-char	**ft_split(const char *s, char c)
+char	**ft_split(char *s, char c)
 {
 	int		i;
 	int		j;
@@ -83,7 +83,7 @@ char	**ft_split(const char *s, char c)
 		while (!ischarset(s[i], c) && s[i])
 			i++;
 		if (start != i)
-			tab[j++] = ft_strsplitdup((char *)s, start, i);
+			tab[j++] = ft_strsplitdup(s, start, i);
 	}
 	tab[j] = NULL;
 	return (tab);

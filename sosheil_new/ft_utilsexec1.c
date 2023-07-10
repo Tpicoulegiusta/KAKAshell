@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:23:26 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/10 12:23:46 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/10 17:31:19 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	child_func(t_data *d, t_node *node)
 	{
 		if (d->argpath)
 			free(d->argpath);
-		freetab(d->tabexec);
+		freetabpath(d->tabexec);
 		if (!ft_strcmp("echo", node->str))
 			ft_echo(node);
 		if (!ft_strcmp("pwd", node->str))
@@ -77,7 +77,7 @@ void	child_func_pipes(t_data *d, t_node *node)
 	{
 		if (d->argpath)
 			free(d->argpath);
-		freetab(d->tabexec);
+		freetabpath(d->tabexec);
 		check_env(&d->envlst, node);
 		if (!ft_strcmp("echo", node->str))
 			ft_echo(node);

@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/09 15:01:32 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/10 17:30:13 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	main(int argc, char **argv, char **envp)
 		if (parser(&d.lst, &d.envlst) == 1)
 		{
 			freelist(&d.lst);
+			free(line);
 			continue ;
 		}
 		if (!d.lst.first)
@@ -83,7 +84,7 @@ int	main(int argc, char **argv, char **envp)
 		executor(&d);
 		freelist(&d.lst);
 		free(line);
-		//system("leaks minishell");
+		system("leaks minishell");
 	}
 	return (0);
 }

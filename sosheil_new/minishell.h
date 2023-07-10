@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/10 12:31:15 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/10 17:23:32 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ t_node	*find_node(char *key, t_list *env);
 int		is_builtin(char *str);
 void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str);
 char	**lst_to_tab(t_node *node);
+void	freetabpath(char **tab);
 
 //////// LIST ///////////////////////////
 
