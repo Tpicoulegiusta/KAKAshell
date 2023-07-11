@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:24:49 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/10 12:24:56 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 11:45:24 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	scan_out_infiles(t_data *d, t_node *node)
 		if (node)
 			node = node->next;
 	}
+	//system("leaks minishell");
 	if (node)
 		return (1);
 	return (0);

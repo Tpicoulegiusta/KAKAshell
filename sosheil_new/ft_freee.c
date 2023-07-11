@@ -6,24 +6,11 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:22:29 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/10 17:23:35 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 13:19:37 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	freetab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	i++;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-	tab = NULL;
-	return ;
-}
 
 void	freetabpath(char **tab)
 {
@@ -34,22 +21,24 @@ void	freetabpath(char **tab)
 		free(tab[i++]);
 	free(tab);
 	tab = NULL;
+	puts("HA");
 	return ;
 }
-/*
-void	free_execve(t_data *data)
+
+void	ft_free_node(t_node *node)
 {
-	int	i;
+	if (node)
+	{
+		node->next = NULL;
+		node->prev = NULL;
+		free(node->str);
+	}
+	free(node);
+	node = NULL;
+	return ;
+}
 
-	i = 0;
-	free(data->path);
-	while (data->argexec[i])
-		free(data->argexec[i++]);
-	free(data->argexec);
-	data->argexec = NULL;
-}*/
-
-void	freelst(t_list *lst)
+void	freelist(t_list *lst)
 {
 	t_node	*tmp;
 	t_node	*next;
@@ -59,9 +48,17 @@ void	freelst(t_list *lst)
 	while (tmp)
 	{
 		next = tmp->next;
-		free(tmp->str);
-		free(tmp);
+		ft_free_node(tmp);
 		tmp = next;
 	}
 	lst->len = 0;
+}
+
+void	ft_free_all(t_list *lst1, t_list *lst2)
+{
+	if (lst1)
+		freelist(lst1);
+	if (lst2)
+		freelist(lst2);
+	return ;
 }

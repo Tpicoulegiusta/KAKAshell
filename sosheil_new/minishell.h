@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/10 17:23:32 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 11:09:29 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct s_list
 
 typedef struct s_data
 {
-	char	**lextab;
 	char	*argpath;
 	char	**tabexec;
 	char	**envtab;
@@ -83,7 +82,6 @@ char	*ft_ministrjoin(char *s1, char *s2);
 char	*joinfree(char *s1, char *s2);
 char	*joinfree2(char *s1, char c);
 void	freetab(char **tab);
-void	free_execve(t_data *data);
 char	*substr2(char *s, int start, int end);
 char	*ft_ministrrchr(char *s, char c);
 char	*ft_ministrchr(char *s, char c);
@@ -92,6 +90,7 @@ int		is_builtin(char *str);
 void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str);
 char	**lst_to_tab(t_node *node);
 void	freetabpath(char **tab);
+void	ft_free_node(t_node *node);
 
 //////// LIST ///////////////////////////
 

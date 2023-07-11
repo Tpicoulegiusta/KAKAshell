@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:12:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/10 17:20:17 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 12:55:09 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,10 @@ char	*ft_ministrjoin(char *s1, char *s2)
 	ret = malloc ((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!ret)
 		return (NULL);
-	i = 0;
+	i = -1;
 	j = 0;
-	while (s1[i])
-	{
+	while (s1[++i])
 		ret[i] = s1[i];
-		i++;
-	}
 	while (s2[j])
 	{
 		ret[i + j] = s2[j];

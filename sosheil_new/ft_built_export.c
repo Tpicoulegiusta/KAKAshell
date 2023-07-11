@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:00:08 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/09 14:18:41 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 13:07:55 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	check_double(t_list *sort_envlst, char *str)
 	tmp = sort_envlst->first;
 	cut1 = NULL;
 	cut2 = NULL;
-	cut2 = cutter(str); //on cut jusquau '=', '=' exclus
+	cut2 = cutter(str);
 	while (tmp)
 	{
 		cut1 = cutter(tmp->str);
@@ -71,7 +71,7 @@ int	check_double(t_list *sort_envlst, char *str)
 		cut1 = NULL;
 		tmp = tmp->next;
 	}
-	return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 0); //pas de doublons
+	return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 0);
 }
 
 //print l'export char par char en ajoutant les quotes apres le '=' et "declare -x" au debut
@@ -181,18 +181,17 @@ void	export_env(t_list *envlst, char	*str)
 
 void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str)
 {
-	if (check_double(sort_envlst, str) == 1)  // means que c'est un doublon + add dans env
+	if (check_double(sort_envlst, str) == 1)
 	{
 		del_double(sort_envlst, str);
 		addnode(sort_envlst, str);
 		export_env(envlst, str);
 	}
-	else if (check_double(sort_envlst, str) == 0) //pas de doublons
+	else if (check_double(sort_envlst, str) == 0)
 	{
 		export_env(envlst, str);
 		addnode(sort_envlst, str);
 	}
-	//else il ya un doublon mais ne doit pas etre replaced, donc ne fait rien
 }
 
 int	spe_char_exp_uns(char c)

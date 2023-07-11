@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:23:26 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/10 17:31:19 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 13:04:18 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	child_func_pipes(t_data *d, t_node *node)
 			ft_echo(node);
 		if (!ft_strcmp("pwd", node->str))
 			ft_pwd(node, &(d->envlst));
-		if (ft_strcmp(node->str, "export") == 0 && node->next
+		if (!ft_strcmp(node->str, "export") && node->next
 			&& node->next->type != piperino)
 			exit (1);
 		export_unset(node, &d->envlst, &d->sort_env);
