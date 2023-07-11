@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:57:13 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 13:19:50 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 16:32:41 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void	executor(t_data *d)
 	dup2(d->sfd_in, STDIN_FILENO);
 	wait_for_pids(d);
 	free(d->argpath);
-	if (d->tabexec)
-		freetabpath(d->tabexec);
-	puts("CO");
+	// if (d->tabexec)
+		// freetabpath(d->tabexec);
+	// puts("CO");
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 15:22:35 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 17:08:33 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ void	show_ctlr(int b);
 
 ///////// UTILS /////////////////////////
 
+int		ft_find_char(char *str, char c);
+void	sort_lst(t_list *lst);
+int		spe_char_exp_uns(char c);
+int		is_pipe_redir(char c);
+char	**node_tab_setter(t_node *node);
 char	*getpath(char *cmd, t_list *envlst);
 char	*absolutepath(char *cmd);
 int		syntax_checker(t_list *lst);

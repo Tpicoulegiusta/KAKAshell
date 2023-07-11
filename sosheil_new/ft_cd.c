@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/11 14:08:58 by sboetti          ###   ########.fr       */
+/*   Created: 2023/05/24 10:36:07 by sboetti           #+#    #+#             */
+/*   Updated: 2023/07/11 17:00:25 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,24 @@
 
 void	change_oldpwd(char *path, t_data *d)
 {
-	t_node	*tmp;
+	char	*cpy;
 
-	tmp = find_node("OLDPWD", &(d->envlst));
-	if (!tmp)
-	{
-		printf("OLDPWD is not in the env\n");
-		return ;
-	}
-	if (tmp->str)
-	{
-		free(tmp->str);
-		tmp->str = NULL;
-	}
-	tmp->str = ft_ministrjoin("OLDPWD=", path);
-	if_else_double(&(d->sort_env), &(d->envlst), tmp->str);
+	cpy = ft_ministrjoin("OLDPWD=", path);
+	if_else_double(&(d->sort_env), &(d->envlst), cpy);
+	free(cpy);
 	free(path);
 	return ;
 }
 
 void	change_pwd(t_data *d)
 {
-	t_node	*tmp;
 	char	*s;
+	char	*cpy;
 
 	s = getcwd(NULL, 0);
-	tmp = find_node("PWD", &(d->envlst));
-	if (!tmp)
-	{
-		printf("PWD is not in the env\n");
-		return ;
-	}
-	if (tmp->str)
-		free(tmp->str);
-	tmp->str = ft_ministrjoin("PWD=", s);
-	if_else_double(&(d->sort_env), &(d->envlst), tmp->str);
+	cpy = ft_ministrjoin("PWD=", s);
+	if_else_double(&(d->sort_env), &(d->envlst), cpy);
+	free(cpy);
 	free(s);
 	return ;
 }

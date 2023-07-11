@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:00:08 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 13:07:55 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 17:07:05 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,10 @@ char	*cutter(char *str)
 		i++;
 	}
 	ret = substr2(str, start, i);
+	free(str);
 	return (ret);
 }
 
-int	ft_find_char(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-//le chercheur de doublons
 int	check_double(t_list *sort_envlst, char *str)
 {
 	t_node	*tmp;
@@ -61,11 +47,11 @@ int	check_double(t_list *sort_envlst, char *str)
 		cut1 = cutter(tmp->str);
 		if (ft_strcmp(cut1, cut2) == 0)
 		{
-			if (ft_find_char(tmp->str, '=') == 0 && ft_find_char(str, '=') == 1) //doublon + doit etre replaced + add dans env
+			if (ft_find_char(tmp->str, '=') == 0 && ft_find_char(str, '=') == 1)
 				return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 1);
-			if (ft_find_char(tmp->str, '=') == 1 && ft_find_char(str, '=') == 0) //doublon mais ne doit pas etre replaced
+			if (ft_find_char(tmp->str, '=') == 1 && ft_find_char(str, '=') == 0)
 				return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 2);
-			return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 1); //doublon + doit etre replaced
+			return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 1);
 		}
 		free(cut1);
 		cut1 = NULL;
@@ -105,44 +91,9 @@ void	print_export(t_list *lst)
 	}
 }
 
-//tri la liste, pushswap style
-void	sort_lst(t_list *lst)
-{
-	t_list	tmplst;
-	t_node	*tmp;
-	t_node	*tmp2;
-	int		len;
-
-	len = lst->len;
-	list_init(&tmplst);
-	while (len != 0)
-	{
-		if (!lst->first)
-			break ;
-		tmp = lst->first;
-		tmp2 = tmp;
-		while (tmp)
-		{
-			if (ft_strcmp(tmp->str, tmp2->str) < 0)
-				tmp2 = tmp;
-			tmp = tmp->next;
-		}
-		addnode(&tmplst, tmp2->str);
-		delnode(lst, tmp2);
-		len--;
-	}
-	tmp = tmplst.first;
-	while (tmp)
-	{
-		addnode(lst, tmp->str);
-		tmp = tmp->next;
-	}
-	freelist(&tmplst);
-}
-
 void	del_double(t_list *lst, char *str) //sera replaced par unset
 {
-	t_node *tmp;
+	t_node	*tmp;
 	char	*cut1;
 	char	*cut2;
 
@@ -150,7 +101,7 @@ void	del_double(t_list *lst, char *str) //sera replaced par unset
 	cut2 = NULL;
 	tmp = lst->first;
 	cut2 = cutter(str);
-	while(tmp)
+	while (tmp)
 	{
 		cut1 = cutter(tmp->str);
 		if (ft_strcmp(cut1, cut2) == 0)
@@ -162,6 +113,7 @@ void	del_double(t_list *lst, char *str) //sera replaced par unset
 		cut1 = NULL;
 		tmp = tmp->next;
 	}
+	free(cut2);
 }
 
 //pour rajouter dans l'env
@@ -194,42 +146,6 @@ void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str)
 	}
 }
 
-int	spe_char_exp_uns(char c)
-{
-	if ((c >= 37 && c <= 59)
-		|| c == '=' || c == '!' || c == '?'
-		|| c == '\"' || c == '#')
-		return (1);
-	return (0);
-}
-
-int	is_pipe_redir(char c)
-{
-	if (c == '|' || c == '>' || c == '<')
-		return (1);
-	return (0);
-}
-
-char	**node_tab_setter(t_node *node)
-{
-	t_node	*tmp;
-	char	*join;
-	char	**tab;
-
-	tmp = node;
-	join = NULL;
-	while (node && node->type != piperino)
-		node = node->next;
-	while (tmp && is_pipe_redir(tmp->str[0]) == 0)
-	{
-		join = joinfree(join, tmp->str);
-		if (tmp->space == 1)
-			join = joinfree2(join, ' ');
-		tmp = tmp->next;
-	}
-	tab = ft_split(join, ' ');
-	return (free(join), tab);
-}
 
 //l'export dans toute sa grandeur
 int	ft_export(t_node *node, t_list *envlst, t_list *sort_envlst)
@@ -244,7 +160,7 @@ int	ft_export(t_node *node, t_list *envlst, t_list *sort_envlst)
 		return (0);
 	}
 	tmptab = node_tab_setter(node);
-	i = 1;//pour skip le "export"
+	i = 1;
 	while (tmptab[i])
 	{
 		if (spe_char_exp_uns(tmptab[i][0]) == 1)
@@ -277,12 +193,12 @@ void	search_and_del(t_list *envlst, t_list *sort_envlst, char *str)
 	tmp = sort_envlst->first;
 	while (tmp)
 	{
-	    cutstr = NULL;
-	    cutstr = cutter(tmp->str);
-	    if (ft_strcmp(cutstr, str) == 0)
+		cutstr = NULL;
+		cutstr = cutter(tmp->str);
+		if (ft_strcmp(cutstr, str) == 0)
 		delnode(sort_envlst, tmp);
-	    tmp = tmp->next;
-	    free(cutstr);
+		tmp = tmp->next;
+		free(cutstr);
 	}
 }
 

@@ -6,11 +6,18 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:03:51 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 11:13:22 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 17:01:19 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	verif_if_pipe(t_node *tmp)
+{
+	if ((tmp->type == piperino) || (tmp->next && tmp->next->type == piperino))
+		return ;
+	exit(ft_atoi(tmp->str) % 256);
+}
 
 int	ft_built_exit(t_node *tmp)
 {
@@ -34,10 +41,7 @@ int	ft_built_exit(t_node *tmp)
 				exit (255);
 			}
 		}
-		if ((tmp->type == piperino)
-			|| (tmp->next && tmp->next->type == piperino))
-			return (1);
-		exit(ft_atoi(tmp->str) % 256);
+		verif_if_pipe(tmp);
 	}
 	return (0);
 }
