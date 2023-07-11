@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:57:13 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 16:32:41 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 18:38:17 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ int	execute(t_data *d, t_node *node)
 	d->argpath = path_check(node->str, &d->envlst);
 	if (exec_builtin_checks(d->builtin, node) == 1)
 		return (1);
-	//system("leaks minishell");
 	d->tabexec = lst_to_tab(node);
-	//system("leaks minishell");
 	d->pid[d->i] = fork();
 	if (d->pid[d->i] == 0)
 		child_func(d, node);
@@ -53,9 +51,7 @@ int	execute_pipes(t_data *d, t_node *node)
 	d->argpath = path_check(node->str, &d->envlst);
 	if (exec_builtin_checks_pipe(d->builtin, node))
 		return (1);
-	//system("leaks minishell");
 	d->tabexec = lst_to_tab(node);
-	//system("leaks minishell");
 	pipe(d->fd);
 	d->pid[d->i] = fork();
 	if (d->pid[d->i] == 0)
@@ -96,8 +92,8 @@ void	executor(t_data *d)
 	dup2(d->sfd_in, STDIN_FILENO);
 	wait_for_pids(d);
 	free(d->argpath);
-	// if (d->tabexec)
-		// freetabpath(d->tabexec);
-	// puts("CO");
 	return ;
 }
+
+// if (d->tabexec)
+// 	freetabpath(d->tabexec);

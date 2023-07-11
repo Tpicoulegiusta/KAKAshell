@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:22:29 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 13:19:37 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 18:36:52 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ void	freetabpath(char **tab)
 
 	i = 0;
 	while (tab[i])
-		free(tab[i++]);
+	{
+		if (tab[i])
+			free(tab[i++]);
+	}
 	free(tab);
 	tab = NULL;
-	puts("HA");
 	return ;
 }
 

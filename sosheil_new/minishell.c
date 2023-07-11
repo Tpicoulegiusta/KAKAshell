@@ -6,26 +6,24 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 15:49:05 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 18:31:50 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_error;
+// void	print_lst(t_list *lst)
+// {
+// 	t_node	*tmp;
 
-void	print_lst(t_list *lst)
-{
-	t_node	*tmp;
-
-	tmp = lst->first;
-	while (tmp)
-	{
-		printf("STR = %s; TYPE = %d; SPACE = %d\n",
-			tmp->str, tmp->type, tmp->space);
-		tmp = tmp->next;
-	}
-}
+// 	tmp = lst->first;
+// 	while (tmp)
+// 	{
+// 		printf("STR = %s; TYPE = %d; SPACE = %d\n",
+// 			tmp->str, tmp->type, tmp->space);
+// 		tmp = tmp->next;
+// 	}
+//}
 
 int	checker(char *line)
 {
@@ -53,13 +51,39 @@ t_node	*find_node(char *key, t_list *env)
 	return (NULL);
 }
 
+int	ft_mainutils(char *line, t_data *d)
+{
+	add_history(line);
+	if (enter_check(line) != 0)
+		return (1);
+	if (checker(line) == 1)
+		return (freelist(&(d->lst)), freelist(&(d->envlst)), \
+		freelist(&(d->sort_env)), printf("SYNTAX ERR IN MAIN\n"), 1);
+	lexer(&(d->lst), line);
+	if (d->lst.len == 0)
+		return (1);
+	if (parser(&(d->lst), &(d->envlst)) == 1)
+	{
+		freelist(&(d->lst));
+		free(line);
+		return (1);
+	}
+	if (!d->lst.first)
+		return (1);
+	executor(d);
+	freelist(&(d->lst));
+	free(line);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	d;
 	char	*line;
 
-	(void)argc;
 	(void)argv;
+	if (argc > 1)
+		return (0);
 	ft_env_to_list(&d.envlst, envp);
 	ft_env_to_list(&d.sort_env, envp);
 	gestion_sig();
@@ -74,27 +98,8 @@ int	main(int argc, char **argv, char **envp)
 			printf("exit\n");
 			exit(0);
 		}
-		add_history(line);
-		if (enter_check(line) != 0)
+		if (ft_mainutils(line, &d) == 1)
 			continue ;
-		if (checker(line) == 1)
-			return (freelist(&d.lst), freelist(&d.envlst), \
-			freelist(&d.sort_env), printf("SYNTAX ERR IN MAIN\n"), 1);
-		lexer(&d.lst, line);
-		if (d.lst.len == 0)
-			continue ;
-		if (parser(&d.lst, &d.envlst) == 1)
-		{
-			freelist(&d.lst);
-			free(line);
-			continue ;
-		}
-		if (!d.lst.first)
-			continue ;
-		executor(&d);
-		freelist(&d.lst);
-		free(line);
-		system("leaks minishell");
 	}
 	return (0);
 }

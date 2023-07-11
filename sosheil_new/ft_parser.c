@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:33:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 11:47:55 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 18:17:46 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,7 @@ int	is_cmd(char *str, t_list *envlst)
 	start = 0;
 	if (str[0] == '/')
 	{
-		while (str[i])
-		{
-			if (str[i] == '/')
-				start = i;
-			i++;
-		}
+		whileonslash(str, &i, &start);
 		tmp = absolutepath(substr2(str, start, i));
 		if (tmp != NULL)
 			return (free(tmp), 1);

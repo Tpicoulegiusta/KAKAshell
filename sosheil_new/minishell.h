@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 17:49:32 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:17:22 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	show_ctlr(int b);
 ///////// UTILS /////////////////////////
 
 char	*cutter(char *str);
+void	whileonslash(char *str, int *i, int *start);
 void	export_env(t_list *envlst, char	*str);
 int		check_double(t_list *sort_envlst, char *str);
 void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str);

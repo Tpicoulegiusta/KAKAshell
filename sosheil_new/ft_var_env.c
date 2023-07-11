@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:19:14 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/09 14:22:02 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 18:11:41 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*venv_change(char *str, t_list *envlst)
 	return (free(str), str = NULL, ret);
 }
 
-char 	*forquote(char *str, t_list *envlst)
+char	*forquote(char *str, t_list *envlst)
 {
 	int		i;
 	char	*ret;

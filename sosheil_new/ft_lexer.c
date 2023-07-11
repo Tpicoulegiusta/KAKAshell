@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:33:02 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/06 11:38:24 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 18:10:11 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ void	tokenizer(t_list *lst)
 }
 
 int	lexer_checks(t_list *lst, char *line, char **copy, int *i)
-{//refaire les if parce que si il y a des quotes on sort de la fontion
-// direct sans regarder les spaces et les spe...
+{
 	if (quoted(lst, line, copy, i) == 1)
 		return (1);
 	if (check_32(lst, line[*i], copy) == 1)

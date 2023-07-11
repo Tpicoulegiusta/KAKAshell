@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:45:45 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 11:19:07 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 18:10:50 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	list_init(t_list *list)
 	list->first = NULL;
 	list->last = NULL;
 }
-
 
 void	addnode(t_list *list, char *str)
 {
