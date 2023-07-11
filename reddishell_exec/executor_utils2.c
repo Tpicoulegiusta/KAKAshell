@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 16:44:33 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/10 09:44:45 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:51:05 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,15 @@ char	*checkaccess(char **allpaths, char *cmd)
 
 	i = 0;
 	ret = NULL;
+	(void)cmd;
 	while (allpaths[i])
 	{
-		ret = ft_pathjoin(allpaths[i++], cmd);
+		ret = ft_pathjoin(allpaths[i], cmd);
 		if (access(ret, F_OK) == 0)
 			return (ret);
 		free(ret);
 		ret = NULL;
+		i++;
 	}
 	free(ret);
 	return (NULL);
@@ -47,6 +49,7 @@ char	*getpath(char *cmd, t_list *envlst)
 
 	tmp = envlst->first;
 	envcpy = NULL;
+	path = NULL;
 	while (tmp)
 	{
 		if (tmp->str[0] == 'P' && tmp->str[1] == 'A'
@@ -60,7 +63,6 @@ char	*getpath(char *cmd, t_list *envlst)
 	//printf("path = %s\n", path);
 	if (!path)
 		return (NULL);
-	system("leaks minishell");
 	return (path);
 }
 

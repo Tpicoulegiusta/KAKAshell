@@ -1,0 +1,64 @@
+total 576
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1771 Jul 10 17:05 Makefile
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1254 Jul 10 17:05 dlc_env.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1140 Jul 11 12:48 dlc_env.o
+16 -rw-r--r--  1 rbulanad  2022_nice   6878 Jul 10 17:05 dlc_export.c
+16 -rw-r--r--  1 rbulanad  2022_nice   6772 Jul 11 12:48 dlc_export.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1448 Jul 10 17:05 env_to_list.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1049 Jul 10 17:05 env_to_lst.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice    768 Jul 11 12:48 env_to_lst.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2660 Jul 10 17:05 executor.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2952 Jul 11 12:48 executor.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   3114 Jul 10 17:05 executor_utils.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   3680 Jul 11 12:48 executor_utils.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2203 Jul 10 17:05 executor_utils2.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2304 Jul 11 12:48 executor_utils2.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2500 Jul 10 17:05 executor_utils3.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2532 Jul 11 12:48 executor_utils3.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1472 Jul 10 17:05 executor_utils4.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1336 Jul 11 12:48 executor_utils4.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1384 Jul 10 17:05 freee.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice    972 Jul 11 12:48 freee.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1442 Jul 10 17:05 ft_built_exit.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1280 Jul 11 12:48 ft_built_exit.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2488 Jul 10 17:05 ft_cd.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2796 Jul 11 12:48 ft_cd.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1752 Jul 10 17:05 ft_echo.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1644 Jul 11 12:48 ft_echo.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1257 Jul 10 17:05 ft_ministrjoin.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice    968 Jul 11 12:48 ft_ministrjoin.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1336 Jul 10 17:05 ft_pwd.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1224 Jul 11 12:48 ft_pwd.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1762 Jul 10 17:05 ft_split.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1532 Jul 11 12:48 ft_split.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2328 Jul 10 17:05 ft_strjoin.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2328 Jul 11 12:48 ft_strjoin.o
+ 0 -rw-r--r--  1 rbulanad  2022_nice      0 Jul 11 12:48 infile
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2004 Jul 10 17:05 instant_err.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2260 Jul 11 12:48 instant_err.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1221 Jul 10 17:05 instant_err2.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1004 Jul 11 12:48 instant_err2.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1990 Jul 10 17:05 lexer.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1952 Jul 11 12:48 lexer.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2056 Jul 10 17:05 lexer_checks.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1928 Jul 11 12:48 lexer_checks.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2373 Jul 10 17:05 lists.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2028 Jul 11 12:48 lists.o
+80 -rwxr-xr-x  1 rbulanad  2022_nice  39148 Jul 11 12:48 minishell
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2733 Jul 10 17:06 minishell.c
+16 -rw-r--r--  1 rbulanad  2022_nice   4752 Jul 10 17:05 minishell.h
+ 8 -rw-r--r--  1 rbulanad  2022_nice   3360 Jul 11 12:48 minishell.o
+ 0 -rw-r--r--  1 rbulanad  2022_nice      0 Jul 10 17:05 outfile
+ 0 -rw-r--r--  1 rbulanad  2022_nice      0 Jul 11 12:48 outfle
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2518 Jul 10 17:05 parser.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2516 Jul 11 12:48 parser.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2143 Jul 10 17:09 parser_utils.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2268 Jul 11 12:48 parser_utils.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1090 Jul 10 17:05 pipex.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice    208 Jul 11 12:48 pipex.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2136 Jul 10 17:05 redir_checks.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2260 Jul 11 12:48 redir_checks.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1764 Jul 10 17:05 utilslibft.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   1788 Jul 11 12:48 utilslibft.o
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2746 Jul 10 17:05 var_env.c
+ 8 -rw-r--r--  1 rbulanad  2022_nice   2592 Jul 11 12:48 var_env.o

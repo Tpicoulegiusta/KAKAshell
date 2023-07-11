@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 16:19:29 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/10 08:42:25 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/11 20:00:22 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,12 @@ void	child_func_pipes(t_data *d, t_node *node)
 	}
 }
 
-void	executor_body(t_data *d, t_node *node)
+t_node	*executor_body(t_data *d, t_node *node)
 {
-	if (scan_out_infiles(d, node) == 1)
+	node = scan_out_infiles(d, node);
+	if (node->type == piperino)
 	{
+		node = node->next;
 		if (execute_pipes(d, node) == 1)
 		{
 			check_env(&d->envlst, node);
@@ -122,4 +124,5 @@ void	executor_body(t_data *d, t_node *node)
 			ft_built_exit(node);
 		}
 	}
+	return (node);
 }

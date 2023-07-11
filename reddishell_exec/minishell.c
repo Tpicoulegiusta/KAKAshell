@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:33:20 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/10 09:43:49 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/11 19:52:47 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,6 @@ void	envlst_envtab(t_data *d)
 	}
 	d->envtab = ft_split(tmp, ' ');
 	free(tmp);
-	/*int	i = 0;
-	while (d->envtab[i])
-		printf("%s\n" d->envtab[i]);*/
 }
 
 t_node	*find_node(char *key, t_list *env)
@@ -125,8 +122,5 @@ int	main(int argc, char **argv, char **envp)
 		freelist(&d.lst);
 		free(line);
 	}
-	freelist(&d.envlst);
-	freelist(&d.sort_env);
-	free(line);
 	return (0);
 }

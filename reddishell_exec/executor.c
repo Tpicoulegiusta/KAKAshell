@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 10:59:05 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/10 08:44:24 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/11 19:56:08 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	executor(t_data *d)
 	while (node)
 	{
 		d->builtin = is_builtin(node->str);
-		executor_body(d, node);
+		node = executor_body(d, node);
 		close_fds(d);
 		while (node && node->type != piperino)
 			node = node->next;
@@ -93,7 +93,31 @@ void	executor(t_data *d)
 	dup2(d->sfd_in, STDIN_FILENO);
 	wait_for_pids(d);
 	//free pid maybe
-	/*
+/*
+////////////////////////
+	node = d->lst.first;
+
+	t_node *tmp;
+	while (node)
+	{
+		if (node->type == in)
+		{
+			delnode(&d->lst, node);
+			node = node->next;
+			delnode(&d->lst, node);
+			node = node->next;
+			tmp = node;
+		}
+		if (node)
+			node = node->next;
+	}
+	node = tmp;
+	node = d->lst.first;
+
+	printf("%s\n", node->str);
+/////////////////////
+*/
+/*
 	///////////////// T E S T /////////////////
 	char	*test = NULL;
 	node = d->lst.first;
@@ -105,5 +129,5 @@ void	executor(t_data *d)
 		node = node->next;
 	}
 	printf("after scan = %s\n", test);
-	*/
+*/	
 }

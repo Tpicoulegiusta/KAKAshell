@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/09 16:57:52 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/11 19:56:53 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,10 @@ int		exec_builtin_checks_pipe(int builtin, t_node *node);
 void	child_func(t_data *d, t_node *node);
 void	child_func_pipes(t_data *d, t_node *node);
 int		check_fds(int fd_in, int fd_out);
-void	executor_body(t_data *d, t_node *node);
+t_node	*executor_body(t_data *d, t_node *node);
 int		execute(t_data *d, t_node *node);
 int		execute_pipes(t_data *d, t_node *node);
-int		scan_out_infiles(t_data *d, t_node *node);
+t_node	*scan_out_infiles(t_data *d, t_node *node);
 char	*path_check(char *cmd, t_list *envlst);
 void	init_fds(t_data *d);
 int		pipe_count(t_list *lst);

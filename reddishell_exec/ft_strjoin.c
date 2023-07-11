@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:22:24 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/05/24 14:52:57 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:50:23 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ char	*ft_pathjoin(char *s1, char *s2)
 	while (s2[++j])
 		ret[i + j] = s2[j];
 	ret[i + j] = '\0';
-	free(s1);
 	return (ret);
 }
 

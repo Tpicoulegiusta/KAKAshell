@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:21:03 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/06/12 13:03:43 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/11 14:56:36 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ void	freelist(t_list *lst)
 	while (tmp)
 	{
 		next = tmp->next;
-		free(tmp->str);
+		if (tmp->str)
+			free(tmp->str);
 		free(tmp);
 		tmp = next;
 	}

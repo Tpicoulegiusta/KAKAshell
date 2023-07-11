@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/10 09:43:17 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:25:05 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	more_tokens(t_list *lst, t_list *envlst)
 			tmp->type = cmd;
 		if (is_builtin(tmp->str) == 1)
 			tmp->type = builtin;
-		tmp = tmp->next;
+		if (tmp)
+			tmp = tmp->next;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 16:47:25 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/09 16:49:56 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/11 19:51:25 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ void	init_fds(t_data *d)
 	d->sfd_out = dup(STDOUT_FILENO);
 }
 
-int	open_infile(t_data *d, t_node *node)
+t_node	*open_infile(t_data *d, t_node *node)
 {
+	t_node *tmp;
+	
+	tmp = node;
 	if (node->type == in)
 	{
 		delnode(&d->lst, node);
@@ -32,11 +35,10 @@ int	open_infile(t_data *d, t_node *node)
 		d->fd_in = open(node->str, O_RDONLY, 0777);
 		delnode(&d->lst, node);
 		node = node->next;
-		if (d->fd_in < 0)
-			return (1);
-		printf("fdIN = %d, fdOUT = %d\n", d->fd_in, d->fd_out);
+		tmp = node;
+		//printf("fdIN = %d, fdOUT = %d\n", d->fd_in, d->fd_out);
 	}
-	return (0);
+	return (tmp);
 }
 
 int	open_outfile(t_data *d, t_node *node)
@@ -75,12 +77,14 @@ int	open_doubleout(t_data *d, t_node *node)
 	return (0);
 }
 
-int	scan_out_infiles(t_data *d, t_node *node)
+t_node *scan_out_infiles(t_data *d, t_node *node)
 {
+	t_node *tmp;
+
 	while (node && node->type != piperino)
 	{
-		if (open_infile(d, node) == 1)
-			continue ;
+		tmp = open_infile(d, node);
+		node = tmp;
 		if (open_outfile(d, node) == 1)
 			continue ;
 		if (open_doubleout(d, node) == 1)
@@ -88,7 +92,6 @@ int	scan_out_infiles(t_data *d, t_node *node)
 		if (node)
 			node = node->next;
 	}
-	if (node)
-		return (1);
-	return (0);
+	node = tmp;
+	return (node);
 }
