@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 14:57:00 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 15:49:05 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	print_lst(t_list *lst)
 	tmp = lst->first;
 	while (tmp)
 	{
-		printf("STR = %s; TYPE = %d; SPACE = %d\n", tmp->str, tmp->type, tmp->space);
+		printf("STR = %s; TYPE = %d; SPACE = %d\n",
+			tmp->str, tmp->type, tmp->space);
 		tmp = tmp->next;
 	}
 }
@@ -61,12 +62,19 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	ft_env_to_list(&d.envlst, envp);
 	ft_env_to_list(&d.sort_env, envp);
+	gestion_sig();
 	while (1)
 	{
 		list_init(&d.lst);
+		show_ctlr(0);
 		line = readline(NAME);
+		show_ctlr(1);
+		if (!line)
+		{
+			printf("exit\n");
+			exit(0);
+		}
 		add_history(line);
-		gestion_sig();
 		if (enter_check(line) != 0)
 			continue ;
 		if (checker(line) == 1)

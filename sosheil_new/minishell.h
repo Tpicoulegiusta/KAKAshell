@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 14:57:39 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 15:22:35 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_data
 
 //////////////SIG//////////////////////
 
+void	 rl_replace_line (const char *text, int clear_undo);
 void	gestion_sig(void);
 void	ft_ctrl_action(int signal);
 void	show_ctlr(int b);
