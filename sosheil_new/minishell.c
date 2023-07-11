@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 12:43:14 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 14:57:00 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,12 @@ int	main(int argc, char **argv, char **envp)
 		list_init(&d.lst);
 		line = readline(NAME);
 		add_history(line);
+		gestion_sig();
 		if (enter_check(line) != 0)
 			continue ;
 		if (checker(line) == 1)
-			return (freelist(&d.lst), freelist(&d.envlst), freelist(&d.sort_env), printf("SYNTAX ERR IN MAIN\n"), 1);
+			return (freelist(&d.lst), freelist(&d.envlst), \
+			freelist(&d.sort_env), printf("SYNTAX ERR IN MAIN\n"), 1);
 		lexer(&d.lst, line);
 		if (d.lst.len == 0)
 			continue ;

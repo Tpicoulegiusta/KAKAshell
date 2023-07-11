@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 11:09:29 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 14:57:39 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ typedef struct s_data
 	int		sfd_in;
 	int		sfd_out;
 }				t_data;
+
+//////////////SIG//////////////////////
+
+void	gestion_sig(void);
+void	ft_ctrl_action(int signal);
+void	show_ctlr(int b);
 
 ///////// UTILS /////////////////////////
 

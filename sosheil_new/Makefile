@@ -22,7 +22,7 @@ SRCS = minishell.c ft_ministrjoin.c ft_lists.c \
 		ft_echo.c ft_check_parser.c ft_executor.c \
 		ft_var_env.c ft_built_export.c \
 		ft_built_env.c ft_utilsexec1.c ft_utilsexec2.c \
-		ft_utilsexec3.c ft_utilsexec4.c \
+		ft_utilsexec3.c ft_utilsexec4.c ft_signals.c \
 
 OBJ = ./objs
 
@@ -32,7 +32,8 @@ all: credit $(NAME)
 
 $(NAME): ${OBJS} $(LIB_F)/$(LIB)
 	@echo "$(GREEN)Minishell is up to date!${DEFAULT}"
-	@$(GCCFLG) $(LIB_F)/$(LIB) -o $(NAME) $(OBJS) -lreadline
+	@$(GCCFLG) $(LIB_F)/$(LIB) -o $(NAME) $(OBJS) -lreadline -L /Users/sboetti/.brew/opt/readline/lib -I /Users/sboetti/.brew/opt/readline/include
+
 
 $(LIB_F)/$(LIB):
 	@make -C $(LIB_F)
