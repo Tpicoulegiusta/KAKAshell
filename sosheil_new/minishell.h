@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 17:08:33 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 17:49:32 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,13 @@ void	show_ctlr(int b);
 
 ///////// UTILS /////////////////////////
 
+char	*cutter(char *str);
+void	export_env(t_list *envlst, char	*str);
+int		check_double(t_list *sort_envlst, char *str);
+void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str);
+void	search_and_del(t_list *envlst, t_list *sort_envlst, char *str);
+void	del_double(t_list *lst, char *str);
+void	print_export(t_list *lst);
 int		ft_find_char(char *str, char c);
 void	sort_lst(t_list *lst);
 int		spe_char_exp_uns(char c);
@@ -107,6 +114,8 @@ void	ft_free_node(t_node *node);
 //////// LIST ///////////////////////////
 
 void	ft_env_to_list(t_list *envlst, char **envp);
+int		ft_export(t_node *node, t_list *envlst, t_list *sort_envlst);
+void	ft_unset(t_node *node, t_list *envlst, t_list *sort_envlst);
 void	list_init(t_list *list);
 void	addnode(t_list *lst, char *str);
 void	delnode(t_list *list, t_node *node);

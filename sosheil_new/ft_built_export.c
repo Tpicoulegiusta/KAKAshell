@@ -3,120 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_built_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:00:08 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 17:07:05 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 17:49:28 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*cutter(char *str)
-{
-	int		i;
-	int		start;
-	char	*ret;
-
-	i = 0;
-	start = 0;
-	ret = NULL;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (substr2(str, start, i));
-		i++;
-	}
-	ret = substr2(str, start, i);
-	free(str);
-	return (ret);
-}
-
-int	check_double(t_list *sort_envlst, char *str)
-{
-	t_node	*tmp;
-	char	*cut1;
-	char	*cut2;
-
-	tmp = sort_envlst->first;
-	cut1 = NULL;
-	cut2 = NULL;
-	cut2 = cutter(str);
-	while (tmp)
-	{
-		cut1 = cutter(tmp->str);
-		if (ft_strcmp(cut1, cut2) == 0)
-		{
-			if (ft_find_char(tmp->str, '=') == 0 && ft_find_char(str, '=') == 1)
-				return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 1);
-			if (ft_find_char(tmp->str, '=') == 1 && ft_find_char(str, '=') == 0)
-				return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 2);
-			return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 1);
-		}
-		free(cut1);
-		cut1 = NULL;
-		tmp = tmp->next;
-	}
-	return (free(cut1), free(cut2), cut1 = NULL, cut2 = NULL, 0);
-}
-
-//print l'export char par char en ajoutant les quotes apres le '=' et "declare -x" au debut
-void	print_export(t_list *lst)
-{
-	t_node	*tmp;
-	int		i;
-	int		x;
-
-	tmp = lst->first;
-	while (tmp)
-	{
-		write(1, "declare -x ", 12);
-		i = 0;
-		x = 0;
-		while (tmp->str[i])
-		{
-			if (tmp->str[i] == '=' && tmp->str[i + 1] != '\"')
-			{
-				printf("%c", tmp->str[i++]);
-				printf("\"");
-				x = 1;
-			}
-			else
-				printf("%c", tmp->str[i++]);
-		}
-		if (x == 1)
-			printf("\"");
-		printf("\n");
-		tmp = tmp->next;
-	}
-}
-
-void	del_double(t_list *lst, char *str) //sera replaced par unset
-{
-	t_node	*tmp;
-	char	*cut1;
-	char	*cut2;
-
-	cut1 = NULL;
-	cut2 = NULL;
-	tmp = lst->first;
-	cut2 = cutter(str);
-	while (tmp)
-	{
-		cut1 = cutter(tmp->str);
-		if (ft_strcmp(cut1, cut2) == 0)
-		{
-			delnode(lst, tmp);
-			break ;
-		}
-		free(cut1);
-		cut1 = NULL;
-		tmp = tmp->next;
-	}
-	free(cut2);
-}
-
-//pour rajouter dans l'env
 void	export_env(t_list *envlst, char	*str)
 {
 	if (ft_find_char(str, '=') == 1)
@@ -131,23 +26,6 @@ void	export_env(t_list *envlst, char	*str)
 	}
 }
 
-void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str)
-{
-	if (check_double(sort_envlst, str) == 1)
-	{
-		del_double(sort_envlst, str);
-		addnode(sort_envlst, str);
-		export_env(envlst, str);
-	}
-	else if (check_double(sort_envlst, str) == 0)
-	{
-		export_env(envlst, str);
-		addnode(sort_envlst, str);
-	}
-}
-
-
-//l'export dans toute sa grandeur
 int	ft_export(t_node *node, t_list *envlst, t_list *sort_envlst)
 {
 	char	**tmptab;
@@ -173,33 +51,6 @@ int	ft_export(t_node *node, t_list *envlst, t_list *sort_envlst)
 	}
 	free(tmptab);
 	return (1);
-}
-
-void	search_and_del(t_list *envlst, t_list *sort_envlst, char *str)
-{
-	t_node	*tmp;
-	char	*cutstr;
-
-	tmp = envlst->first;
-	while (tmp)
-	{
-		cutstr = NULL;
-		cutstr = cutter(tmp->str);
-		if (ft_strcmp(cutstr, str) == 0)
-			delnode(envlst, tmp);
-		tmp = tmp->next;
-		free(cutstr);
-	}
-	tmp = sort_envlst->first;
-	while (tmp)
-	{
-		cutstr = NULL;
-		cutstr = cutter(tmp->str);
-		if (ft_strcmp(cutstr, str) == 0)
-		delnode(sort_envlst, tmp);
-		tmp = tmp->next;
-		free(cutstr);
-	}
 }
 
 void	ft_unset(t_node *node, t_list *envlst, t_list *sort_envlst)

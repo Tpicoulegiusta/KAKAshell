@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exportutils1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 17:05:50 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 17:10:47 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/11 17:55:49 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ int	ft_find_char(char *str, char c)
 	return (0);
 }
 
+void	utils_sortlst(t_list *lst, t_node *tmp)
+{
+	while (tmp)
+	{
+		addnode(lst, tmp->str);
+		tmp = tmp->next;
+	}
+}
+
 void	sort_lst(t_list *lst)
 {
 	t_list	tmplst;
@@ -35,7 +44,7 @@ void	sort_lst(t_list *lst)
 
 	len = lst->len;
 	list_init(&tmplst);
-	while (len != 0)
+	while (len-- != 0)
 	{
 		if (!lst->first)
 			break ;
@@ -49,14 +58,9 @@ void	sort_lst(t_list *lst)
 		}
 		addnode(&tmplst, tmp2->str);
 		delnode(lst, tmp2);
-		len--;
 	}
 	tmp = tmplst.first;
-	while (tmp)
-	{
-		addnode(lst, tmp->str);
-		tmp = tmp->next;
-	}
+	utils_sortlst(lst, tmp);
 	freelist(&tmplst);
 }
 
@@ -74,25 +78,4 @@ int	is_pipe_redir(char c)
 	if (c == '|' || c == '>' || c == '<')
 		return (1);
 	return (0);
-}
-
-char	**node_tab_setter(t_node *node)
-{
-	t_node	*tmp;
-	char	*join;
-	char	**tab;
-
-	tmp = node;
-	join = NULL;
-	while (node && node->type != piperino)
-		node = node->next;
-	while (tmp && is_pipe_redir(tmp->str[0]) == 0)
-	{
-		join = joinfree(join, tmp->str);
-		if (tmp->space == 1)
-			join = joinfree2(join, ' ');
-		tmp = tmp->next;
-	}
-	tab = ft_split(join, ' ');
-	return (free(join), tab);
 }
