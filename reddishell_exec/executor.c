@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 10:59:05 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/11 19:56:08 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:40:55 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ int	execute(t_data *d, t_node *node)
 	d->tabexec = lst_to_tab(node);
 	d->pid[d->i] = fork();
 	if (d->pid[d->i] == 0)
-		child_func(d, node);
+	{
+		if (check_fds(d->fd_in, d->fd_out) == 1)
+			exit (1);
+			child_func(d, node);
+	}
 	return (0);
 }
 
@@ -69,6 +73,31 @@ void	close_fds(t_data *d)
 		close(d->fd_out);
 }
 
+int	is_builtin_exec(t_node *node)
+{
+	while (node)
+	{
+		if (node->type == cmd || node->type == builtin || node->type == opt)
+			break ;
+		node = node->next;
+	}
+	if (ft_strcmp(node->str, "echo") == 0)
+		return (1);
+	if (ft_strcmp(node->str, "cd") == 0)
+		return (1);
+	if (ft_strcmp(node->str, "pwd") == 0)
+		return (1);
+	if (ft_strcmp(node->str, "export") == 0)
+		return (1);
+	if (ft_strcmp(node->str, "unset") == 0)
+		return (1);
+	if (ft_strcmp(node->str, "env") == 0)
+		return (1);
+	if (ft_strcmp(node->str, "exit") == 0)
+		return (1);
+	return (0);
+}
+
 void	executor(t_data *d)
 {
 	t_node	*node;
@@ -81,7 +110,8 @@ void	executor(t_data *d)
 	node = d->lst.first;
 	while (node)
 	{
-		d->builtin = is_builtin(node->str);
+
+		d->builtin = is_builtin_exec(node);
 		node = executor_body(d, node);
 		close_fds(d);
 		while (node && node->type != piperino)
@@ -94,32 +124,9 @@ void	executor(t_data *d)
 	wait_for_pids(d);
 	//free pid maybe
 /*
-////////////////////////
-	node = d->lst.first;
-
-	t_node *tmp;
-	while (node)
-	{
-		if (node->type == in)
-		{
-			delnode(&d->lst, node);
-			node = node->next;
-			delnode(&d->lst, node);
-			node = node->next;
-			tmp = node;
-		}
-		if (node)
-			node = node->next;
-	}
-	node = tmp;
-	node = d->lst.first;
-
-	printf("%s\n", node->str);
-/////////////////////
-*/
-/*
 	///////////////// T E S T /////////////////
 	char	*test = NULL;
+		printf("NODE = %s, DBUILT2 = %d\n", node->str, d->builtin);
 	node = d->lst.first;
 	while (node)
 	{

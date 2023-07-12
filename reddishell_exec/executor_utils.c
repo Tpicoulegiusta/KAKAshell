@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 16:19:29 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/11 20:00:22 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:42:54 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int	exec_builtin_checks_pipe(int builtin, t_node *node)
 
 void	child_func(t_data *d, t_node *node)
 {
-	if (check_fds(d->fd_in, d->fd_out) == 1)
-		exit (1);
 	if (d->builtin)
 	{
 		if (d->argpath)
@@ -102,10 +100,10 @@ void	child_func_pipes(t_data *d, t_node *node)
 
 t_node	*executor_body(t_data *d, t_node *node)
 {
+	d->scan_pipe = 0;
 	node = scan_out_infiles(d, node);
-	if (node->type == piperino)
+	if (d->scan_pipe == 1)
 	{
-		node = node->next;
 		if (execute_pipes(d, node) == 1)
 		{
 			check_env(&d->envlst, node);
@@ -124,5 +122,6 @@ t_node	*executor_body(t_data *d, t_node *node)
 			ft_built_exit(node);
 		}
 	}
+	close_fds(d);
 	return (node);
 }

@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 16:50:04 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/09 16:53:23 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:48:48 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,22 @@ int	check_fds(int fd_in, int fd_out)
 		return (1);
 	}
 	if (fd_in)
+	{
+		puts("FDIN");
 		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
 	if (fd_out < 0)
 	{
 		(printf("OUTFILE ERROR\n"));
 		return (1);
 	}
 	if (fd_out)
+	{
+		puts("FDOUT");
 		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
+	}
 	return (0);
 }
 

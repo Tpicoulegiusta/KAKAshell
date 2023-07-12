@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:21:03 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/11 14:56:36 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/12 12:57:51 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,24 +68,28 @@ void	delnode(t_list *list, t_node *node)
 	{
 		list->first = NULL;
 		list->last = NULL;
+		free(node->str);
 		free(node);
 	}
 	else if (!node->next)
 	{
 		list->last = list->last->prev;
 		list->last->next = NULL;
+		free(node->str);
 		free(node);
 	}
 	else if (!node->prev)
 	{
 		list->first = list->first->next;
 		list->first->prev = NULL;
+		free(node->str);
 		free(node);
 	}
 	else
 	{
 		node->prev->next = node->next;
 		node->next->prev = node->prev;
+		free(node->str);
 		free(node);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/11 17:25:05 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/12 12:38:56 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	more_tokens(t_list *lst, t_list *envlst)
 			tmp->type = cmd;
 		if (is_builtin(tmp->str) == 1)
 			tmp->type = builtin;
+		if ((tmp->type == str && !tmp->prev) || (tmp->type == str && tmp->prev && tmp->prev->type < 6))
+			tmp->type = opt;
 		if (tmp)
 			tmp = tmp->next;
 	}
@@ -89,5 +91,11 @@ int	parser(t_list *lst, t_list *envlst)
 	more_tokens(lst, envlst);
 	if (syntax_checker(lst) == 1)
 		return (1);
+	/*t_node *tmp = lst->first;
+	while (tmp)
+	{
+		printf("NODE = %s, TYPE = %d\n", tmp->str, tmp->type);
+		tmp = tmp->next;
+	}*/
 	return (0);
 }

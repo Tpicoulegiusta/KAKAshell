@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/11 19:56:53 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:34:44 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # define NAME "turboshell% "
 
 //RR = right redir, LR = left redir
-enum	e_tok{str, piperino, out, in, eof, append, cmd, venv, builtin};
-//			  0       1       2    3   4     5      6     7      8
+enum	e_tok{str, piperino, cmd, venv, builtin, opt, out, in, eof, append};
+//			  0       1       2    3   		4     5    6   	7   8		9
 
 typedef struct s_node
 {
@@ -50,11 +50,11 @@ typedef struct s_data
 	t_list	lst;
 	t_list	envlst;
 	t_list	sort_env;
+	int		scan_pipe;
 	int		*pid;
 	int		i;
 	int		builtin;
 	int		fd[2];
-	int		prev_fd;
 	int		fd_in;
 	int		fd_out;
 	int		sfd_in;
@@ -137,6 +137,7 @@ t_node	*scan_out_infiles(t_data *d, t_node *node);
 char	*path_check(char *cmd, t_list *envlst);
 void	init_fds(t_data *d);
 int		pipe_count(t_list *lst);
+void	close_fds(t_data *d);
 
 //////// CHECKER ////////////////////////
 
