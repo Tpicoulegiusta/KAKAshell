@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 16:19:29 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/12 17:42:54 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:51:54 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	child_func(t_data *d, t_node *node)
 	else
 	{
 		execve(d->argpath, d->tabexec, d->envtab);
-		if (!d->argpath && !d->builtin)
+		if ((!d->argpath || !d->builtin) && ft_strcmp(node->str, "|") != 0)
 		{
 			fprintf(stderr, "command not found\n");
 			exit(0);
@@ -90,7 +90,7 @@ void	child_func_pipes(t_data *d, t_node *node)
 	else
 	{
 		execve(d->argpath, d->tabexec, d->envtab);
-		if (!d->argpath || !d->builtin)
+		if ((!d->argpath || !d->builtin) && ft_strcmp(node->str, "|") != 0)
 		{
 			fprintf(stderr, "command not found\n");
 			exit(0);
@@ -101,7 +101,11 @@ void	child_func_pipes(t_data *d, t_node *node)
 t_node	*executor_body(t_data *d, t_node *node)
 {
 	d->scan_pipe = 0;
+	d->is_in = 0;
+	d->is_out = 0;
 	node = scan_out_infiles(d, node);
+	if (!node)
+		return (NULL);
 	if (d->scan_pipe == 1)
 	{
 		if (execute_pipes(d, node) == 1)

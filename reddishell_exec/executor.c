@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 10:59:05 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/12 17:40:55 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:45:51 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@ int	execute(t_data *d, t_node *node)
 	d->pid[d->i] = fork();
 	if (d->pid[d->i] == 0)
 	{
-		if (check_fds(d->fd_in, d->fd_out) == 1)
+		if (check_fds(d) == 1)
 			exit (1);
-			child_func(d, node);
+		if (d->is_in)
+			dup2(d->fd_in, STDIN_FILENO);
+		if (d->is_out)
+			dup2(d->fd_out, STDOUT_FILENO);
+				child_func(d, node);
 	}
 	return (0);
 }
@@ -38,11 +42,16 @@ int	execute_pipes(t_data *d, t_node *node)
 	d->pid[d->i] = fork();
 	if (d->pid[d->i] == 0)
 	{
-		close(d->fd[0]);
-		dup2(d->fd[1], STDOUT_FILENO);
-		close(d->fd[1]);
-		if (check_fds(d->fd_in, d->fd_out) == 1)
+		if (check_fds(d) == 1)
 			exit (1);
+		if (d->is_out)
+			dup2(d->fd_out, STDOUT_FILENO);
+		else
+		{
+			close(d->fd[0]);
+			dup2(d->fd[1], STDOUT_FILENO);
+			close(d->fd[1]);
+		}
 		child_func_pipes(d, node);
 	}
 	close(d->fd[1]);
@@ -75,12 +84,12 @@ void	close_fds(t_data *d)
 
 int	is_builtin_exec(t_node *node)
 {
-	while (node)
+	/*while (node)
 	{
 		if (node->type == cmd || node->type == builtin || node->type == opt)
 			break ;
 		node = node->next;
-	}
+	}*/ //////delete if useless
 	if (ft_strcmp(node->str, "echo") == 0)
 		return (1);
 	if (ft_strcmp(node->str, "cd") == 0)
@@ -110,7 +119,6 @@ void	executor(t_data *d)
 	node = d->lst.first;
 	while (node)
 	{
-
 		d->builtin = is_builtin_exec(node);
 		node = executor_body(d, node);
 		close_fds(d);
@@ -120,8 +128,9 @@ void	executor(t_data *d)
 			node = node->next;
 		d->i++;
 	}
-	dup2(d->sfd_in, STDIN_FILENO);
 	wait_for_pids(d);
+	dup2(d->sfd_in, STDIN_FILENO);
+	dup2(d->sfd_out, STDOUT_FILENO);
 	//free pid maybe
 /*
 	///////////////// T E S T /////////////////

@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 15:30:19 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/09 17:00:59 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:48:24 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ char	**ft_split(char *s, char c)
 	char	**tab;
 	int		index;
 
+	if (!s)
+		return (NULL);
 	tab = malloc((countwrd(s, c) + 1) * sizeof(char *));
 	if (!tab)
 		return (NULL);

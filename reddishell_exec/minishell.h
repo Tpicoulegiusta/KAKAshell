@@ -6,7 +6,7 @@
 /*   By: rbulanad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:39:38 by rbulanad          #+#    #+#             */
-/*   Updated: 2023/07/12 17:34:44 by rbulanad         ###   ########.fr       */
+/*   Updated: 2023/07/13 16:45:53 by rbulanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ typedef struct s_data
 	t_list	lst;
 	t_list	envlst;
 	t_list	sort_env;
+	int		is_in;
+	int		is_out;
 	int		scan_pipe;
 	int		*pid;
 	int		i;
@@ -129,7 +131,7 @@ int		exec_builtin_checks(int builtin, t_node *node);
 int		exec_builtin_checks_pipe(int builtin, t_node *node);
 void	child_func(t_data *d, t_node *node);
 void	child_func_pipes(t_data *d, t_node *node);
-int		check_fds(int fd_in, int fd_out);
+int		check_fds(t_data *d);
 t_node	*executor_body(t_data *d, t_node *node);
 int		execute(t_data *d, t_node *node);
 int		execute_pipes(t_data *d, t_node *node);
