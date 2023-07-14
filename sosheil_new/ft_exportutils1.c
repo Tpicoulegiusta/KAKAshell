@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 17:05:50 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 18:06:24 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/13 18:18:58 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_find_char(char *str, char c)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == c)
 			return (1);

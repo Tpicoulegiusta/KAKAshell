@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:22:29 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 18:36:52 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/13 17:23:40 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ void	ft_free_node(t_node *node)
 	{
 		node->next = NULL;
 		node->prev = NULL;
-		free(node->str);
+		if (node->str)
+			free(node->str);
+		free(node);
 	}
-	free(node);
 	node = NULL;
 	return ;
 }

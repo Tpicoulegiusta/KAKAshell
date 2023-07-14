@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:18:37 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/07 17:42:38 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/14 17:13:25 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,22 @@ int	quoted(t_list *lst, char *line, char **copy, int *i)
 	if (line[*i] == '\"')
 	{
 		check_copy(lst, copy);
-		start = (*i) + 1;
+		start = (*i);
 		(*i)++;
 		while (line[*i] != '\"')
 			(*i)++;
-		*copy = substr2(line, start, *i);
+		*copy = substr2(line, start, *i + 1);
 		check_copy(lst, copy);
 		return (1);
 	}
 	if (line[*i] == '\'')
 	{
 		check_copy(lst, copy);
-		start = (*i) + 1;
+		start = (*i);
 		(*i)++;
 		while (line[*i] != '\'')
 			(*i)++;
-		*copy = substr2(line, start, *i);
+		*copy = substr2(line, start, *i + 1);
 		check_copy(lst, copy);
 		return (1);
 	}

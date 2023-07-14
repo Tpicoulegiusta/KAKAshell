@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:33:02 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 18:10:11 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/14 18:10:55 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,23 @@ int	dollar_check(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '\'')
+		{
+			i++;
+			while (str[i] && str[i] != '\'')
+				i++;
+		}
+		if (str[i] == '\"')
+		{
+			i++;
+			while (str[i] && str[i] != '\"')
+			{
+				if (str[i] == '$' && str[i + 1])
+					return (1);
+				i++;
+			}
+		}
+		if (str[i] == '$' && str[i + 1])
 			return (1);
 		i++;
 	}
@@ -49,6 +65,7 @@ void	tokenizer(t_list *lst)
 
 int	lexer_checks(t_list *lst, char *line, char **copy, int *i)
 {
+	//printf("LEXER CHECK line[%d] = %c\n", *i, line[*i]);
 	if (quoted(lst, line, copy, i) == 1)
 		return (1);
 	if (check_32(lst, line[*i], copy) == 1)

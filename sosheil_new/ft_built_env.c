@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:07:44 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 12:46:43 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/13 18:12:55 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	print_env(t_list *envlst)
 			printf("%s\n", tmp->str);
 			tmp = tmp->next;
 		}
-		if (tmp == NULL && tmp->prev == NULL)
-			return ;
+		// if (tmp == NULL && tmp->prev == NULL)
+		// 	return ;
 	}
 	return ;
 }

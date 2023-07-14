@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:45:42 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 18:11:23 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/13 19:17:37 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	ft_ctrl_action(int signal)
 
 void	show_ctlr(int b)
 {
-	struct termios	new;
+	struct termios	term;
 
-	tcgetattr(0, &new);
+	tcgetattr(0, &term);
 	if (b)
-		new.c_lflag |= ECHOCTL;
+		term.c_lflag |= ECHOCTL;
 	else
-		new.c_lflag &= ~ECHOCTL;
-	tcsetattr(0, TCSANOW, &new);
+		term.c_lflag &= ~ECHOCTL;
+	tcsetattr(0, TCSANOW, &term);
 }

@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:57:13 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 18:38:17 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/13 18:07:42 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	executor(t_data *d)
 {
 	t_node	*node;
 
+	d->argpath = NULL;
 	d->i = 0;
 	d->builtin = 0;
 	d->pid = malloc(sizeof(pid_t) * (pipe_count(&d->lst) + 1));
@@ -91,9 +92,7 @@ void	executor(t_data *d)
 	}
 	dup2(d->sfd_in, STDIN_FILENO);
 	wait_for_pids(d);
-	free(d->argpath);
+	// if (d->argpath)
+	// 	free(d->argpath);
 	return ;
 }
-
-// if (d->tabexec)
-// 	freetabpath(d->tabexec);

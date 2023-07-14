@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 18:17:22 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/14 15:38:15 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # define NAME "\e[0;94mPROMPETEUH% \e[0;97m"
 
 //rr = right redir, lr = left redir
-enum	e_tok{str, piperino, out, in, eof, append, cmd, venv, builtin};
-//			   0      1       2   3   4      5      6     7      8
+enum	e_tok{str, piperino, cmd, venv, builtin, opt, out, in, eof, append};
+//			   0       1      2     3      4      5    6   7    8      9
 
 typedef struct s_node
 {

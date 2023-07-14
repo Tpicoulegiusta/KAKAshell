@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:33:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 18:17:46 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/14 19:17:16 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	is_cmd(char *str, t_list *envlst)
 
 	i = 1;
 	start = 0;
-	if (str[0] == '/')
+	if (str && str[0] == '/')
 	{
 		whileonslash(str, &i, &start);
 		tmp = absolutepath(substr2(str, start, i));
@@ -79,6 +79,7 @@ void	more_tokens(t_list *lst, t_list *envlst)
 	tmp = lst->first;
 	while (tmp)
 	{
+		//printf("MORE TOKENS tmp->str = %s\n", tmp->str);
 		if (tmp->type == in && tmp->next && tmp->next->type == in)
 		{
 			tmp = tmp->next;
@@ -97,7 +98,12 @@ void	more_tokens(t_list *lst, t_list *envlst)
 			tmp->type = cmd;
 		if (is_builtin(tmp->str) == 1)
 			tmp->type = builtin;
-		tmp = tmp->next;
+		if ((tmp->type == str && !tmp->prev)
+			|| (tmp->type == str && tmp->prev && tmp->prev->type < 6))
+			tmp->type = opt;
+		//printf("MORE TOKENS tmp->space = %d\n", tmp->space);
+		if (tmp)
+			tmp = tmp->next;
 	}
 }
 

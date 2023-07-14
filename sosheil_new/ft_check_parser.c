@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:49:01 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/05 10:40:26 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/14 19:17:24 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,16 @@ char	*unquote(char *str)
 	ret = NULL;
 	if (str[0] == '\"')
 	{
+		if (!ft_strcmp(str, "\"\""))
+			return (ret = ft_strdup("\"\""));
 		while (str[i] != '\"')
 			ret = joinfree2(ret, str[i++]);
 		return (free(str), str = NULL, ret);
 	}
 	if (str[0] == '\'')
 	{
+		if (!ft_strcmp(str, "\'\'"))
+			return (ret = ft_strdup("\'\'"));
 		while (str[i] != '\'')
 			ret = joinfree2(ret, str[i++]);
 		return (free(str), str = NULL, ret);
@@ -65,8 +69,10 @@ void	unquoter(t_list *lst)
 	tmp = lst->first;
 	while (tmp)
 	{
-		if (tmp->type != venv)
+		//printf("UNQUOTER tmp->str = %s\n", tmp->str);
+		//if (tmp->type != venv)
 			tmp->str = unquote(tmp->str);
+		//printf("FINI UNQUOTER tmp->str = %s\n", tmp->str);
 		tmp = tmp->next;
 		i++;
 	}

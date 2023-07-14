@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:36:07 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 17:00:25 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/14 16:05:12 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 void	change_oldpwd(char *path, t_data *d)
 {
+	t_node	*tmp;
 	char	*cpy;
 
+	tmp = find_node("OLDPWD\0", &(d->sort_env));
+	if (!tmp)
+		tmp = find_node("OLDPWD=", &(d->sort_env));
 	cpy = ft_ministrjoin("OLDPWD=", path);
-	if_else_double(&(d->sort_env), &(d->envlst), cpy);
+	if (tmp)
+		if_else_double(&(d->sort_env), &(d->envlst), cpy);
 	free(cpy);
 	free(path);
 	return ;
@@ -25,12 +30,17 @@ void	change_oldpwd(char *path, t_data *d)
 
 void	change_pwd(t_data *d)
 {
+	t_node	*tmp;
 	char	*s;
 	char	*cpy;
 
+	tmp = find_node("PWD\0", &(d->sort_env));
+	if (!tmp)
+		tmp = find_node("PWD=", &(d->sort_env));
 	s = getcwd(NULL, 0);
 	cpy = ft_ministrjoin("PWD=", s);
-	if_else_double(&(d->sort_env), &(d->envlst), cpy);
+	if (tmp)
+		if_else_double(&(d->sort_env), &(d->envlst), cpy);
 	free(cpy);
 	free(s);
 	return ;
@@ -40,12 +50,12 @@ int	cd_dot(char *path, char *str)
 {
 	char	*pwd;
 
-	if (path[0] == '.' && !path[1])
+	if (path && path[0] == '.' && !path[1])
 	{
 		pwd = getcwd(NULL, 0);
 		if (!ft_strncmp(path, ".", 2) && !pwd)
 		{
-			printf("C'est quoi ce bug de de golmon la\n");
+			printf("Where are we ?\n");
 			free(pwd);
 			free(str);
 			return (1);
@@ -77,12 +87,13 @@ int	ft_cd(t_data *d, t_node *tmp)
 				if (!tmp->next->str[1]
 					&& (tmp->next->str[0] == '~' || tmp->next->str[0] == '-'))
 					return (1);
-				return (write(2, "Tu veux aller ou la ??\n", 23), free(s), 1);
+				return (write(2, "Invalid path for cd\n", 21), free(s), 1);
 			}
 		}
 		else if (chdir(getenv("HOME")) == -1)
-			return (write(2, "Le HOME a disparu\n", 19), 1);
+			return (write(2, "HOME not set in env\n", 21), 1);
 		change_pwd(d);
+		puts("MAMACITA");
 		change_oldpwd(s, d);
 	}
 	return (0);

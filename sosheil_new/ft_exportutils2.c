@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 17:41:23 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 18:06:37 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/13 19:49:20 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,16 @@ char	*cutter(char *str)
 	i = 0;
 	start = 0;
 	ret = NULL;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '=')
-			return (substr2(str, start, i));
+		{
+			ret = substr2(str, start, i);
+			return (ret);
+		}
 		i++;
 	}
 	ret = substr2(str, start, i);
-	free(str);
 	return (ret);
 }
 
@@ -93,9 +95,9 @@ void	print_export(t_list *lst)
 		write(1, "declare -x ", 12);
 		i = 0;
 		x = 0;
-		while (tmp->str[i])
+		while (tmp->str && tmp->str[i])
 		{
-			if (tmp->str[i] == '=' && tmp->str[i + 1] != '\"')
+			if (tmp->str && tmp->str[i] == '=' && tmp->str[i + 1] != '\"')
 			{
 				printf("%c\"", tmp->str[i++]);
 				x = 1;
@@ -126,6 +128,8 @@ void	del_double(t_list *lst, char *str)
 		if (ft_strcmp(cut1, cut2) == 0)
 		{
 			delnode(lst, tmp);
+			free(cut1);
+			cut1 = NULL;
 			break ;
 		}
 		free(cut1);
@@ -133,4 +137,5 @@ void	del_double(t_list *lst, char *str)
 		tmp = tmp->next;
 	}
 	free(cut2);
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:23:26 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 13:04:18 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/14 15:23:53 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	exec_builtin_checks(int builtin, t_node *node)
 {
 	if (builtin)
 	{
+		//puts("BUILTIN !!!!!!!!!!!!");
 		if (!ft_strcmp("cd", node->str))
 			return (1);
 		if (!ft_strcmp("exit", node->str))
@@ -33,6 +34,7 @@ int	exec_builtin_checks_pipe(int builtin, t_node *node)
 {
 	if (builtin)
 	{
+		//puts("BUILTIN !!!!!!!!!!!!");
 		if (!ft_strcmp("cd", node->str))
 			return (1);
 		if (!ft_strcmp("exit", node->str))
@@ -52,6 +54,7 @@ void	child_func(t_data *d, t_node *node)
 		if (d->argpath)
 			free(d->argpath);
 		freetabpath(d->tabexec);
+		// fprintf(stderr, "BUILTIN !!!!!!!!!!!!\n");
 		if (!ft_strcmp("echo", node->str))
 			ft_echo(node);
 		if (!ft_strcmp("pwd", node->str))
@@ -79,6 +82,7 @@ void	child_func_pipes(t_data *d, t_node *node)
 			free(d->argpath);
 		freetabpath(d->tabexec);
 		check_env(&d->envlst, node);
+		// fprintf(stderr, "BUILTIN !!!!!!!!!!!!\n");
 		if (!ft_strcmp("echo", node->str))
 			ft_echo(node);
 		if (!ft_strcmp("pwd", node->str))

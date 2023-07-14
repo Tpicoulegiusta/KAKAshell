@@ -6,24 +6,13 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/11 18:31:50 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/13 19:21:27 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	print_lst(t_list *lst)
-// {
-// 	t_node	*tmp;
-
-// 	tmp = lst->first;
-// 	while (tmp)
-// 	{
-// 		printf("STR = %s; TYPE = %d; SPACE = %d\n",
-// 			tmp->str, tmp->type, tmp->space);
-// 		tmp = tmp->next;
-// 	}
-//}
+int	g_error;
 
 int	checker(char *line)
 {
@@ -57,8 +46,12 @@ int	ft_mainutils(char *line, t_data *d)
 	if (enter_check(line) != 0)
 		return (1);
 	if (checker(line) == 1)
-		return (freelist(&(d->lst)), freelist(&(d->envlst)), \
-		freelist(&(d->sort_env)), printf("SYNTAX ERR IN MAIN\n"), 1);
+	{
+		freelist(&(d->lst));
+		free(line);
+		// printf("TETE %p\n", d->lst.first);
+		return (g_error = 130, printf("SYNTAX ERR IN MAIN\n"), 1);
+	}
 	lexer(&(d->lst), line);
 	if (d->lst.len == 0)
 		return (1);
@@ -99,7 +92,12 @@ int	main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		if (ft_mainutils(line, &d) == 1)
+		{
+			free(d.argpath);
+			//system("leaks minishell");
 			continue ;
+		}
+		//system("leaks minishell");
 	}
 	return (0);
 }
