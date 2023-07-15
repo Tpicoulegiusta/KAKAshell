@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/14 15:38:15 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/14 19:58:35 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,18 @@ typedef struct s_list
 
 typedef struct s_data
 {
+	char	**lextab;
 	char	*argpath;
 	char	**tabexec;
 	char	**envtab;
 	t_list	lst;
 	t_list	envlst;
 	t_list	sort_env;
+	int		scan_pipe;
 	int		*pid;
 	int		i;
 	int		builtin;
 	int		fd[2];
-	int		prev_fd;
 	int		fd_in;
 	int		fd_out;
 	int		sfd_in;
@@ -70,13 +71,14 @@ typedef struct s_data
 
 //////////////SIG//////////////////////
 
-void	 rl_replace_line (const char *text, int clear_undo);
+void	rl_replace_line(const char *text, int clear_undo);
 void	gestion_sig(void);
 void	ft_ctrl_action(int signal);
 void	show_ctlr(int b);
 
 ///////// UTILS /////////////////////////
 
+int		is_builtin_exec(t_node *node);
 char	*cutter(char *str);
 void	whileonslash(char *str, int *i, int *start);
 void	export_env(t_list *envlst, char	*str);
@@ -147,12 +149,13 @@ int		exec_builtin_checks_pipe(int builtin, t_node *node);
 void	child_func(t_data *d, t_node *node);
 void	child_func_pipes(t_data *d, t_node *node);
 int		check_fds(int fd_in, int fd_out);
-void	executor_body(t_data *d, t_node *node);
+t_node	*executor_body(t_data *d, t_node *node);
 int		execute(t_data *d, t_node *node);
 int		execute_pipes(t_data *d, t_node *node);
-int		scan_out_infiles(t_data *d, t_node *node);
+t_node	*scan_out_infiles(t_data *d, t_node *node);
 char	*path_check(char *cmd, t_list *envlst);
 void	init_fds(t_data *d);
+void	close_fds(t_data *d);
 int		pipe_count(t_list *lst);
 
 /////// BUILTINS ///////////////////////

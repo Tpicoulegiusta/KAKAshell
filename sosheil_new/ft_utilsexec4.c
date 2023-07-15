@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:25:15 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/10 12:25:23 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/14 19:52:20 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,29 @@ int	pipe_count(t_list *lst)
 		node = node->next;
 	}
 	return (count);
+}
+
+int	is_builtin_exec(t_node *node)
+{
+	while (node)
+	{
+		if (node->type == cmd || node->type == builtin || node->type == opt)
+			break ;
+		node = node->next;
+	}
+	if (ft_strcmp(node->str, "echo") == 0)
+		return (1);
+	if (ft_strcmp(node->str, "cd") == 0)
+		return (1);
+	if (ft_strcmp(node->str, "pwd") == 0)
+		return (1);
+	if (ft_strcmp(node->str, "export") == 0)
+		return (1);
+	if (ft_strcmp(node->str, "unset") == 0)
+		return (1);
+	if (ft_strcmp(node->str, "env") == 0)
+		return (1);
+	if (ft_strcmp(node->str, "exit") == 0)
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:23:26 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/14 15:23:53 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/14 19:54:28 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,11 @@ void	child_func_pipes(t_data *d, t_node *node)
 	}
 }
 
-void	executor_body(t_data *d, t_node *node)
+t_node	*executor_body(t_data *d, t_node *node)
 {
-	if (scan_out_infiles(d, node) == 1)
+	d->scan_pipe = 0;
+	node = scan_out_infiles(d, node);
+	if (d->scan_pipe == 1)
 	{
 		if (execute_pipes(d, node) == 1)
 		{
@@ -126,4 +128,6 @@ void	executor_body(t_data *d, t_node *node)
 			ft_built_exit(node);
 		}
 	}
+	close_fds(d);
+	return (node);
 }

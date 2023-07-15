@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:57:13 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/13 18:07:42 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/07/14 19:56:36 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	executor(t_data *d)
 	node = d->lst.first;
 	while (node)
 	{
-		d->builtin = is_builtin(node->str);
-		executor_body(d, node);
+		d->builtin = is_builtin_exec(node);
+		node = executor_body(d, node);
 		close_fds(d);
 		while (node && node->type != piperino)
 			node = node->next;
