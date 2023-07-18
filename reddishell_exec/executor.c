@@ -27,7 +27,12 @@ int	execute(t_data *d, t_node *node)
 			dup2(d->fd_in, STDIN_FILENO);
 		if (d->is_out)
 			dup2(d->fd_out, STDOUT_FILENO);
-				child_func(d, node);
+		if (d->fd_hd[0])
+		{
+			dup2(d->fd_hd[0], STDIN_FILENO);
+			close(d->fd_hd[0]);
+		}
+		child_func(d, node);
 	}
 	return (0);
 }
@@ -39,7 +44,7 @@ int	execute_pipes(t_data *d, t_node *node)
 		return (1);
 	d->tabexec = lst_to_tab(node);
 	pipe(d->fd);
-	d->pid[d->i] = fork();
+	d->pid[d->i] = fork();	
 	if (d->pid[d->i] == 0)
 	{
 		if (check_fds(d) == 1)
@@ -107,6 +112,51 @@ int	is_builtin_exec(t_node *node)
 	return (0);
 }
 
+void	enter_the_heredoc(t_data *d, char *limit)
+{
+	char *line;
+
+	line = NULL;
+	d->stock_hd = NULL;
+	pipe(d->fd_hd);
+	while(1)
+	{
+		line = readline("> ");
+		if (ft_strcmp(line, limit) == 0)
+		{
+			free(line);
+			break ;
+		}
+		ft_putstr_fd(line, d->fd_hd[1]);
+		ft_putchar_fd('\n', d->fd_hd[1]);
+	}
+	close(d->fd_hd[1]);
+}
+
+t_node	*scan_hd(t_data *d, t_node *node)
+{
+	char	*limiter;
+
+	limiter = NULL;
+	while (node)
+	{
+		if (node->type == piperino)
+			d->numpipe_hd++;
+		if (node->type == eof)
+		{
+			delnode(&d->lst, node);
+			node = node->next;
+			limiter = ft_strdup(node->str);
+			enter_the_heredoc(d, limiter);
+			delnode(&d->lst, node);
+		}
+		if (node)
+			node = node->next;
+	}
+	node = d->lst.first;
+	return (free(limiter), node);
+}
+
 void	executor(t_data *d)
 {
 	t_node	*node;
@@ -117,6 +167,7 @@ void	executor(t_data *d)
 	d->pid = malloc (sizeof(pid_t) * (pipe_count(&d->lst) + 1));
 	init_fds(d);
 	node = d->lst.first;
+	node = scan_hd(d, node);
 	while (node)
 	{
 		d->builtin = is_builtin_exec(node);
@@ -128,14 +179,14 @@ void	executor(t_data *d)
 			node = node->next;
 		d->i++;
 	}
-	wait_for_pids(d);
 	dup2(d->sfd_in, STDIN_FILENO);
-	dup2(d->sfd_out, STDOUT_FILENO);
+	wait_for_pids(d);
+	//dup2(d->sfd_out, STDOUT_FILENO);
 	//free pid maybe
-/*
+
+	/*
 	///////////////// T E S T /////////////////
 	char	*test = NULL;
-		printf("NODE = %s, DBUILT2 = %d\n", node->str, d->builtin);
 	node = d->lst.first;
 	while (node)
 	{
@@ -145,5 +196,5 @@ void	executor(t_data *d)
 		node = node->next;
 	}
 	printf("after scan = %s\n", test);
-*/	
+	*/
 }

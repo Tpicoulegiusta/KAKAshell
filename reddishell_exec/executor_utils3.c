@@ -14,6 +14,8 @@
 
 void	init_fds(t_data *d)
 {
+	d->fd_hd[0] = 0;
+	d->fd_hd[1] = 0;
 	d->fd_in = 0;
 	d->fd_out = 0;
 	d->sfd_in = dup(STDIN_FILENO);

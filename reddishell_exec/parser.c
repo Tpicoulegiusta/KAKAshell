@@ -61,6 +61,8 @@ void	more_tokens(t_list *lst, t_list *envlst)
 			tmp->type = builtin;
 		if ((tmp->type == str && !tmp->prev) || (tmp->type == str && tmp->prev && tmp->prev->type < 6))
 			tmp->type = opt;
+		if (tmp->prev && tmp->prev->type == eof)
+			tmp->type = str;
 		if (tmp)
 			tmp = tmp->next;
 	}
@@ -86,9 +88,9 @@ int	syntax_checker(t_list *lst)
 //no need de gerer $$, $1, $2, $3, $#, $! etc...
 int	parser(t_list *lst, t_list *envlst)
 {
+	more_tokens(lst, envlst);
 	dollaz(lst, envlst);
 	unquoter(lst);
-	more_tokens(lst, envlst);
 	if (syntax_checker(lst) == 1)
 		return (1);
 	/*t_node *tmp = lst->first;

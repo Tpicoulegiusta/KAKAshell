@@ -44,10 +44,8 @@ void	filler(t_node *tmp)
 
 int	ft_echo(t_node *tmp)
 {
-	int	i;
 	int	option;
 
-	i = 0;
 	option = 0;
 	if (!tmp->next)
 		return (write(1, "\n", 1), 0);

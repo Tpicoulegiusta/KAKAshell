@@ -77,3 +77,22 @@ char	*ft_strdup(char *s1)
 	str[i] = '\0';
 	return (str);
 }
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write (fd, &c, 1);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i])
+	{
+		write (fd, &s[i], 1);
+		i++;
+	}
+}

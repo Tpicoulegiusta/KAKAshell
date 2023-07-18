@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # define NAME "turboshell% "
 
 //RR = right redir, LR = left redir
@@ -47,15 +49,20 @@ typedef struct s_data
 	char	*argpath;
 	char	**tabexec;
 	char	**envtab;
+	char	*stock_hd;
 	t_list	lst;
 	t_list	envlst;
 	t_list	sort_env;
+	int		need_hd;
+	int		numpipe_hd;
+	int		numpipe;
 	int		is_in;
 	int		is_out;
 	int		scan_pipe;
 	int		*pid;
 	int		i;
 	int		builtin;
+	int		fd_hd[2];
 	int		fd[2];
 	int		fd_in;
 	int		fd_out;
@@ -87,6 +94,8 @@ void	if_else_double(t_list *sort_envlst, t_list *envlst, char *str);
 t_node	*find_node(char *key, t_list *env);
 char	*ft_strdup(char *s1);
 char	**lst_to_tab(t_node *node);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putchar_fd(char c, int fd);
 
 //////// LIST ///////////////////////////
 
