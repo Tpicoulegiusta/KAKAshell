@@ -34,18 +34,19 @@ int	check_fds(t_data *d)
 	return (0);
 }
 
-int	pipe_count(t_list *lst)
+int	pipe_count(t_data *d)
 {
 	t_node	*node;
 	int		count;
 
 	count = 0;
-	node = lst->first;
+	node = d->lst.first;
 	while (node)
 	{
 		if (node->type == piperino)
 			count++;
 		node = node->next;
 	}
+	d->fd_hd = malloc(sizeof(int *) * count);
 	return (count);
 }

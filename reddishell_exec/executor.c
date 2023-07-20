@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int	execute(t_data *d, t_node *node)
+int	execute(t_data *d, t_node *node, int numpipe)
 {
 	d->argpath = path_check(node->str, &d->envlst);
 	if (exec_builtin_checks(d->builtin, node) == 1)
 		return (1);
 	d->tabexec = lst_to_tab(node);
-	d->pid[d->i] = fork();
-	if (d->pid[d->i] == 0)
+	d->pid[d->i_pid] = fork();
+	if (d->pid[d->i_pid] == 0)
 	{
 		if (check_fds(d) == 1)
 			exit (1);
@@ -27,28 +27,33 @@ int	execute(t_data *d, t_node *node)
 			dup2(d->fd_in, STDIN_FILENO);
 		if (d->is_out)
 			dup2(d->fd_out, STDOUT_FILENO);
-		if (d->fd_hd[0])
+		if (d->fd_hd[numpipe][0])
 		{
-			dup2(d->fd_hd[0], STDIN_FILENO);
-			close(d->fd_hd[0]);
+			dup2(d->fd_hd[numpipe][0], STDIN_FILENO);
+			close(d->fd_hd[numpipe][0]);
 		}
 		child_func(d, node);
 	}
 	return (0);
 }
 
-int	execute_pipes(t_data *d, t_node *node)
+int	execute_pipes(t_data *d, t_node *node, int numpipe)
 {
 	d->argpath = path_check(node->str, &d->envlst);
 	if (exec_builtin_checks_pipe(d->builtin, node))
 		return (1);
 	d->tabexec = lst_to_tab(node);
 	pipe(d->fd);
-	d->pid[d->i] = fork();	
-	if (d->pid[d->i] == 0)
+	d->pid[d->i_pid] = fork();	
+	if (d->pid[d->i_pid] == 0)
 	{
 		if (check_fds(d) == 1)
 			exit (1);
+		if (d->fd_hd[numpipe][0])
+		{
+			dup2(d->fd_hd[numpipe][0], STDIN_FILENO);
+			close(d->fd_hd[numpipe][0]);
+		}
 		if (d->is_out)
 			dup2(d->fd_out, STDOUT_FILENO);
 		else
@@ -112,13 +117,14 @@ int	is_builtin_exec(t_node *node)
 	return (0);
 }
 
-void	enter_the_heredoc(t_data *d, char *limit)
+void	enter_the_heredoc(t_data *d, char *limit, int i)
 {
-	char *line;
+	char	*line;
 
 	line = NULL;
 	d->stock_hd = NULL;
-	pipe(d->fd_hd);
+	d->fd_hd[i] = malloc(sizeof(int) * 2);
+	pipe(d->fd_hd[i]);
 	while(1)
 	{
 		line = readline("> ");
@@ -127,27 +133,29 @@ void	enter_the_heredoc(t_data *d, char *limit)
 			free(line);
 			break ;
 		}
-		ft_putstr_fd(line, d->fd_hd[1]);
-		ft_putchar_fd('\n', d->fd_hd[1]);
+		ft_putstr_fd(line, d->fd_hd[i][1]);
+		ft_putchar_fd('\n', d->fd_hd[i][1]);
 	}
-	close(d->fd_hd[1]);
+	close(d->fd_hd[i][1]);
 }
 
 t_node	*scan_hd(t_data *d, t_node *node)
 {
 	char	*limiter;
+	int		i;
 
+	i = 0;
 	limiter = NULL;
 	while (node)
 	{
 		if (node->type == piperino)
-			d->numpipe_hd++;
+			i++;
 		if (node->type == eof)
 		{
 			delnode(&d->lst, node);
 			node = node->next;
 			limiter = ft_strdup(node->str);
-			enter_the_heredoc(d, limiter);
+			enter_the_heredoc(d, limiter, i);
 			delnode(&d->lst, node);
 		}
 		if (node)
@@ -160,24 +168,27 @@ t_node	*scan_hd(t_data *d, t_node *node)
 void	executor(t_data *d)
 {
 	t_node	*node;
+	int		numpipe;
 
 	d->argpath = NULL;
-	d->i = 0;
+	d->i_pid = 0;
+	numpipe = 0;
 	d->builtin = 0;
-	d->pid = malloc (sizeof(pid_t) * (pipe_count(&d->lst) + 1));
+	d->pid = malloc (sizeof(pid_t) * (pipe_count(d) + 1)); //sorcellerie, pipe_count malloc pour le tableau de fd_hd aswell
 	init_fds(d);
 	node = d->lst.first;
 	node = scan_hd(d, node);
 	while (node)
 	{
 		d->builtin = is_builtin_exec(node);
-		node = executor_body(d, node);
+		node = executor_body(d, node, numpipe);
 		close_fds(d);
 		while (node && node->type != piperino)
 			node = node->next;
 		if (node)
 			node = node->next;
-		d->i++;
+		d->i_pid++;
+		numpipe++;
 	}
 	dup2(d->sfd_in, STDIN_FILENO);
 	wait_for_pids(d);

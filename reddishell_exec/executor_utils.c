@@ -98,7 +98,7 @@ void	child_func_pipes(t_data *d, t_node *node)
 	}
 }
 
-t_node	*executor_body(t_data *d, t_node *node)
+t_node	*executor_body(t_data *d, t_node *node, int	numpipe)
 {
 	d->scan_pipe = 0;
 	d->is_in = 0;
@@ -108,7 +108,7 @@ t_node	*executor_body(t_data *d, t_node *node)
 		return (NULL);
 	if (d->scan_pipe == 1)
 	{
-		if (execute_pipes(d, node) == 1)
+		if (execute_pipes(d, node, numpipe) == 1)
 		{
 			check_env(&d->envlst, node);
 			export_unset(node, &d->envlst, &d->sort_env);
@@ -118,7 +118,7 @@ t_node	*executor_body(t_data *d, t_node *node)
 	}
 	else
 	{
-		if (execute(d, node) == 1)
+		if (execute(d, node, numpipe) == 1)
 		{
 			check_env(&d->envlst, node);
 			export_unset(node, &d->envlst, &d->sort_env);

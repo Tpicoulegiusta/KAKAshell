@@ -53,16 +53,15 @@ typedef struct s_data
 	t_list	lst;
 	t_list	envlst;
 	t_list	sort_env;
-	int		need_hd;
 	int		numpipe_hd;
-	int		numpipe;
 	int		is_in;
 	int		is_out;
 	int		scan_pipe;
 	int		*pid;
-	int		i;
+	int		i_hd;
+	int		i_pid;
 	int		builtin;
-	int		fd_hd[2];
+	int		**fd_hd;
 	int		fd[2];
 	int		fd_in;
 	int		fd_out;
@@ -141,13 +140,13 @@ int		exec_builtin_checks_pipe(int builtin, t_node *node);
 void	child_func(t_data *d, t_node *node);
 void	child_func_pipes(t_data *d, t_node *node);
 int		check_fds(t_data *d);
-t_node	*executor_body(t_data *d, t_node *node);
-int		execute(t_data *d, t_node *node);
-int		execute_pipes(t_data *d, t_node *node);
+t_node	*executor_body(t_data *d, t_node *node, int numpipe);
+int		execute(t_data *d, t_node *node, int numpipe);
+int		execute_pipes(t_data *d, t_node *node, int numpipe);
 t_node	*scan_out_infiles(t_data *d, t_node *node);
 char	*path_check(char *cmd, t_list *envlst);
 void	init_fds(t_data *d);
-int		pipe_count(t_list *lst);
+int		pipe_count(t_data *d);
 void	close_fds(t_data *d);
 
 //////// CHECKER ////////////////////////
