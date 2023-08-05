@@ -34,7 +34,7 @@ all: credit $(NAME)
 
 $(NAME): ${OBJS}
 	@echo "$(GREEN)Minishell is up to date!${DEFAULT}"
-	@$(GCCFLG) -o $(NAME) $(OBJS) -lreadline -L /Users/sboetti/.brew/opt/readline/lib -I /Users/sboetti/.brew/opt/readline/include #-fsanitize=address -g
+	@$(GCCFLG) -o $(NAME) $(OBJS) -lreadline -L /usr/include/readline #-fsanitize=address -g
 
 $(OBJ)/%.o: ./%.c
 	@mkdir -p ${OBJ}
