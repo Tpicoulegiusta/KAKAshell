@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/08/07 13:08:39 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/08/07 14:20:44 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void	envlst_envtab(t_data *d)
 
 	tmp = NULL;
 	node = d->envlst.first;
-	if (d->envtab)
-		freetabpath(d->envtab);
 	while (node)
 	{
 		tmp = joinfree(tmp, node->str);

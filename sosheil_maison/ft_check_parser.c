@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:49:01 by sboetti           #+#    #+#             */
-/*   Updated: 2023/08/07 13:14:26 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/08/07 13:30:53 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,12 @@ int	syntax_checker(t_list *lst)
 void	unquoter(t_list *lst)
 {
 	t_node	*tmp;
-	int		i;
 
-	i = 0;
 	tmp = lst->first;
 	while (tmp)
 	{
 		tmp->str = unquote(tmp->str);
 		tmp = tmp->next;
-		i++;
 	}
 }
 
