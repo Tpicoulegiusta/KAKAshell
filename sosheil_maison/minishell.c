@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/15 03:37:19 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/08/07 13:01:48 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	ft_mainutils(char *line, t_data *d)
 	{
 		freelist(&(d->lst));
 		free(line);
-		// printf("TETE %p\n", d->lst.first);
 		return (g_error = 130, printf("SYNTAX ERR IN MAIN\n"), 1);
 	}
 	lexer(&(d->lst), line);
@@ -92,12 +91,7 @@ int	main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		if (ft_mainutils(line, &d) == 1)
-		{
-			free(d.argpath);
-			//system("leaks minishell");
 			continue ;
-		}
-		//system("leaks minishell");
 	}
 	return (0);
 }

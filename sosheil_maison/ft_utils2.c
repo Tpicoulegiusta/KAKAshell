@@ -79,3 +79,7 @@ int	ft_atoi(char *str)
 	return (nb * x);
 }
 
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}

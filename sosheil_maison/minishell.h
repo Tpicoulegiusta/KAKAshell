@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:38:52 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/14 19:58:35 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/08/07 12:59:56 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,19 @@ typedef struct s_data
 	char	*argpath;
 	char	**tabexec;
 	char	**envtab;
+	char	*stock_hd;
 	t_list	lst;
 	t_list	envlst;
 	t_list	sort_env;
+	int		numpipe_hd;
+	int		is_in;
+	int		is_out;
 	int		scan_pipe;
 	int		*pid;
-	int		i;
+	int		i_hd;
+	int		i_pid;
 	int		builtin;
+	int		**fd_hd;
 	int		fd[2];
 	int		fd_in;
 	int		fd_out;
@@ -124,6 +130,8 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_isdigit(int c);
 int		ft_atoi(char *str);
 char	**ft_split(char *s, char c);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *str, int fd);
 
 //////// LIST ///////////////////////////
 
@@ -159,15 +167,19 @@ int		exec_builtin_checks(int builtin, t_node *node);
 int		exec_builtin_checks_pipe(int builtin, t_node *node);
 void	child_func(t_data *d, t_node *node);
 void	child_func_pipes(t_data *d, t_node *node);
-int		check_fds(int fd_in, int fd_out);
-t_node	*executor_body(t_data *d, t_node *node);
-int		execute(t_data *d, t_node *node);
-int		execute_pipes(t_data *d, t_node *node);
+int		check_fds(t_data *d);
+t_node	*executor_body(t_data *d, t_node *node, int numpipe);
+int		execute(t_data *d, t_node *node, int numpipe);
+int		execute_pipes(t_data *d, t_node *node, int numpipe);
 t_node	*scan_out_infiles(t_data *d, t_node *node);
 char	*path_check(char *cmd, t_list *envlst);
 void	init_fds(t_data *d);
 void	close_fds(t_data *d);
-int		pipe_count(t_list *lst);
+int		pipe_count(t_data *d);
+t_node	*scan_hd(t_data *d, t_node *node);
+void	enter_the_heredoc(t_data *d, char *limit, int i);
+void	ex_pipe_utils(t_data *d);
+void	ex_body_utils(t_data *d, t_node *node);
 
 /////// BUILTINS ///////////////////////
 

@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:24:49 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/14 19:57:37 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/08/07 12:56:07 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	init_fds(t_data *d)
 
 t_node	*open_infile(t_data *d, t_node *node)
 {
-	t_node	*tmp;
-
+	t_node *tmp;
+	
 	tmp = node;
 	if (node->type == in)
 	{
@@ -34,6 +34,7 @@ t_node	*open_infile(t_data *d, t_node *node)
 		d->fd_in = open(node->str, O_RDONLY, 0777);
 		delnode(&d->lst, node);
 		tmp = node;
+		d->is_in = 1;
 		//printf("fdIN = %d, fdOUT = %d\n", d->fd_in, d->fd_out);
 	}
 	return (tmp);
@@ -53,6 +54,7 @@ t_node	*open_outfile(t_data *d, t_node *node)
 		d->fd_out = open(node->str, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		delnode(&d->lst, node);
 		tmp = node;
+		d->is_out = 1;
 		//printf("fdIN = %d, fdOUT = %d\n", d->fd_in, d->fd_out);
 	}
 	return (tmp);
@@ -72,17 +74,19 @@ t_node	*open_doubleout(t_data *d, t_node *node)
 		d->fd_out = open(node->str, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		delnode(&d->lst, node);
 		tmp = node;
+		d->is_out = 1;
 		//printf("fdIN = %d, fdOUT = %d\n", d->fd_in, d->fd_out);
 	}
 	return (tmp);
 }
 
-t_node	*scan_out_infiles(t_data *d, t_node *node)
+t_node *scan_out_infiles(t_data *d, t_node *node)
 {
 	t_node *tmp;
 	int		placed;
 
 	placed = 0;
+	tmp = NULL;
 	while (node && node->type != piperino)
 	{
 		if ((node->type == cmd || node->type == opt
@@ -99,6 +103,7 @@ t_node	*scan_out_infiles(t_data *d, t_node *node)
 	}
 	if (node && node->type == piperino)
 		d->scan_pipe = 1;
-	node = tmp;
+	if (tmp)
+		node = tmp;
 	return (node);
 }

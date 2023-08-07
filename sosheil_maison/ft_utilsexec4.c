@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:25:15 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/14 19:52:20 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/08/07 12:56:29 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,49 +19,46 @@ int	is_redir_pipe(int type)
 	return (0);
 }
 
-int	check_fds(int fd_in, int fd_out)
+int	check_fds(t_data *d)
 {
-	if (fd_in < 0)
+	if (d->fd_in < 0)
 	{
 		(printf("INFILE ERROR\n"));
 		return (1);
 	}
-	if (fd_in)
-		dup2(fd_in, STDIN_FILENO);
-	if (fd_out < 0)
+	if (d->fd_out < 0)
 	{
 		(printf("OUTFILE ERROR\n"));
 		return (1);
 	}
-	if (fd_out)
-		dup2(fd_out, STDOUT_FILENO);
 	return (0);
 }
 
-int	pipe_count(t_list *lst)
+int	pipe_count(t_data *d)
 {
 	t_node	*node;
 	int		count;
 
 	count = 0;
-	node = lst->first;
+	node = d->lst.first;
 	while (node)
 	{
 		if (node->type == piperino)
 			count++;
 		node = node->next;
 	}
+	d->fd_hd = malloc(sizeof(int *) * count);
 	return (count);
 }
 
 int	is_builtin_exec(t_node *node)
 {
-	while (node)
+	/*while (node)
 	{
 		if (node->type == cmd || node->type == builtin || node->type == opt)
 			break ;
 		node = node->next;
-	}
+	}*/ //////delete if useless
 	if (ft_strcmp(node->str, "echo") == 0)
 		return (1);
 	if (ft_strcmp(node->str, "cd") == 0)
@@ -77,4 +74,30 @@ int	is_builtin_exec(t_node *node)
 	if (ft_strcmp(node->str, "exit") == 0)
 		return (1);
 	return (0);
+}
+
+t_node	*scan_hd(t_data *d, t_node *node)
+{
+	char	*limiter;
+	int		i;
+
+	i = 0;
+	limiter = NULL;
+	while (node)
+	{
+		if (node->type == piperino)
+			i++;
+		if (node->type == eof)
+		{
+			delnode(&d->lst, node);
+			node = node->next;
+			limiter = ft_strdup(node->str);
+			enter_the_heredoc(d, limiter, i);
+			delnode(&d->lst, node);
+		}
+		if (node)
+			node = node->next;
+	}
+	node = d->lst.first;
+	return (free(limiter), node);
 }
