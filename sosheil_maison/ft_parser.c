@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:33:04 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/14 19:17:16 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/08/07 13:21:37 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	more_tokens(t_list *lst, t_list *envlst)
 	tmp = lst->first;
 	while (tmp)
 	{
-		//printf("MORE TOKENS tmp->str = %s\n", tmp->str);
 		if (tmp->type == in && tmp->next && tmp->next->type == in)
 		{
 			tmp = tmp->next;
@@ -101,7 +100,8 @@ void	more_tokens(t_list *lst, t_list *envlst)
 		if ((tmp->type == str && !tmp->prev)
 			|| (tmp->type == str && tmp->prev && tmp->prev->type < 6))
 			tmp->type = opt;
-		//printf("MORE TOKENS tmp->space = %d\n", tmp->space);
+		if (tmp->prev && tmp->prev->type == eof)
+			tmp->type = str;
 		if (tmp)
 			tmp = tmp->next;
 	}

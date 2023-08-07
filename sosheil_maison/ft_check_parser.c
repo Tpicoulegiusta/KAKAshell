@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:49:01 by sboetti           #+#    #+#             */
-/*   Updated: 2023/07/14 19:17:24 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/08/07 13:14:26 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ void	unquoter(t_list *lst)
 	tmp = lst->first;
 	while (tmp)
 	{
-		//printf("UNQUOTER tmp->str = %s\n", tmp->str);
-		//if (tmp->type != venv)
-			tmp->str = unquote(tmp->str);
-		//printf("FINI UNQUOTER tmp->str = %s\n", tmp->str);
+		tmp->str = unquote(tmp->str);
 		tmp = tmp->next;
 		i++;
 	}

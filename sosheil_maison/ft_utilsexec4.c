@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:25:15 by sboetti           #+#    #+#             */
-/*   Updated: 2023/08/07 12:56:29 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/08/07 13:12:11 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,6 @@ int	pipe_count(t_data *d)
 
 int	is_builtin_exec(t_node *node)
 {
-	/*while (node)
-	{
-		if (node->type == cmd || node->type == builtin || node->type == opt)
-			break ;
-		node = node->next;
-	}*/ //////delete if useless
 	if (ft_strcmp(node->str, "echo") == 0)
 		return (1);
 	if (ft_strcmp(node->str, "cd") == 0)

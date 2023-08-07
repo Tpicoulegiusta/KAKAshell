@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:24:49 by sboetti           #+#    #+#             */
-/*   Updated: 2023/08/07 12:56:07 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/08/07 13:13:13 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	init_fds(t_data *d)
 
 t_node	*open_infile(t_data *d, t_node *node)
 {
-	t_node *tmp;
-	
+	t_node	*tmp;
+
 	tmp = node;
 	if (node->type == in)
 	{
@@ -35,14 +35,13 @@ t_node	*open_infile(t_data *d, t_node *node)
 		delnode(&d->lst, node);
 		tmp = node;
 		d->is_in = 1;
-		//printf("fdIN = %d, fdOUT = %d\n", d->fd_in, d->fd_out);
 	}
 	return (tmp);
 }
 
 t_node	*open_outfile(t_data *d, t_node *node)
 {
-	t_node *tmp;
+	t_node	*tmp;
 
 	tmp = node;
 	if (node->type == out)
@@ -55,14 +54,13 @@ t_node	*open_outfile(t_data *d, t_node *node)
 		delnode(&d->lst, node);
 		tmp = node;
 		d->is_out = 1;
-		//printf("fdIN = %d, fdOUT = %d\n", d->fd_in, d->fd_out);
 	}
 	return (tmp);
 }
 
 t_node	*open_doubleout(t_data *d, t_node *node)
 {
-	t_node *tmp;
+	t_node	*tmp;
 
 	tmp = node;
 	if (node->type == append)
@@ -75,14 +73,13 @@ t_node	*open_doubleout(t_data *d, t_node *node)
 		delnode(&d->lst, node);
 		tmp = node;
 		d->is_out = 1;
-		//printf("fdIN = %d, fdOUT = %d\n", d->fd_in, d->fd_out);
 	}
 	return (tmp);
 }
 
-t_node *scan_out_infiles(t_data *d, t_node *node)
+t_node	*scan_out_infiles(t_data *d, t_node *node)
 {
-	t_node *tmp;
+	t_node	*tmp;
 	int		placed;
 
 	placed = 0;
@@ -90,7 +87,7 @@ t_node *scan_out_infiles(t_data *d, t_node *node)
 	while (node && node->type != piperino)
 	{
 		if ((node->type == cmd || node->type == opt
-			|| node->type == builtin) && placed == 0)
+				|| node->type == builtin) && placed == 0)
 		{
 			placed = 1;
 			tmp = node;

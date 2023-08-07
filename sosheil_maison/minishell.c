@@ -6,7 +6,7 @@
 /*   By: sboetti <sboetti@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:32:12 by sboetti           #+#    #+#             */
-/*   Updated: 2023/08/07 13:01:48 by sboetti          ###   ########.fr       */
+/*   Updated: 2023/08/07 13:08:39 by sboetti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,25 @@ t_node	*find_node(char *key, t_list *env)
 	return (NULL);
 }
 
+void	envlst_envtab(t_data *d)
+{
+	char	*tmp;
+	t_node	*node;
+
+	tmp = NULL;
+	node = d->envlst.first;
+	if (d->envtab)
+		freetabpath(d->envtab);
+	while (node)
+	{
+		tmp = joinfree(tmp, node->str);
+		tmp = joinfree2(tmp, ' ');
+		node = node->next;
+	}
+	d->envtab = ft_split(tmp, ' ');
+	free(tmp);
+}
+
 int	ft_mainutils(char *line, t_data *d)
 {
 	add_history(line);
@@ -62,6 +81,7 @@ int	ft_mainutils(char *line, t_data *d)
 	}
 	if (!d->lst.first)
 		return (1);
+	envlst_envtab(d);
 	executor(d);
 	freelist(&(d->lst));
 	free(line);
